@@ -1,58 +1,194 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
+<!-- ================================= -->
+<!-- JUDUL WEBSITE -->
+<!-- ================================= -->
+
 <title>DeerBee Kids Club</title>
 
+<!-- ================================= -->
+<!-- FONT ANAK-ANAK -->
+<!-- ================================= -->
+
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- ================================= -->
+<!-- CSS -->
+<!-- ================================= -->
+
 <style>
+
 body{
-font-family:Arial,sans-serif;
-text-align:center;
-background:linear-gradient(135deg,#ffe4ec,#fff8cc,#dfffe0);
-padding:40px;
+    font-family:'Baloo 2',cursive;
+    background:#fff8e8;
+    margin:0;
+    padding:20px;
 }
+
+/* KOTAK UTAMA */
+
+.container{
+    max-width:700px;
+    margin:auto;
+    background:white;
+    padding:30px;
+    border-radius:25px;
+    box-shadow:0 4px 15px rgba(0,0,0,.1);
+}
+
+/* LOGO */
+
+.logo{
+    animation:float 3s ease-in-out infinite;
+}
+
+/* ANIMASI LOGO */
+
+@keyframes float{
+    0%{transform:translateY(0);}
+    50%{transform:translateY(-8px);}
+    100%{transform:translateY(0);}
+}
+
+/* JUDUL */
 
 h1{
-color:#ff69b4;
+    color:#ff69b4;
+    text-align:center;
+    animation:bounce 2s infinite;
 }
 
-.menu{
-display:block;
-max-width:300px;
-margin:15px auto;
-padding:18px;
-background:white;
-border-radius:20px;
-text-decoration:none;
-font-size:22px;
-font-weight:bold;
-color:#444;
-box-shadow:0 4px 15px rgba(0,0,0,0.12);
+/* ANIMASI JUDUL */
+
+@keyframes bounce{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-5px);}
 }
+
+/* PARAGRAF */
+
+p{
+    text-align:center;
+    color:#555;
+}
+
+/* TOMBOL MENU */
+
+.menu{
+    display:block;
+    max-width:300px;
+    margin:15px auto;
+    padding:18px;
+
+    background:white;
+
+    border-radius:20px;
+
+    text-decoration:none;
+
+    font-size:22px;
+    font-weight:bold;
+
+    color:#444;
+
+    box-shadow:0 4px 15px rgba(0,0,0,.12);
+
+    transition:0.3s;
+}
+
+/* EFEK SAAT DISENTUH */
+
+.menu:hover{
+    transform:scale(1.05);
+}
+
+/* FOOTER */
+
+.footer{
+    margin-top:40px;
+    text-align:center;
+    color:#777;
+    font-size:14px;
+}
+
 </style>
 
 </head>
 
 <body>
-<img src="assets/logo/logo.png" width="180">
 
-<h1>DeerBee Kids Club</h1>
+<!-- ================================= -->
+<!-- KOTAK UTAMA -->
+<!-- ================================= -->
 
-<p>🎁 Aktivitas Seru untuk Belajar dan Bermain</p>
+<div class="container">
 
-<p>Dapatkan aktivitas baru setiap bulan!</p>
+<!-- ================================= -->
+<!-- LOGO -->
+<!-- ================================= -->
 
-<a class="menu" href="mewarnai.html">🎨 Mewarnai</a>
-  
-<a class="menu" href="cerita.html">📖 Cerita Anak</a>
+<center>
+<img class="logo" src="assets/logo/logo.png" width="180">
+</center>
 
-<a class="menu" href="#">🎵 Musik</a>
+<!-- ================================= -->
+<!-- JUDUL -->
+<!-- ================================= -->
 
-  <br><br>
+<h1>🐝 DeerBee Kids Club</h1>
+
+<!-- ================================= -->
+<!-- DESKRIPSI -->
+<!-- ================================= -->
 
 <p>
-© DeerBee Kids
+🎁 Aktivitas Seru untuk Belajar dan Bermain
+</p>
+
+<p>
+Dapatkan aktivitas baru setiap bulan!
+</p>
+
+<!-- ================================= -->
+<!-- MENU -->
+<!-- ================================= -->
+
+<a class="menu" href="mewarnai.html">
+🎨 Mewarnai
+</a>
+
+<a class="menu" href="cerita.html">
+📖 Cerita Anak
+</a>
+
+<a class="menu" href="#">
+🎵 Musik
+</a>
+
+<a class="menu" href="#">
+🧩 Mini Game (Segera Hadir)
+</a>
+
+<!-- ================================= -->
+<!-- FOOTER -->
+<!-- ================================= -->
+
+<div class="footer">
+
+<hr>
+
+<p>
+© DeerBee Kids Club
 <br>
 Dibuat khusus untuk pelanggan DeerBee
 </p>
+
+</div>
+
+</div>
+
 </body>
 </html>
