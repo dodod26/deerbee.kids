@@ -3,27 +3,20 @@
 
 <head>
 
-<!-- ================================= -->
-<!-- JUDUL WEBSITE -->
-<!-- ================================= -->
-
 <title>DeerBee Kids Club</title>
 
-<!-- ================================= -->
-<!-- FONT ANAK-ANAK -->
-<!-- ================================= -->
-
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
-
-<!-- ================================= -->
-<!-- CSS -->
-<!-- ================================= -->
 
 <style>
 
 body{
     font-family:'Baloo 2',cursive;
-    background:#fff8e8;
+
+    background-image:url('assets/background/bg.webp');
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+
     margin:0;
     padding:20px;
 }
@@ -33,24 +26,37 @@ body{
 .container{
     max-width:700px;
     margin:auto;
-    background:white;
+
+    background:rgba(255,255,255,0.92);
+
     padding:30px;
-    border-radius:25px;
-    box-shadow:0 4px 15px rgba(0,0,0,.1);
+
+    border-radius:30px;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.15);
 }
 
 /* LOGO */
 
 .logo{
-    animation:float 3s ease-in-out infinite;
+    animation:float 4s ease-in-out infinite;
 }
 
-/* ANIMASI LOGO */
+/* LOGO NAIK TURUN */
 
 @keyframes float{
-    0%{transform:translateY(0);}
-    50%{transform:translateY(-8px);}
-    100%{transform:translateY(0);}
+
+    0%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-12px);
+    }
+
+    100%{
+        transform:translateY(0);
+    }
 }
 
 /* JUDUL */
@@ -58,29 +64,42 @@ body{
 h1{
     color:#ff69b4;
     text-align:center;
-    animation:bounce 2s infinite;
+
+    animation:pulse 3s infinite;
 }
 
-/* ANIMASI JUDUL */
+/* JUDUL BERKEDIP PELAN */
 
-@keyframes bounce{
-    0%,100%{transform:translateY(0);}
-    50%{transform:translateY(-5px);}
+@keyframes pulse{
+
+    0%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.05);
+    }
+
+    100%{
+        transform:scale(1);
+    }
 }
-
-/* PARAGRAF */
 
 p{
     text-align:center;
     color:#555;
 }
 
-/* TOMBOL MENU */
+/* TOMBOL */
 
 .menu{
+
     display:block;
-    max-width:300px;
+
+    max-width:320px;
+
     margin:15px auto;
+
     padding:18px;
 
     background:white;
@@ -90,28 +109,41 @@ p{
     text-decoration:none;
 
     font-size:22px;
+
     font-weight:bold;
 
     color:#444;
 
     box-shadow:0 4px 15px rgba(0,0,0,.12);
 
-    transition:0.3s;
+    transition:.3s;
 }
 
-/* EFEK SAAT DISENTUH */
+/* EFEK HOVER */
 
 .menu:hover{
+
     transform:scale(1.05);
+
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
 }
 
-/* FOOTER */
-
 .footer{
-    margin-top:40px;
+
     text-align:center;
+
+    margin-top:40px;
+
     color:#777;
-    font-size:14px;
+}
+
+.social{
+
+    text-decoration:none;
+
+    margin:0 10px;
+
+    font-size:18px;
 }
 
 </style>
@@ -120,29 +152,17 @@ p{
 
 <body>
 
-<!-- ================================= -->
-<!-- KOTAK UTAMA -->
-<!-- ================================= -->
-
 <div class="container">
 
-<!-- ================================= -->
-<!-- LOGO -->
-<!-- ================================= -->
-
 <center>
-<img class="logo" src="assets/logo/logo.png" width="180">
+
+<img class="logo"
+src="assets/logo/logo.png"
+width="180">
+
 </center>
 
-<!-- ================================= -->
-<!-- JUDUL -->
-<!-- ================================= -->
-
 <h1>🐝 DeerBee Kids Club</h1>
-
-<!-- ================================= -->
-<!-- DESKRIPSI -->
-<!-- ================================= -->
 
 <p>
 🎁 Aktivitas Seru untuk Belajar dan Bermain
@@ -151,10 +171,6 @@ p{
 <p>
 Dapatkan aktivitas baru setiap bulan!
 </p>
-
-<!-- ================================= -->
-<!-- MENU -->
-<!-- ================================= -->
 
 <a class="menu" href="mewarnai.html">
 🎨 Mewarnai
@@ -172,10 +188,6 @@ Dapatkan aktivitas baru setiap bulan!
 🧩 Mini Game (Segera Hadir)
 </a>
 
-<!-- ================================= -->
-<!-- FOOTER -->
-<!-- ================================= -->
-
 <div class="footer">
 
 <hr>
@@ -184,6 +196,24 @@ Dapatkan aktivitas baru setiap bulan!
 © DeerBee Kids Club
 <br>
 Dibuat khusus untuk pelanggan DeerBee
+</p>
+
+<p>
+
+<a class="social"
+href="https://instagram.com/USERNAMEKAMU"
+target="_blank">
+📸 Instagram
+</a>
+
+|
+
+<a class="social"
+href="https://chat.whatsapp.com/LINKGRUPKAMU"
+target="_blank">
+💬 Grup Reseller
+</a>
+
 </p>
 
 </div>
