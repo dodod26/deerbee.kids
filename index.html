@@ -2,6 +2,7 @@
 <html>
 
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>DeerBee Kids Club</title>
 
@@ -24,14 +25,16 @@ body{
 /* KOTAK UTAMA */
 
 .container{
+    width:95%;
     max-width:700px;
+
     margin:auto;
 
     background:rgba(255,255,255,0.92);
 
-    padding:30px;
+    padding:25px;
 
-    border-radius:30px;
+    border-radius:25px;
 
     box-shadow:0 5px 20px rgba(0,0,0,.15);
 }
@@ -96,7 +99,9 @@ p{
 
     display:block;
 
-    max-width:320px;
+    width:85%;
+
+    max-width:420px;
 
     margin:15px auto;
 
@@ -144,6 +149,33 @@ p{
     margin:0 10px;
 
     font-size:18px;
+}
+    /* KHUSUS HP */
+
+@media (max-width:768px){
+
+.logo{
+width:220px;
+}
+
+h1{
+font-size:38px;
+}
+
+p{
+font-size:20px;
+}
+
+.menu{
+width:90%;
+font-size:26px;
+padding:22px;
+}
+
+.footer{
+font-size:18px;
+}
+
 }
 
 </style>
