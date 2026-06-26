@@ -141,17 +141,42 @@ box-shadow:0 10px 20px rgba(0,0,0,.18);
 
 text-align:center;
 
-margin-top:40px;
+margin-top:35px;
 
-color:#777;
+padding-top:20px;
+
+font-size:15px;
+
+line-height:1.8;
+
+color:#666;
 
 }
 
 .social{
 
+display:inline-block;
+
 text-decoration:none;
 
-margin:0 10px;
+color:#ff69b4;
+
+font-size:16px;
+
+font-weight:bold;
+
+margin:0 4px;
+
+white-space:nowrap;
+
+transition:.3s;
+
+}
+.social:hover{
+
+color:#ff7fb8;
+
+transform:scale(1.05);
 
 }
 
@@ -160,6 +185,19 @@ margin:0 10px;
 .logo{
 
 width:220px;
+  .footer{
+
+font-size:14px;
+
+}
+
+.social{
+
+font-size:15px;
+
+margin:0 2px;
+
+}
 
 }
 
