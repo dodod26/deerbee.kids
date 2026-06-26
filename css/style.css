@@ -105,6 +105,42 @@ color:#555;
 
 }
 
+/* ========================= */
+/* SUB JUDUL */
+/* ========================= */
+
+.subtitle{
+
+font-size:20px;
+
+font-weight:700;
+
+color:#ff7aa8;
+
+margin-top:10px;
+
+margin-bottom:10px;
+
+line-height:1.6;
+
+}
+
+/* ========================= */
+/* FITUR */
+/* ========================= */
+
+.features{
+
+font-size:17px;
+
+color:#666;
+
+margin-bottom:30px;
+
+line-height:1.8;
+
+}
+
 .menu{
 
 display:block;
@@ -205,6 +241,14 @@ color:#bbb;
 
 @media(max-width:768px){
 
+.subtitle{
+font-size:18px;
+}
+
+.features{
+font-size:16px;
+}
+
 .logo{
 width:200px;
 }
@@ -235,6 +279,15 @@ margin:0 2px;
 }
 
 @media(max-width:480px){
+
+.subtitle{
+font-size:17px;
+}
+
+.features{
+font-size:15px;
+line-height:1.7;
+}
 
 .logo{
 width:180px;
@@ -504,31 +557,49 @@ animation:beeFly 18s linear infinite;
 
 0%{
 transform:
-translate(-100px,0)
+translate(-100px,50px)
 rotate(0deg);
 }
 
-25%{
+15%{
 transform:
-translate(30vw,80px)
-rotate(20deg);
+translate(15vw,-20px)
+rotate(15deg);
 }
 
-50%{
+30%{
 transform:
-translate(70vw,-20px)
-rotate(-10deg);
+translate(35vw,80px)
+rotate(-15deg);
+}
+
+45%{
+transform:
+translate(55vw,20px)
+rotate(10deg);
+}
+
+60%{
+transform:
+translate(75vw,120px)
+rotate(-20deg);
 }
 
 75%{
 transform:
-translate(40vw,220px)
-rotate(20deg);
+translate(45vw,220px)
+rotate(15deg);
+}
+
+90%{
+transform:
+translate(85vw,70px)
+rotate(-10deg);
 }
 
 100%{
 transform:
-translate(calc(100vw + 120px),100px)
+translate(calc(100vw + 120px),120px)
 rotate(0deg);
 }
 
