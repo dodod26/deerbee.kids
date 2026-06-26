@@ -2,24 +2,28 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mini Game DeerBee</title>
+<title>Mewarnai DeerBee</title>
 <link rel="stylesheet" href="css/pages.css">
 </head>
 <body>
-<h1>🧩 Mini Game DeerBee</h1>
-<p class="page-subtitle">Seru-seruan main game sambil belajar</p>
+<h1>🎨 Mewarnai DeerBee</h1>
 
 <div class="card">
-<h2>🧩 Puzzle Lebah</h2>
+<h2>🐝 Lebah Lucu</h2>
 <p>Segera hadir</p>
 </div>
 
 <div class="card">
-<h2>🎯 Tebak Warna</h2>
+<h2>🌈 Pelangi Ceria</h2>
 <p>Segera hadir</p>
 </div>
 
-<a class="btn-back" href="index.html">🏠 Kembali ke Beranda</a>
+<div class="card">
+<h2>🐰 Kelinci Imut</h2>
+<p>Segera hadir</p>
+</div>
+
+<a class="btn-back" href="index.html">⬅ Kembali</a>
 
 <audio id="bgMusic" src="assets/musik/bgm.mp3" loop></audio>
 <button id="musicToggle" onclick="toggleMusic()">🔇</button>
@@ -29,11 +33,15 @@ const audio = document.getElementById('bgMusic');
 const btn = document.getElementById('musicToggle');
 let playing = false;
 
+function onPlaySuccess(){
+btn.textContent = '🎵';
+btn.style.animation = 'none';
+playing = true;
+}
+
 function startMusic(){
 if(!playing){
-audio.play();
-btn.textContent = '🎵';
-playing = true;
+audio.play().then(onPlaySuccess).catch(()=>{});
 }
 }
 
@@ -41,14 +49,17 @@ function toggleMusic(){
 if(playing){
 audio.pause();
 btn.textContent = '🔇';
+btn.style.animation = 'musicBounce 1.4s ease-in-out infinite';
 playing = false;
 }else{
-audio.play();
-btn.textContent = '🎵';
-playing = true;
+audio.play().then(onPlaySuccess).catch(()=>{});
 }
 }
 
+// Coba autoplay duluan saat halaman dibuka (berhasil di sebagian browser)
+window.addEventListener('load', startMusic);
+
+// Kalau autoplay diblokir, musik tetap mulai begitu ada klik pertama
 document.addEventListener('click', startMusic, { once:true });
 </script>
 </body>
