@@ -94,7 +94,10 @@ overflow-x:hidden;
 h1{
     color:#ff69b4;
     text-align:center;
-
+    letter-spacing:1px;
+    text-shadow:
+    2px 2px 0 white,
+    4px 4px 10px rgba(255,105,180,.2);
     animation:pulse 3s infinite;
 }
 
@@ -124,40 +127,45 @@ p{
 
 .menu{
 
-    display:block;
+display:block;
 
-    width:85%;
+width:90%;
+max-width:420px;
 
-    max-width:420px;
+margin:15px auto;
 
-    margin:15px auto;
+padding:20px;
 
-    padding:18px;
+background:linear-gradient(135deg,#ffffff,#fff7fc);
 
-    background:white;
+border-radius:20px;
 
-    border-radius:20px;
+text-decoration:none;
 
-    text-decoration:none;
+font-size:22px;
 
-    font-size:22px;
+font-weight:bold;
 
-    font-weight:bold;
+color:#444;
 
-    color:#444;
+box-shadow:0 8px 20px rgba(0,0,0,.12);
 
-    box-shadow:0 4px 15px rgba(0,0,0,.12);
+transition:.3s;
 
-    transition:.3s;
+border:2px solid rgba(255,105,180,.15);
+
 }
 
 /* EFEK HOVER */
 
 .menu:hover{
 
-    transform:scale(1.05);
+transform:translateY(-4px) scale(1.03);
 
-    box-shadow:0 8px 20px rgba(0,0,0,.15);
+box-shadow:0 12px 25px rgba(0,0,0,.18);
+
+border-color:#ff69b4;
+
 }
 
 .footer{
@@ -299,9 +307,7 @@ opacity:1;
 
 <div class="welcome-box">
 
-<div style="font-size:70px;">
-🐝
-</div>
+<img src="assets/logo/logo.png" width="120" class="logo">
 
 <h2>
 Selamat Datang!
