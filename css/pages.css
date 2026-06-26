@@ -1,0 +1,97 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Baloo 2','Arial',sans-serif;
+background:#fff8e8;
+padding:30px 20px;
+text-align:center;
+}
+
+h1{
+font-size:30px;
+color:#ff69b4;
+margin-bottom:8px;
+}
+
+.page-subtitle{
+color:#777;
+font-size:16px;
+margin-bottom:25px;
+}
+
+/* ===== Menu link (cerita.html style) ===== */
+.menu{
+display:block;
+max-width:400px;
+margin:18px auto;
+padding:20px;
+background:white;
+border-radius:20px;
+text-decoration:none;
+font-size:22px;
+font-weight:bold;
+color:#444;
+box-shadow:0 4px 15px rgba(0,0,0,.1);
+transition:.25s;
+}
+
+.menu:hover{
+transform:translateY(-3px);
+box-shadow:0 8px 18px rgba(0,0,0,.15);
+}
+
+/* ===== Card (mewarnai.html style) ===== */
+.card{
+background:white;
+padding:20px;
+border-radius:20px;
+margin:20px auto;
+max-width:400px;
+box-shadow:0 4px 10px rgba(0,0,0,.1);
+}
+
+.card h2{
+font-size:22px;
+color:#444;
+margin-bottom:6px;
+}
+
+.card p{
+color:#888;
+font-size:15px;
+}
+
+/* ===== Tombol kecil (back, dsb) ===== */
+.btn-back{
+display:inline-block;
+padding:12px 25px;
+background:#ff69b4;
+color:white;
+text-decoration:none;
+border-radius:10px;
+margin-top:20px;
+font-weight:bold;
+transition:.25s;
+}
+
+.btn-back:hover{
+background:#ff4fa5;
+transform:translateY(-2px);
+}
+
+@media(max-width:480px){
+h1{
+font-size:26px;
+}
+.menu{
+font-size:19px;
+padding:18px;
+}
+.card h2{
+font-size:19px;
+}
+}
