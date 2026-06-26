@@ -37,16 +37,34 @@ const audio = document.getElementById('bgMusic');
 const btn = document.getElementById('musicToggle');
 let playing = false;
 
+function onPlaySuccess(){
+btn.textContent = '🎵';
+btn.style.animation = 'none';
+playing = true;
+}
+
+function startMusic(){
+if(!playing){
+audio.play().then(onPlaySuccess).catch(()=>{});
+}
+}
+
 function toggleMusic(){
 if(playing){
 audio.pause();
 btn.textContent = '🔇';
+btn.style.animation = 'musicBounce 1.4s ease-in-out infinite';
+playing = false;
 }else{
-audio.play();
-btn.textContent = '🎵';
+audio.play().then(onPlaySuccess).catch(()=>{});
 }
-playing = !playing;
 }
+
+// Coba autoplay duluan saat halaman dibuka (berhasil di sebagian browser)
+window.addEventListener('load', startMusic);
+
+// Kalau autoplay diblokir, musik tetap mulai begitu ada klik pertama
+document.addEventListener('click', startMusic, { once:true });
 </script>
 
 <div class="container">
@@ -60,7 +78,7 @@ width="180">
 🌈 Belajar sambil bermain jadi makin seru!
 </p>
 <p class="features">
-📚 Cerita Lucu • 🎨 Mewarnai • 🎮 Game
+📚 Cerita Lucu • 🎨 Mewarnai • 🎵 Musik • 🎮 Game
 </p>
   
 <a class="menu" href="mewarnai.html">
@@ -81,13 +99,13 @@ Dibuat khusus untuk pelanggan DeerBee
 </p>
 <p class="footer-links">
 <a class="social"
-href="https://instagram.com/USERNAMEKAMU"
+href="https://instagram.com/@deerbee.kids"
 target="_blank">
 📸 Instagram
 </a>
 <span>|</span>
 <a class="social"
-href="https://chat.whatsapp.com/LINKGRUPKAMU"
+href="https://chat.whatsapp.com/https://chat.whatsapp.com/H4P4p7ucy4dKcr9BdlcQnw?s=cl&p=i&mlu=1&amv=2"
 target="_blank">
 💬 Grup Reseller
 </a>
