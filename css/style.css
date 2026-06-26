@@ -391,10 +391,10 @@ opacity:1;
 .cloud{
 
 position:fixed;
-background:rgba(255,255,255,.6);
+background:rgba(255,255,255,.85);
 border-radius:100px;
 filter:blur(2px);
-z-index:-1;
+z-index:1;
 }
 
 .cloud::before,
