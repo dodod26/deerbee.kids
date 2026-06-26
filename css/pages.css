@@ -111,8 +111,15 @@ font-size:22px;
 cursor:pointer;
 z-index:100;
 transition:.25s;
+animation:musicBounce 1.4s ease-in-out infinite;
+}
+
+@keyframes musicBounce{
+0%,100%{transform:scale(1);}
+50%{transform:scale(1.15);}
 }
 
 #musicToggle:hover{
 transform:scale(1.1);
+animation:none;
 }
