@@ -16,5 +16,36 @@
 <a class="btn-back" href="index.html">
 🏠 Kembali ke Beranda
 </a>
+
+<audio id="bgMusic" src="assets/musik/bgm.mp3" loop></audio>
+<button id="musicToggle" onclick="toggleMusic()">🔇</button>
+
+<script>
+const audio = document.getElementById('bgMusic');
+const btn = document.getElementById('musicToggle');
+let playing = false;
+
+function startMusic(){
+if(!playing){
+audio.play();
+btn.textContent = '🎵';
+playing = true;
+}
+}
+
+function toggleMusic(){
+if(playing){
+audio.pause();
+btn.textContent = '🔇';
+playing = false;
+}else{
+audio.play();
+btn.textContent = '🎵';
+playing = true;
+}
+}
+
+document.addEventListener('click', startMusic, { once:true });
+</script>
 </body>
 </html>
