@@ -25,6 +25,30 @@ Selamat Datang!
 <div class="cloud cloud2"></div>
 <div class="cloud cloud3"></div>
 <img src="assets/logo/bee.png" class="bee">
+
+<!-- ===================== -->
+<!-- MUSIK BACKGROUND -->
+<!-- ===================== -->
+<audio id="bgMusic" src="assets/musik/bgm.mp3" loop></audio>
+<button id="musicToggle" onclick="toggleMusic()">🔇</button>
+
+<script>
+const audio = document.getElementById('bgMusic');
+const btn = document.getElementById('musicToggle');
+let playing = false;
+
+function toggleMusic(){
+if(playing){
+audio.pause();
+btn.textContent = '🔇';
+}else{
+audio.play();
+btn.textContent = '🎵';
+}
+playing = !playing;
+}
+</script>
+
 <div class="container">
   <center>
 <img class="logo"
@@ -45,9 +69,6 @@ width="180">
 <a class="menu" href="cerita.html">
 📖 Cerita Anak
 </a>
-<a class="menu" href="musik.html">
-🎵 Musik
-</a>
 <a class="menu" href="minigame.html">
 🧩 Mini Game
 </a>
@@ -60,13 +81,13 @@ Dibuat khusus untuk pelanggan DeerBee
 </p>
 <p class="footer-links">
 <a class="social"
-href="https://instagram.com/deerbee.kids"
+href="https://instagram.com/USERNAMEKAMU"
 target="_blank">
 📸 Instagram
 </a>
 <span>|</span>
 <a class="social"
-href="https://chat.whatsapp.com/https://chat.whatsapp.com/H4P4p7ucy4dKcr9BdlcQnw?mode=gi_t"
+href="https://chat.whatsapp.com/LINKGRUPKAMU"
 target="_blank">
 💬 Grup Reseller
 </a>
