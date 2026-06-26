@@ -16,19 +16,31 @@
 }
 
 body{
-    font-family:'Baloo 2',cursive;
 
-    background-image:url('assets/background/bg.png');
-    background-size:cover;
-    background-position:center;
-    background-attachment:fixed;
+font-family:'Baloo 2',cursive;
 
-    margin:0;
-    padding:20px;
+margin:0;
+padding:20px;
 
-    box-sizing:border-box;
+background:
+radial-gradient(circle at 15% 20%, rgba(255,255,255,.8) 0 40px, transparent 41px),
+radial-gradient(circle at 80% 18%, rgba(255,255,255,.8) 0 55px, transparent 56px),
+radial-gradient(circle at 25% 75%, rgba(255,255,255,.7) 0 35px, transparent 36px),
+
+linear-gradient(
+135deg,
+#bfefff 0%,
+#dff7ff 20%,
+#fff6b8 45%,
+#ffe2ef 70%,
+#d9ffd8 100%
+);
+
+background-attachment:fixed;
+
+overflow-x:hidden;
+
 }
-
 /* KOTAK UTAMA */
 
 .container{
@@ -47,6 +59,11 @@ body{
     box-shadow:0 5px 20px rgba(0,0,0,.15);
 
     box-sizing:border-box;
+
+    position:relative;
+
+    overflow:hidden;
+
 }
 
 /* LOGO */
@@ -195,7 +212,10 @@ font-size:18px;
 <body>
 
 <div class="container">
-
+<div class="cloud cloud1"></div>
+<div class="cloud cloud2"></div>
+<div class="cloud cloud3"></div>
+    
 <center>
 
 <img class="logo"
