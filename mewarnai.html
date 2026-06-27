@@ -7,21 +7,19 @@
 </head>
 <body>
 <h1>🎨 Mewarnai DeerBee</h1>
+<p class="page-subtitle">Pilih gambar yang mau diwarnai</p>
 
-<div class="card">
-<h2>🐝 Lebah Lucu</h2>
-<p>Segera hadir</p>
-</div>
+<a class="menu" href="mewarnai/lebah.html">
+🐝 Lebah Lucu
+</a>
 
-<div class="card">
-<h2>🌈 Pelangi Ceria</h2>
-<p>Segera hadir</p>
-</div>
+<a class="menu" href="mewarnai/pelangi.html">
+🌈 Pelangi Ceria
+</a>
 
-<div class="card">
-<h2>🐰 Kelinci Imut</h2>
-<p>Segera hadir</p>
-</div>
+<a class="menu" href="mewarnai/kelinci.html">
+🐰 Kelinci Imut
+</a>
 
 <a class="btn-back" href="index.html">⬅ Kembali</a>
 
@@ -56,10 +54,7 @@ audio.play().then(onPlaySuccess).catch(()=>{});
 }
 }
 
-// Coba autoplay duluan saat halaman dibuka (berhasil di sebagian browser)
 window.addEventListener('load', startMusic);
-
-// Kalau autoplay diblokir, musik tetap mulai begitu ada klik pertama
 document.addEventListener('click', startMusic, { once:true });
 </script>
 </body>
