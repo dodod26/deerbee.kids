@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tebak Warna - DeerBee</title>
+<link rel="stylesheet" href="../css/coloring.css">
+</head>
+<body>
+<h1>🎯 Tebak Warna</h1>
+
+<p class="game-question" id="question">Tap warna: Kuning</p>
+
+<div class="color-options" id="options"></div>
+
+<p class="game-feedback" id="feedback"></p>
+
+<div class="action-buttons">
+<button onclick="newRound()">🔄 Main Lagi</button>
+</div>
+
+<a class="btn-back" href="../minigame.html">⬅ Kembali</a>
+
+<audio id="bgMusic" src="../assets/musik/bgm.mp3" loop></audio>
+<button id="musicToggle" onclick="toggleMusic()">🔇</button>
+
+<script>
+const colors = [
+{name:"Kuning", code:"#ffe066"},
+{name:"Pink", code:"#ff8fb3"},
+{name:"Biru", code:"#7ec8f2"},
+{name:"Hijau", code:"#9be7a3"},
+{name:"Ungu", code:"#caa6ff"},
+{name:"Oranye", code:"#ffb347"}
+];
+
+let target = null;
+
+function newRound(){
+target = colors[Math.floor(Math.random()*colors.length)];
+document.getElementById('question').textContent = "Tap warna: " + target.name;
+document.getElementById('feedback').textContent = "";
+
+const shuffled = [...colors].sort(()=>Math.random()-0.5).slice(0,4);
+if(!shuffled.includes(target)){
+shuffled[0] = target;
+}
+
+const optionsBox = document.getElementById('options');
+optionsBox.innerHTML = "";
+shuffled.sort(()=>Math.random()-0.5).forEach(c=>{
+const box = document.createElement('div');
+box.className = "color-box";
+box.style.background = c.code;
+box.onclick = ()=> checkAnswer(c);
+optionsBox.appendChild(box);
+});
+}
+
+function checkAnswer(c){
+const fb = document.getElementById('feedback');
+if(c.name === target.name){
+fb.textContent = "🎉 Benar! Pintar!";
+fb.style.color = "#2ecc71";
+setTimeout(newRound, 1200);
+}else{
+fb.textContent = "Coba lagi yuk!";
+fb.style.color = "#ff6b6b";
+}
+}
+
+newRound();
+
+const audio = document.getElementById('bgMusic');
+const btn = document.getElementById('musicToggle');
+let playing = false;
+
+function onPlaySuccess(){
+btn.textContent = '🎵';
+btn.style.animation = 'none';
+playing = true;
+}
+
+function startMusic(){
+if(!playing){
+audio.play().then(onPlaySuccess).catch(()=>{});
+}
+}
+
+function toggleMusic(){
+if(playing){
+audio.pause();
+btn.textContent = '🔇';
+btn.style.animation = 'musicBounce 1.4s ease-in-out infinite';
+playing = false;
+}else{
+audio.play().then(onPlaySuccess).catch(()=>{});
+}
+}
+
+window.addEventListener('load', startMusic);
+document.addEventListener('click', startMusic, { once:true });
+</script>
+</body>
+</html>
