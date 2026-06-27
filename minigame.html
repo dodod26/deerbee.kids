@@ -9,15 +9,13 @@
 <h1>🧩 Mini Game DeerBee</h1>
 <p class="page-subtitle">Seru-seruan main game sambil belajar</p>
 
-<div class="card">
-<h2>🧩 Puzzle Lebah</h2>
-<p>Segera hadir</p>
-</div>
+<a class="menu" href="minigame/tebak-warna.html">
+🎯 Tebak Warna
+</a>
 
-<div class="card">
-<h2>🎯 Tebak Warna</h2>
-<p>Segera hadir</p>
-</div>
+<a class="menu" href="minigame/puzzle-lebah.html">
+🧩 Puzzle Lebah
+</a>
 
 <a class="btn-back" href="index.html">🏠 Kembali ke Beranda</a>
 
@@ -52,10 +50,7 @@ audio.play().then(onPlaySuccess).catch(()=>{});
 }
 }
 
-// Coba autoplay duluan saat halaman dibuka (berhasil di sebagian browser)
 window.addEventListener('load', startMusic);
-
-// Kalau autoplay diblokir, musik tetap mulai begitu ada klik pertama
 document.addEventListener('click', startMusic, { once:true });
 </script>
 </body>
