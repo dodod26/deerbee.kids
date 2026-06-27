@@ -1,0 +1,196 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Baloo 2','Arial',sans-serif;
+background:#fff8e8;
+padding:20px;
+text-align:center;
+}
+
+h1{
+font-size:28px;
+color:#ff69b4;
+margin-bottom:15px;
+}
+
+.canvas-box{
+background:white;
+border-radius:20px;
+padding:15px;
+max-width:420px;
+margin:0 auto 20px;
+box-shadow:0 4px 15px rgba(0,0,0,.1);
+}
+
+.canvas-box svg{
+width:100%;
+height:auto;
+}
+
+.canvas-box path,
+.canvas-box ellipse,
+.canvas-box circle,
+.canvas-box rect,
+.canvas-box polygon{
+cursor:pointer;
+stroke:#333;
+stroke-width:2;
+transition:fill .15s;
+}
+
+.palette{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:10px;
+max-width:420px;
+margin:0 auto 20px;
+}
+
+.color-dot{
+width:42px;
+height:42px;
+border-radius:50%;
+border:3px solid white;
+box-shadow:0 2px 6px rgba(0,0,0,.2);
+cursor:pointer;
+transition:.2s;
+}
+
+.color-dot.selected{
+border-color:#333;
+transform:scale(1.15);
+}
+
+.action-buttons{
+margin-bottom:25px;
+}
+
+.action-buttons button{
+padding:10px 20px;
+border:none;
+border-radius:12px;
+background:#ff69b4;
+color:white;
+font-weight:bold;
+font-size:15px;
+margin:0 6px;
+cursor:pointer;
+transition:.2s;
+}
+
+.action-buttons button:hover{
+background:#ff4fa5;
+transform:translateY(-2px);
+}
+
+.btn-back{
+display:inline-block;
+padding:12px 25px;
+background:#ff69b4;
+color:white;
+text-decoration:none;
+border-radius:10px;
+margin-top:10px;
+font-weight:bold;
+transition:.25s;
+}
+
+.btn-back:hover{
+background:#ff4fa5;
+transform:translateY(-2px);
+}
+
+.card{
+background:white;
+padding:25px;
+border-radius:20px;
+margin:20px auto;
+max-width:400px;
+box-shadow:0 4px 10px rgba(0,0,0,.1);
+font-size:18px;
+color:#888;
+}
+
+/* ===== Mini Game: Tebak Warna ===== */
+.game-question{
+font-size:22px;
+font-weight:bold;
+color:#444;
+margin-bottom:20px;
+}
+
+.color-options{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:15px;
+max-width:420px;
+margin:0 auto 20px;
+}
+
+.color-box{
+width:70px;
+height:70px;
+border-radius:16px;
+cursor:pointer;
+box-shadow:0 4px 10px rgba(0,0,0,.15);
+transition:.2s;
+}
+
+.color-box:hover{
+transform:scale(1.08);
+}
+
+.game-feedback{
+font-size:20px;
+font-weight:bold;
+min-height:30px;
+margin-bottom:10px;
+}
+
+/* ===== Tombol Musik (sama seperti halaman lain) ===== */
+#musicToggle{
+position:fixed;
+bottom:20px;
+right:20px;
+width:50px;
+height:50px;
+border-radius:50%;
+border:none;
+background:white;
+box-shadow:0 4px 12px rgba(0,0,0,.2);
+font-size:22px;
+cursor:pointer;
+z-index:100;
+transition:.25s;
+animation:musicBounce 1.4s ease-in-out infinite;
+}
+
+@keyframes musicBounce{
+0%,100%{transform:scale(1);}
+50%{transform:scale(1.15);}
+}
+
+#musicToggle:hover{
+transform:scale(1.1);
+animation:none;
+}
+
+@media(max-width:480px){
+h1{
+font-size:24px;
+}
+.color-dot{
+width:36px;
+height:36px;
+}
+.color-box{
+width:60px;
+height:60px;
+}
+}
