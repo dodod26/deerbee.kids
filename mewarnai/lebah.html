@@ -3,84 +3,165 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mewarnai Lebah - DeerBee</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/coloring.css">
 </head>
 <body>
+
+<div class="page-deco">
+<span class="deco-star s1">⭐</span>
+<span class="deco-star s2">✨</span>
+<span class="deco-star s3">⭐</span>
+</div>
+
 <h1>🐝 Mewarnai Lebah Lucu</h1>
+<p class="page-subtitle">Tap warna, lalu tap bagian gambar untuk mewarnai ✨</p>
 
-<div class="canvas-box">
-<svg id="beeSvg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-
-<!-- Sayap -->
-<ellipse id="wingLeft" class="paintable" cx="110" cy="110" rx="35" ry="50" fill="#ffffff"/>
-<ellipse id="wingRight" class="paintable" cx="190" cy="110" rx="35" ry="50" fill="#ffffff"/>
-
-<!-- Badan -->
-<ellipse id="body" class="paintable" cx="150" cy="170" rx="70" ry="80" fill="#ffffff"/>
-
-<!-- Garis-garis badan (stripe) -->
-<rect id="stripe1" class="paintable" x="95" y="140" width="110" height="20" fill="#ffffff"/>
-<rect id="stripe2" class="paintable" x="90" y="175" width="120" height="20" fill="#ffffff"/>
-<rect id="stripe3" class="paintable" x="95" y="210" width="110" height="20" fill="#ffffff"/>
-
-<!-- Mata -->
-<circle cx="130" cy="160" r="8" fill="#333" stroke="none"/>
-<circle cx="170" cy="160" r="8" fill="#333" stroke="none"/>
-
-<!-- Antena -->
-<line x1="135" y1="100" x2="120" y2="70" stroke="#333" stroke-width="3"/>
-<line x1="165" y1="100" x2="180" y2="70" stroke="#333" stroke-width="3"/>
-<circle cx="120" cy="70" r="5" fill="#333" stroke="none"/>
-<circle cx="180" cy="70" r="5" fill="#333" stroke="none"/>
-
-<!-- Senyum -->
-<path d="M 135 195 Q 150 210 165 195" fill="none" stroke="#333" stroke-width="3"/>
-
-</svg>
+<div class="canvas-frame">
+<canvas id="canvas"></canvas>
+<div class="loading-msg" id="loading">Memuat gambar... ⏳</div>
 </div>
 
 <div class="palette" id="palette">
-<div class="color-dot" style="background:#ffe066" data-color="#ffe066"></div>
-<div class="color-dot" style="background:#333333" data-color="#333333"></div>
-<div class="color-dot" style="background:#ff8fb3" data-color="#ff8fb3"></div>
-<div class="color-dot" style="background:#7ec8f2" data-color="#7ec8f2"></div>
-<div class="color-dot" style="background:#9be7a3" data-color="#9be7a3"></div>
-<div class="color-dot" style="background:#ffffff" data-color="#ffffff"></div>
+<div class="color-dot" style="background:#ffe066" data-color="255,224,102"></div>
+<div class="color-dot" style="background:#333333" data-color="51,51,51"></div>
+<div class="color-dot" style="background:#ff8fb3" data-color="255,143,179"></div>
+<div class="color-dot" style="background:#7ec8f2" data-color="126,200,242"></div>
+<div class="color-dot" style="background:#9be7a3" data-color="155,231,163"></div>
+<div class="color-dot" style="background:#ffb347" data-color="255,179,71"></div>
+<div class="color-dot" style="background:#caa6ff" data-color="202,166,255"></div>
+<div class="color-dot" style="background:#a9714c" data-color="169,113,76"></div>
 </div>
 
 <div class="action-buttons">
-<button onclick="resetColors()">🔄 Ulangi</button>
+<button onclick="resetImage()">🔄 Ulangi</button>
+<button onclick="celebrate()">🎉 Selesai!</button>
 </div>
 
 <a class="btn-back" href="../mewarnai.html">⬅ Kembali</a>
+
+<div class="confetti-layer" id="confetti"></div>
 
 <audio id="bgMusic" src="../assets/musik/bgm.mp3" loop></audio>
 <button id="musicToggle" onclick="toggleMusic()">🔇</button>
 
 <script>
-let selectedColor = "#ffe066";
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d', { willReadFrequently:true });
+const img = new Image();
+img.src = '../assets/mewarnai/lebah.jpg';
+
+let selectedColor = [255,224,102];
+
+img.onload = ()=>{
+const maxW = 480;
+const scale = Math.min(1, maxW / img.width);
+canvas.width = img.width * scale;
+canvas.height = img.height * scale;
+ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+document.getElementById('loading').style.display = 'none';
+};
+
+img.onerror = ()=>{
+document.getElementById('loading').textContent = 'Gambar tidak ditemukan 😢';
+};
+
+function resetImage(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+}
 
 const dots = document.querySelectorAll('.color-dot');
 dots.forEach(dot=>{
 dot.addEventListener('click', ()=>{
 dots.forEach(d=>d.classList.remove('selected'));
 dot.classList.add('selected');
-selectedColor = dot.dataset.color;
+selectedColor = dot.dataset.color.split(',').map(Number);
 });
 });
 dots[0].classList.add('selected');
 
-const shapes = document.querySelectorAll('.paintable');
-shapes.forEach(shape=>{
-shape.addEventListener('click', ()=>{
-shape.setAttribute('fill', selectedColor);
-});
-});
+function getPixel(data, x, y, w){
+const i = (y * w + x) * 4;
+return [data[i], data[i+1], data[i+2], data[i+3]];
+}
 
-function resetColors(){
-shapes.forEach(shape=>{
-shape.setAttribute('fill', '#ffffff');
-});
+function setPixel(data, x, y, w, color){
+const i = (y * w + x) * 4;
+data[i] = color[0];
+data[i+1] = color[1];
+data[i+2] = color[2];
+data[i+3] = 255;
+}
+
+function colorMatch(a, b, tolerance){
+return Math.abs(a[0]-b[0]) <= tolerance &&
+Math.abs(a[1]-b[1]) <= tolerance &&
+Math.abs(a[2]-b[2]) <= tolerance;
+}
+
+function floodFill(startX, startY, fillColor){
+const w = canvas.width;
+const h = canvas.height;
+const imageData = ctx.getImageData(0,0,w,h);
+const data = imageData.data;
+
+const target = getPixel(data, startX, startY, w);
+
+// Jangan isi kalau yang ditap adalah garis hitam (outline)
+if(target[0] < 60 && target[1] < 60 && target[2] < 60) return;
+// Jangan isi kalau warnanya sudah sama
+if(colorMatch(target, fillColor, 10)) return;
+
+const tolerance = 35;
+const stack = [[startX, startY]];
+const visited = new Uint8Array(w*h);
+
+while(stack.length){
+const [x,y] = stack.pop();
+if(x<0 || x>=w || y<0 || y>=h) continue;
+const idx = y*w + x;
+if(visited[idx]) continue;
+
+const px = getPixel(data, x, y, w);
+if(!colorMatch(px, target, tolerance)) continue;
+
+visited[idx] = 1;
+setPixel(data, x, y, w, fillColor);
+
+stack.push([x+1,y]);
+stack.push([x-1,y]);
+stack.push([x,y+1]);
+stack.push([x,y-1]);
+}
+
+ctx.putImageData(imageData, 0, 0);
+}
+
+function handleTap(e){
+const rect = canvas.getBoundingClientRect();
+const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+const x = Math.floor((clientX - rect.left) * (canvas.width / rect.width));
+const y = Math.floor((clientY - rect.top) * (canvas.height / rect.height));
+floodFill(x, y, selectedColor);
+}
+
+canvas.addEventListener('click', handleTap);
+canvas.addEventListener('touchstart', (e)=>{ e.preventDefault(); handleTap(e); });
+
+function celebrate(){
+const box = document.getElementById('confetti');
+box.innerHTML = '';
+for(let i=0;i<40;i++){
+const piece = document.createElement('span');
+piece.className = 'confetti-piece';
+piece.style.left = Math.random()*100 + '%';
+piece.style.background = ['#ff69b4','#ffe066','#7ec8f2','#9be7a3','#caa6ff'][Math.floor(Math.random()*5)];
+piece.style.animationDelay = (Math.random()*0.5)+'s';
+box.appendChild(piece);
+}
+setTimeout(()=>{ box.innerHTML=''; }, 2500);
 }
 
 const audio = document.getElementById('bgMusic');
