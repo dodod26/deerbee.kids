@@ -55,7 +55,7 @@ let selectedColor = [255,224,102];
 let outlineMask = null;
 
 img.onload = ()=>{
-const maxW = 480;
+const maxW = 700;
 const scale = Math.min(1, maxW / img.width);
 canvas.width = img.width * scale;
 canvas.height = img.height * scale;
@@ -72,14 +72,36 @@ function buildOutlineMask(){
 const w = canvas.width;
 const h = canvas.height;
 const data = ctx.getImageData(0,0,w,h).data;
-outlineMask = new Uint8Array(w*h);
-const threshold = 90;
+const raw = new Uint8Array(w*h);
+const threshold = 170;
 for(let i=0;i<w*h;i++){
 const r = data[i*4];
 const g = data[i*4+1];
 const b = data[i*4+2];
 if(r < threshold && g < threshold && b < threshold){
-outlineMask[i] = 1;
+raw[i] = 1;
+}
+}
+
+// Dilasi: tebalkan garis outline 1 pixel ke semua arah
+// supaya celah kecil akibat kompresi gambar tidak bikin warna bocor
+outlineMask = new Uint8Array(w*h);
+for(let y=0;y<h;y++){
+for(let x=0;x<w;x++){
+const idx = y*w+x;
+if(raw[idx]){
+outlineMask[idx] = 1;
+continue;
+}
+let isNearOutline = false;
+for(let dy=-1; dy<=1 && !isNearOutline; dy++){
+for(let dx=-1; dx<=1; dx++){
+const nx = x+dx, ny = y+dy;
+if(nx<0||nx>=w||ny<0||ny>=h) continue;
+if(raw[ny*w+nx]){ isNearOutline = true; break; }
+}
+}
+outlineMask[idx] = isNearOutline ? 1 : 0;
 }
 }
 }
