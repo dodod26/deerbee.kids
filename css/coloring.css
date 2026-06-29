@@ -85,16 +85,30 @@ font-size:16px;
 
 .palette{
 display:flex;
-justify-content:center;
-flex-wrap:wrap;
+align-items:center;
 gap:12px;
-max-width:460px;
+max-width:480px;
 margin:0 auto 20px;
 position:relative;
 z-index:1;
+overflow-x:auto;
+overflow-y:hidden;
+padding:8px 14px;
+scroll-snap-type:x proximate;
+-webkit-overflow-scrolling:touch;
+}
+
+.palette::-webkit-scrollbar{
+height:6px;
+}
+
+.palette::-webkit-scrollbar-thumb{
+background:#ffd1e6;
+border-radius:10px;
 }
 
 .color-dot{
+flex:0 0 auto;
 width:44px;
 height:44px;
 border-radius:50%;
@@ -102,6 +116,7 @@ border:3px solid white;
 box-shadow:0 3px 8px rgba(0,0,0,.18);
 cursor:pointer;
 transition:.2s;
+scroll-snap-align:center;
 }
 
 .color-dot.selected{
@@ -111,28 +126,47 @@ box-shadow:0 0 0 3px rgba(255,105,180,.3), 0 3px 8px rgba(0,0,0,.18);
 }
 
 .action-buttons{
+display:flex;
+justify-content:center;
+gap:16px;
 margin-bottom:20px;
 position:relative;
 z-index:1;
 }
 
 .action-buttons button{
-padding:11px 22px;
+width:58px;
+height:58px;
 border:none;
-border-radius:14px;
-background:#ff69b4;
+border-radius:50%;
 color:white;
-font-weight:bold;
-font-size:15px;
-margin:0 6px;
+font-size:22px;
 cursor:pointer;
 transition:.2s;
-box-shadow:0 4px 10px rgba(255,105,180,.3);
+box-shadow:0 4px 10px rgba(0,0,0,.2);
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
 .action-buttons button:hover{
-background:#ff4fa5;
-transform:translateY(-2px);
+transform:translateY(-3px) scale(1.05);
+}
+
+.action-buttons button:active{
+transform:scale(0.95);
+}
+
+#btnUndo{
+background:linear-gradient(160deg,#7ec8f2,#4fa8e0);
+}
+
+#btnReset{
+background:linear-gradient(160deg,#ff8f8f,#ff5c5c);
+}
+
+#btnDone{
+background:linear-gradient(160deg,#caa6ff,#a974f5);
 }
 
 .btn-back{
