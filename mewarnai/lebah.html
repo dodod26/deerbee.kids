@@ -34,6 +34,7 @@
 </div>
 
 <div class="action-buttons">
+<button onclick="undoLast()">↩️ Undo</button>
 <button onclick="resetImage()">🔄 Ulangi</button>
 <button onclick="celebrate()">🎉 Selesai!</button>
 </div>
@@ -110,6 +111,16 @@ function resetImage(){
 ctx.clearRect(0,0,canvas.width,canvas.height);
 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 buildOutlineMask();
+history = [];
+}
+
+let history = [];
+const MAX_HISTORY = 15;
+
+function undoLast(){
+if(history.length === 0) return;
+const last = history.pop();
+ctx.putImageData(last, 0, 0);
 }
 
 const dots = document.querySelectorAll('.color-dot');
@@ -143,6 +154,7 @@ const data = imageData.data;
 
 const stack = [[startX, startY]];
 const visited = new Uint8Array(w*h);
+let changed = false;
 
 while(stack.length){
 const [x,y] = stack.pop();
@@ -152,6 +164,7 @@ if(visited[idx]) continue;
 if(outlineMask[idx]) continue;
 
 visited[idx] = 1;
+changed = true;
 setPixel(data, x, y, w, fillColor);
 
 stack.push([x+1,y]);
@@ -160,7 +173,12 @@ stack.push([x,y+1]);
 stack.push([x,y-1]);
 }
 
+if(changed){
+// Simpan kondisi SEBELUM dicat untuk undo
+history.push(ctx.getImageData(0,0,w,h));
+if(history.length > MAX_HISTORY) history.shift();
 ctx.putImageData(imageData, 0, 0);
+}
 }
 
 function handleTap(e){
