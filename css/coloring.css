@@ -111,7 +111,7 @@ border-radius:10px;
 flex:0 0 auto;
 width:44px;
 height:44px;
-border-radius:50%;
+border-radius:10px;
 border:3px solid white;
 box-shadow:0 3px 8px rgba(0,0,0,.18);
 cursor:pointer;
@@ -121,7 +121,7 @@ scroll-snap-align:center;
 
 .color-dot.selected{
 border-color:#ff69b4;
-transform:scale(1.2);
+transform:scale(1.15);
 box-shadow:0 0 0 3px rgba(255,105,180,.3), 0 3px 8px rgba(0,0,0,.18);
 }
 
