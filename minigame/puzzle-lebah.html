@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Puzzle Lebah - DeerBee</title>
+<title>Puzzle DeerBee</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/coloring.css">
 <style>
@@ -11,47 +11,165 @@ max-width:460px;
 margin:0 auto;
 }
 
+.setup-section{
+margin-bottom:10px;
+}
+
+.setup-label{
+font-size:17px;
+font-weight:bold;
+color:#666;
+margin-bottom:12px;
+}
+
+.size-options{
+display:flex;
+justify-content:center;
+gap:14px;
+margin-bottom:26px;
+}
+
+.size-btn{
+padding:16px 26px;
+border:3px solid #ffd1e3;
+border-radius:18px;
+background:white;
+font-size:18px;
+font-weight:bold;
+font-family:'Baloo 2',cursive;
+color:#888;
+cursor:pointer;
+transition:.2s;
+}
+
+.size-btn.active{
+border-color:#ff69b4;
+background:#fff0f6;
+color:#ff69b4;
+transform:scale(1.05);
+}
+
+.image-options{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:14px;
+max-width:340px;
+margin:0 auto 24px;
+}
+
+.image-pick{
+border-radius:16px;
+overflow:hidden;
+border:3px solid #ffd1e3;
+cursor:pointer;
+transition:.2s;
+background:white;
+text-align:center;
+}
+
+.image-pick.active{
+border-color:#ff69b4;
+transform:scale(1.04);
+box-shadow:0 6px 16px rgba(255,105,180,.3);
+}
+
+.image-pick img{
+width:100%;
+height:110px;
+object-fit:cover;
+display:block;
+}
+
+.image-pick .pick-name{
+padding:8px;
+font-weight:bold;
+color:#555;
+font-size:14px;
+}
+
+.btn-start{
+display:block;
+width:fit-content;
+margin:0 auto 10px;
+padding:15px 36px;
+border:none;
+border-radius:18px;
+background:linear-gradient(160deg,#ff8fc6,#ff69b4);
+color:white;
+font-weight:bold;
+font-size:18px;
+font-family:'Baloo 2',cursive;
+cursor:pointer;
+box-shadow:0 5px 14px rgba(255,105,180,.4);
+transition:.2s;
+}
+
+.btn-start:hover{
+transform:translateY(-2px);
+}
+
+.btn-start:disabled{
+opacity:.4;
+cursor:not-allowed;
+}
+
+/* ===== Game section ===== */
+.game-section{
+display:none;
+}
+
 .puzzle-board{
 position:relative;
 width:300px;
 height:300px;
-margin:0 auto 24px;
+margin:0 auto 22px;
 background:white;
 border-radius:20px;
 border:4px dashed #ffd1e3;
 box-shadow:0 6px 18px rgba(0,0,0,.1);
+overflow:hidden;
+}
+
+.puzzle-board::before{
+content:"";
+position:absolute;
+top:0; left:0; right:0; bottom:0;
+background-size:300px 300px;
+border-radius:16px;
+opacity:0;
+pointer-events:none;
+transition:opacity .2s;
+z-index:0;
+}
+
+.puzzle-board.show-reference::before{
+opacity:0.35;
 }
 
 .slot{
 position:absolute;
-width:150px;
-height:150px;
 background:#fff6fa;
 border:2px dashed #ffc2db;
 box-sizing:border-box;
+z-index:1;
 }
 
-.slot.s0{ top:0; left:0; border-top-left-radius:16px; }
-.slot.s1{ top:0; left:150px; border-top-right-radius:16px; }
-.slot.s2{ top:150px; left:0; border-bottom-left-radius:16px; }
-.slot.s3{ top:150px; left:150px; border-bottom-right-radius:16px; }
+.puzzle-board.show-reference .slot{
+background:transparent;
+}
 
 .tray{
 display:flex;
 flex-wrap:wrap;
 justify-content:center;
-gap:14px;
+gap:10px;
 max-width:340px;
-margin:0 auto 22px;
-min-height:160px;
+margin:0 auto 18px;
+min-height:120px;
 }
 
 .piece{
-width:150px;
-height:150px;
-background-image:url('../assets/mewarnai/lebah.jpg');
-background-size:300px 300px;
-border-radius:14px;
+border-radius:10px;
 box-shadow:0 5px 14px rgba(0,0,0,.25);
 cursor:grab;
 touch-action:none;
@@ -74,10 +192,6 @@ border:none;
 cursor:default;
 }
 
-.slot.filled{
-border:none;
-}
-
 .status-msg{
 text-align:center;
 font-size:18px;
@@ -87,25 +201,34 @@ margin-bottom:10px;
 min-height:26px;
 }
 
-.btn-restart{
-display:block;
-width:fit-content;
-margin:0 auto 18px;
-padding:13px 30px;
-border:none;
-border-radius:18px;
-background:linear-gradient(160deg,#ff8fc6,#ff69b4);
-color:white;
+.action-row{
+display:flex;
+justify-content:center;
+gap:10px;
+flex-wrap:wrap;
+margin-bottom:10px;
+}
+
+.btn-small{
+padding:10px 20px;
+border:2px solid #ff69b4;
+border-radius:16px;
+background:white;
+color:#ff69b4;
 font-weight:bold;
-font-size:16px;
+font-size:14px;
 font-family:'Baloo 2',cursive;
 cursor:pointer;
-box-shadow:0 5px 14px rgba(255,105,180,.4);
 transition:.2s;
 }
 
-.btn-restart:hover{
-transform:translateY(-2px);
+.btn-small:hover{
+background:#fff0f6;
+}
+
+.btn-small.filled{
+background:#ff69b4;
+color:white;
 }
 </style>
 </head>
@@ -113,23 +236,68 @@ transform:translateY(-2px);
 
 <div class="puzzle-wrap">
 
-<h1>🧩 Puzzle Lebah</h1>
-<p class="page-subtitle">Seret tiap keping ke tempat yang pas ✨</p>
+<h1>🧩 Puzzle DeerBee</h1>
+<p class="page-subtitle">Pilih ukuran dan gambar, lalu mulai bermain!</p>
+
+<!-- ===================== -->
+<!-- SETUP SECTION -->
+<!-- ===================== -->
+<div id="setupSection">
+
+<div class="setup-section">
+<p class="setup-label">1️⃣ Pilih jumlah kotak</p>
+<div class="size-options">
+<button class="size-btn active" data-size="2" onclick="selectSize(2,this)">4 Kotak</button>
+<button class="size-btn" data-size="3" onclick="selectSize(3,this)">9 Kotak</button>
+</div>
+</div>
+
+<div class="setup-section">
+<p class="setup-label">2️⃣ Pilih gambar</p>
+<div class="image-options" id="imageOptions">
+<div class="image-pick active" data-img="lebah" onclick="selectImage('lebah', this)">
+<img src="../assets/mewarnai/lebah.jpg">
+<div class="pick-name">🐝 Lebah</div>
+</div>
+<div class="image-pick" data-img="kelinci" onclick="selectImage('kelinci', this)">
+<img src="../assets/mewarnai/kelinci.jpg">
+<div class="pick-name">🐰 Kelinci</div>
+</div>
+<div class="image-pick" data-img="pelangi" onclick="selectImage('pelangi', this)">
+<img src="../assets/mewarnai/pelangi.jpg">
+<div class="pick-name">🌈 Pelangi</div>
+</div>
+<div class="image-pick" data-img="kucing" onclick="selectImage('kucing', this)">
+<img src="../assets/mewarnai/kucing.jpg">
+<div class="pick-name">🐱 Kucing</div>
+</div>
+</div>
+</div>
+
+<button class="btn-start" onclick="startGame()">▶️ Mulai Main</button>
+
+</div>
+
+<!-- ===================== -->
+<!-- GAME SECTION -->
+<!-- ===================== -->
+<div id="gameSection" class="game-section">
 
 <p class="status-msg" id="statusMsg">Ayo susun puzzlenya!</p>
 
-<div class="puzzle-board" id="board">
-<div class="slot s0" data-slot="0"></div>
-<div class="slot s1" data-slot="1"></div>
-<div class="slot s2" data-slot="2"></div>
-<div class="slot s3" data-slot="3"></div>
-</div>
+<div class="puzzle-board" id="board"></div>
 
 <div class="tray" id="tray"></div>
 
-<button class="btn-restart" onclick="initPuzzle()">🔄 Acak Ulang</button>
-<br>
+<div class="action-row">
+<button class="btn-small" id="btnReference" onclick="toggleReference()">👁️ Lihat Contoh</button>
+<button class="btn-small" onclick="initPuzzle()">🔄 Acak Ulang</button>
+<button class="btn-small" onclick="backToSetup()">⚙️ Ganti Pilihan</button>
+</div>
+
 <a class="btn-back" href="../minigame.html">⬅ Kembali</a>
+
+</div>
 
 </div>
 
@@ -139,38 +307,117 @@ transform:translateY(-2px);
 <button id="musicToggle" onclick="toggleMusic()">🔇</button>
 
 <script>
-const board = document.getElementById('board');
-const tray = document.getElementById('tray');
-const statusMsg = document.getElementById('statusMsg');
-
-const piecePositions = [
-{ x:0, y:0 },
-{ x:-150, y:0 },
-{ x:0, y:-150 },
-{ x:-150, y:-150 }
-];
-
+let gridSize = 2; // 2 = 4 kotak, 3 = 9 kotak
+let selectedImage = 'lebah';
 let placedCount = 0;
+let referenceOn = false;
+
+function selectSize(size, btn){
+gridSize = size;
+document.querySelectorAll('.size-btn').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+}
+
+function selectImage(name, el){
+selectedImage = name;
+document.querySelectorAll('.image-pick').forEach(p=>p.classList.remove('active'));
+el.classList.add('active');
+}
+
+function startGame(){
+document.getElementById('setupSection').style.display = 'none';
+document.getElementById('gameSection').style.display = 'block';
+initPuzzle();
+}
+
+function backToSetup(){
+document.getElementById('gameSection').style.display = 'none';
+document.getElementById('setupSection').style.display = 'block';
+}
 
 function initPuzzle(){
+const board = document.getElementById('board');
+const tray = document.getElementById('tray');
+board.innerHTML = "";
 tray.innerHTML = "";
-document.querySelectorAll('.slot').forEach(s=> s.classList.remove('filled'));
 placedCount = 0;
-statusMsg.textContent = "Ayo susun puzzlenya!";
+referenceOn = false;
+board.classList.remove('show-reference');
+document.getElementById('btnReference').textContent = '👁️ Lihat Contoh';
+document.getElementById('statusMsg').textContent = "Ayo susun puzzlenya!";
 
-const order = [0,1,2,3].sort(()=>Math.random()-0.5);
+const imgUrl = '../assets/mewarnai/' + selectedImage + '.jpg';
+board.style.setProperty('--ref-img', 'url(' + imgUrl + ')');
+board.style.setProperty('borderImage', 'none');
+
+// set background image via inline style on ::before using a data attribute trick
+board.dataset.img = imgUrl;
+applyReferenceImage(board, imgUrl);
+
+const n = gridSize; // 2 or 3
+const total = n * n;
+const slotSize = 300 / n;
+
+// Buat slot di board
+for(let row=0; row<n; row++){
+for(let col=0; col<n; col++){
+const idx = row*n + col;
+const slot = document.createElement('div');
+slot.className = 'slot';
+slot.dataset.slot = idx;
+slot.style.width = slotSize+'px';
+slot.style.height = slotSize+'px';
+slot.style.top = (row*slotSize)+'px';
+slot.style.left = (col*slotSize)+'px';
+board.appendChild(slot);
+}
+}
+
+// Buat keping, urutan diacak, lalu masukkan ke tray
+const order = Array.from({length:total}, (_,i)=>i).sort(()=>Math.random()-0.5);
 
 order.forEach(idx=>{
+const row = Math.floor(idx/n);
+const col = idx%n;
 const piece = document.createElement('div');
 piece.className = 'piece';
 piece.dataset.piece = idx;
-piece.style.backgroundPosition = piecePositions[idx].x+'px '+piecePositions[idx].y+'px';
+piece.style.width = slotSize+'px';
+piece.style.height = slotSize+'px';
+piece.style.backgroundImage = 'url("'+imgUrl+'")';
+piece.style.backgroundSize = '300px 300px';
+piece.style.backgroundPosition = (-col*slotSize)+'px '+(-row*slotSize)+'px';
 tray.appendChild(piece);
-attachDrag(piece);
+attachDrag(piece, slotSize);
 });
 }
 
-function attachDrag(piece){
+function applyReferenceImage(board, imgUrl){
+let styleTag = document.getElementById('refImgStyle');
+if(!styleTag){
+styleTag = document.createElement('style');
+styleTag.id = 'refImgStyle';
+document.head.appendChild(styleTag);
+}
+styleTag.textContent = '.puzzle-board::before{ background-image:url("'+imgUrl+'"); }';
+}
+
+function toggleReference(){
+referenceOn = !referenceOn;
+const board = document.getElementById('board');
+const btn = document.getElementById('btnReference');
+if(referenceOn){
+board.classList.add('show-reference');
+btn.textContent = '🙈 Sembunyikan';
+btn.classList.add('filled');
+}else{
+board.classList.remove('show-reference');
+btn.textContent = '👁️ Lihat Contoh';
+btn.classList.remove('filled');
+}
+}
+
+function attachDrag(piece, slotSize){
 let offsetX, offsetY, originalParent, originalNextSibling;
 
 piece.addEventListener('pointerdown', (e)=>{
@@ -199,7 +446,7 @@ function onUp(ev){
 piece.removeEventListener('pointermove', onMove);
 piece.removeEventListener('pointerup', onUp);
 piece.classList.remove('dragging');
-handleDrop(piece, ev.clientX, ev.clientY, originalParent, originalNextSibling);
+handleDrop(piece, ev.clientX, ev.clientY, originalParent, originalNextSibling, slotSize);
 }
 
 piece.addEventListener('pointermove', onMove);
@@ -212,7 +459,7 @@ piece.style.top = (clientY - offsetY)+'px';
 }
 }
 
-function handleDrop(piece, clientX, clientY, originalParent, originalNextSibling){
+function handleDrop(piece, clientX, clientY, originalParent, originalNextSibling, slotSize){
 const slots = document.querySelectorAll('.slot:not(.filled)');
 let targetSlot = null;
 
@@ -226,22 +473,23 @@ targetSlot = slot;
 piece.style.position = '';
 piece.style.left = '';
 piece.style.top = '';
-piece.style.width = '';
-piece.style.height = '';
+piece.style.width = slotSize+'px';
+piece.style.height = slotSize+'px';
 
 if(targetSlot && parseInt(targetSlot.dataset.slot) === parseInt(piece.dataset.piece)){
 targetSlot.appendChild(piece);
-piece.style.width = '100%';
-piece.style.height = '100%';
 piece.classList.add('placed');
 targetSlot.classList.add('filled');
 placedCount++;
 
-if(placedCount === 4){
-statusMsg.textContent = "🎉 Selesai! Pintar sekali!";
+const total = gridSize*gridSize;
+if(placedCount === total){
+document.getElementById('statusMsg').textContent = "🎉 Selesai! Pintar sekali!";
 burstConfetti();
 }
 }else{
+piece.style.width = slotSize+'px';
+piece.style.height = slotSize+'px';
 if(originalNextSibling){
 originalParent.insertBefore(piece, originalNextSibling);
 }else{
@@ -262,8 +510,6 @@ box.appendChild(p);
 }
 setTimeout(()=>{ box.innerHTML=''; }, 2500);
 }
-
-initPuzzle();
 
 const audio = document.getElementById('bgMusic');
 const btn = document.getElementById('musicToggle');
