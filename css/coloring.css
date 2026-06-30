@@ -66,12 +66,43 @@ box-shadow:0 6px 20px rgba(0,0,0,.12);
 border:4px dashed #ffd1e3;
 }
 
+.zoom-controls{
+display:flex;
+justify-content:center;
+gap:10px;
+margin-bottom:10px;
+}
+
+.zoom-controls button{
+width:38px;
+height:38px;
+border:none;
+border-radius:10px;
+background:#fff0f6;
+font-size:16px;
+cursor:pointer;
+box-shadow:0 2px 6px rgba(0,0,0,.12);
+transition:.2s;
+}
+
+.zoom-controls button:hover{
+background:#ffd1e3;
+transform:translateY(-2px);
+}
+
+.canvas-scroll{
+overflow:auto;
+max-width:100%;
+border-radius:12px;
+touch-action:pan-x pan-y;
+-webkit-overflow-scrolling:touch;
+}
+
 .canvas-frame canvas{
-width:100%;
-height:auto;
+display:block;
 border-radius:12px;
 cursor:pointer;
-display:block;
+touch-action:pan-x pan-y;
 }
 
 .loading-msg{
