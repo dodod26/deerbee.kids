@@ -3,22 +3,169 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tebak Warna - DeerBee</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/coloring.css">
+<style>
+.game-wrap{
+max-width:460px;
+margin:0 auto;
+}
+
+.score-board{
+display:flex;
+justify-content:center;
+gap:14px;
+margin-bottom:18px;
+}
+
+.score-pill{
+background:white;
+border-radius:16px;
+padding:8px 18px;
+font-weight:bold;
+font-size:15px;
+color:#444;
+box-shadow:0 3px 10px rgba(0,0,0,.1);
+}
+
+.score-pill span{
+font-size:18px;
+margin-right:4px;
+}
+
+.question-card{
+background:white;
+border-radius:22px;
+padding:22px;
+margin-bottom:22px;
+box-shadow:0 6px 18px rgba(0,0,0,.1);
+border:4px dashed #ffd1e3;
+}
+
+.question-card .label{
+color:#999;
+font-size:14px;
+margin-bottom:4px;
+}
+
+.question-card .target-name{
+font-size:30px;
+font-weight:bold;
+color:#ff69b4;
+}
+
+.color-options{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:16px;
+max-width:380px;
+margin:0 auto 18px;
+}
+
+.color-box{
+width:100%;
+aspect-ratio:1;
+border-radius:20px;
+cursor:pointer;
+box-shadow:0 6px 14px rgba(0,0,0,.18);
+border:4px solid white;
+transition:.2s;
+animation:popIn .35s ease backwards;
+}
+
+.color-box:hover{
+transform:scale(1.06);
+}
+
+.color-box:active{
+transform:scale(0.94);
+}
+
+.color-box.wrong-shake{
+animation:shake .4s;
+}
+
+.color-box.correct-pulse{
+animation:correctPulse .5s;
+}
+
+@keyframes popIn{
+0%{ transform:scale(0); opacity:0; }
+100%{ transform:scale(1); opacity:1; }
+}
+
+@keyframes shake{
+0%,100%{ transform:translateX(0); }
+25%{ transform:translateX(-8px); }
+75%{ transform:translateX(8px); }
+}
+
+@keyframes correctPulse{
+0%{ transform:scale(1); }
+50%{ transform:scale(1.15); }
+100%{ transform:scale(1); }
+}
+
+.game-feedback{
+font-size:19px;
+font-weight:bold;
+min-height:30px;
+margin-bottom:18px;
+}
+
+.btn-restart{
+display:inline-block;
+padding:13px 30px;
+border:none;
+border-radius:18px;
+background:linear-gradient(160deg,#ff8fc6,#ff69b4);
+color:white;
+font-weight:bold;
+font-size:16px;
+font-family:'Baloo 2',cursive;
+cursor:pointer;
+box-shadow:0 5px 14px rgba(255,105,180,.4);
+transition:.2s;
+margin-bottom:18px;
+}
+
+.btn-restart:hover{
+transform:translateY(-2px);
+}
+
+.btn-restart:active{
+transform:scale(0.97);
+}
+</style>
 </head>
 <body>
-<h1>🎯 Tebak Warna</h1>
 
-<p class="game-question" id="question">Tap warna: Kuning</p>
+<div class="game-wrap">
+
+<h1>🎯 Tebak Warna</h1>
+<p class="page-subtitle">Tap kotak dengan warna yang tepat!</p>
+
+<div class="score-board">
+<div class="score-pill"><span>⭐</span><span id="scoreVal">0</span></div>
+<div class="score-pill"><span>🔥</span><span id="streakVal">0</span></div>
+</div>
+
+<div class="question-card">
+<div class="label">Tap warna:</div>
+<div class="target-name" id="targetName">Kuning</div>
+</div>
 
 <div class="color-options" id="options"></div>
 
 <p class="game-feedback" id="feedback"></p>
 
-<div class="action-buttons">
-<button onclick="newRound()">🔄 Main Lagi</button>
+<button class="btn-restart" onclick="newRound()">🔄 Soal Baru</button>
+<br>
+<a class="btn-back" href="../minigame.html">⬅ Kembali</a>
+
 </div>
 
-<a class="btn-back" href="../minigame.html">⬅ Kembali</a>
+<div class="confetti-layer" id="confetti"></div>
 
 <audio id="bgMusic" src="../assets/musik/bgm.mp3" loop></audio>
 <button id="musicToggle" onclick="toggleMusic()">🔇</button>
@@ -30,42 +177,75 @@ const colors = [
 {name:"Biru", code:"#7ec8f2"},
 {name:"Hijau", code:"#9be7a3"},
 {name:"Ungu", code:"#caa6ff"},
-{name:"Oranye", code:"#ffb347"}
+{name:"Oranye", code:"#ffb347"},
+{name:"Merah", code:"#ff5c5c"},
+{name:"Coklat", code:"#a9714c"}
 ];
 
+const praiseWords = ["🎉 Hebat!", "👏 Pintar!", "✨ Keren!", "🌟 Betul!", "😄 Asyik!"];
+const tryAgainWords = ["Coba lagi yuk!", "Hampir, ayo coba lagi!", "Yuk lihat lagi warnanya!"];
+
 let target = null;
+let score = 0;
+let streak = 0;
 
 function newRound(){
-target = colors[Math.floor(Math.random()*colors.length)];
-document.getElementById('question').textContent = "Tap warna: " + target.name;
 document.getElementById('feedback').textContent = "";
+target = colors[Math.floor(Math.random()*colors.length)];
+document.getElementById('targetName').textContent = target.name;
 
-const shuffled = [...colors].sort(()=>Math.random()-0.5).slice(0,4);
-if(!shuffled.includes(target)){
-shuffled[0] = target;
-}
+let pool = colors.filter(c => c.name !== target.name);
+pool = pool.sort(()=>Math.random()-0.5).slice(0,3);
+const finalSet = [...pool, target].sort(()=>Math.random()-0.5);
 
 const optionsBox = document.getElementById('options');
 optionsBox.innerHTML = "";
-shuffled.sort(()=>Math.random()-0.5).forEach(c=>{
+finalSet.forEach((c, i)=>{
 const box = document.createElement('div');
 box.className = "color-box";
 box.style.background = c.code;
-box.onclick = ()=> checkAnswer(c);
+box.style.animationDelay = (i*0.07)+'s';
+box.onclick = ()=> checkAnswer(c, box);
 optionsBox.appendChild(box);
 });
 }
 
-function checkAnswer(c){
+function checkAnswer(c, boxEl){
 const fb = document.getElementById('feedback');
 if(c.name === target.name){
-fb.textContent = "🎉 Benar! Pintar!";
+score += 10;
+streak += 1;
+document.getElementById('scoreVal').textContent = score;
+document.getElementById('streakVal').textContent = streak;
+
+fb.textContent = praiseWords[Math.floor(Math.random()*praiseWords.length)];
 fb.style.color = "#2ecc71";
-setTimeout(newRound, 1200);
+boxEl.classList.add('correct-pulse');
+burstConfetti();
+
+setTimeout(newRound, 1100);
 }else{
-fb.textContent = "Coba lagi yuk!";
+streak = 0;
+document.getElementById('streakVal').textContent = streak;
+fb.textContent = tryAgainWords[Math.floor(Math.random()*tryAgainWords.length)];
 fb.style.color = "#ff6b6b";
+boxEl.classList.add('wrong-shake');
+setTimeout(()=> boxEl.classList.remove('wrong-shake'), 400);
 }
+}
+
+function burstConfetti(){
+const box = document.getElementById('confetti');
+for(let i=0;i<24;i++){
+const piece = document.createElement('span');
+piece.className = 'confetti-piece';
+piece.style.left = (40 + Math.random()*20) + '%';
+piece.style.top = '40%';
+piece.style.background = ['#ff69b4','#ffe066','#7ec8f2','#9be7a3','#caa6ff'][Math.floor(Math.random()*5)];
+piece.style.animationDelay = (Math.random()*0.2)+'s';
+box.appendChild(piece);
+}
+setTimeout(()=>{ box.innerHTML=''; }, 1500);
 }
 
 newRound();
