@@ -3,16 +3,297 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Puzzle Lebah - DeerBee</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/coloring.css">
+<style>
+.puzzle-wrap{
+max-width:460px;
+margin:0 auto;
+}
+
+.puzzle-board{
+position:relative;
+width:300px;
+height:300px;
+margin:0 auto 24px;
+background:white;
+border-radius:20px;
+border:4px dashed #ffd1e3;
+box-shadow:0 6px 18px rgba(0,0,0,.1);
+}
+
+.slot{
+position:absolute;
+width:150px;
+height:150px;
+background:#fff6fa;
+border:2px dashed #ffc2db;
+box-sizing:border-box;
+}
+
+.slot.s0{ top:0; left:0; border-top-left-radius:16px; }
+.slot.s1{ top:0; left:150px; border-top-right-radius:16px; }
+.slot.s2{ top:150px; left:0; border-bottom-left-radius:16px; }
+.slot.s3{ top:150px; left:150px; border-bottom-right-radius:16px; }
+
+.tray{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:14px;
+max-width:340px;
+margin:0 auto 22px;
+min-height:160px;
+}
+
+.piece{
+width:150px;
+height:150px;
+background-image:url('../assets/mewarnai/lebah.jpg');
+background-size:300px 300px;
+border-radius:14px;
+box-shadow:0 5px 14px rgba(0,0,0,.25);
+cursor:grab;
+touch-action:none;
+border:3px solid white;
+transition:box-shadow .15s, transform .15s;
+position:relative;
+z-index:5;
+}
+
+.piece.dragging{
+cursor:grabbing;
+box-shadow:0 10px 24px rgba(0,0,0,.35);
+transform:scale(1.05);
+z-index:50;
+}
+
+.piece.placed{
+box-shadow:none;
+border:none;
+cursor:default;
+}
+
+.slot.filled{
+border:none;
+}
+
+.status-msg{
+text-align:center;
+font-size:18px;
+font-weight:bold;
+color:#888;
+margin-bottom:10px;
+min-height:26px;
+}
+
+.btn-restart{
+display:block;
+width:fit-content;
+margin:0 auto 18px;
+padding:13px 30px;
+border:none;
+border-radius:18px;
+background:linear-gradient(160deg,#ff8fc6,#ff69b4);
+color:white;
+font-weight:bold;
+font-size:16px;
+font-family:'Baloo 2',cursive;
+cursor:pointer;
+box-shadow:0 5px 14px rgba(255,105,180,.4);
+transition:.2s;
+}
+
+.btn-restart:hover{
+transform:translateY(-2px);
+}
+</style>
 </head>
 <body>
-<h1>🧩 Puzzle Lebah</h1>
 
-<div class="card">
-Game ini sedang disiapkan.
-Segera hadir ya! 🧩
+<div class="puzzle-wrap">
+
+<h1>🧩 Puzzle Lebah</h1>
+<p class="page-subtitle">Seret tiap keping ke tempat yang pas ✨</p>
+
+<p class="status-msg" id="statusMsg">Ayo susun puzzlenya!</p>
+
+<div class="puzzle-board" id="board">
+<div class="slot s0" data-slot="0"></div>
+<div class="slot s1" data-slot="1"></div>
+<div class="slot s2" data-slot="2"></div>
+<div class="slot s3" data-slot="3"></div>
 </div>
 
+<div class="tray" id="tray"></div>
+
+<button class="btn-restart" onclick="initPuzzle()">🔄 Acak Ulang</button>
+<br>
 <a class="btn-back" href="../minigame.html">⬅ Kembali</a>
+
+</div>
+
+<div class="confetti-layer" id="confetti"></div>
+
+<audio id="bgMusic" src="../assets/musik/bgm.mp3" loop></audio>
+<button id="musicToggle" onclick="toggleMusic()">🔇</button>
+
+<script>
+const board = document.getElementById('board');
+const tray = document.getElementById('tray');
+const statusMsg = document.getElementById('statusMsg');
+
+const piecePositions = [
+{ x:0, y:0 },
+{ x:-150, y:0 },
+{ x:0, y:-150 },
+{ x:-150, y:-150 }
+];
+
+let placedCount = 0;
+
+function initPuzzle(){
+tray.innerHTML = "";
+document.querySelectorAll('.slot').forEach(s=> s.classList.remove('filled'));
+placedCount = 0;
+statusMsg.textContent = "Ayo susun puzzlenya!";
+
+const order = [0,1,2,3].sort(()=>Math.random()-0.5);
+
+order.forEach(idx=>{
+const piece = document.createElement('div');
+piece.className = 'piece';
+piece.dataset.piece = idx;
+piece.style.backgroundPosition = piecePositions[idx].x+'px '+piecePositions[idx].y+'px';
+tray.appendChild(piece);
+attachDrag(piece);
+});
+}
+
+function attachDrag(piece){
+let offsetX, offsetY, originalParent, originalNextSibling;
+
+piece.addEventListener('pointerdown', (e)=>{
+if(piece.classList.contains('placed')) return;
+piece.setPointerCapture(e.pointerId);
+piece.classList.add('dragging');
+
+originalParent = piece.parentElement;
+originalNextSibling = piece.nextSibling;
+
+const rect = piece.getBoundingClientRect();
+offsetX = e.clientX - rect.left;
+offsetY = e.clientY - rect.top;
+
+document.body.appendChild(piece);
+piece.style.position = 'fixed';
+piece.style.width = rect.width+'px';
+piece.style.height = rect.height+'px';
+movePieceTo(e.clientX, e.clientY);
+
+function onMove(ev){
+movePieceTo(ev.clientX, ev.clientY);
+}
+
+function onUp(ev){
+piece.removeEventListener('pointermove', onMove);
+piece.removeEventListener('pointerup', onUp);
+piece.classList.remove('dragging');
+handleDrop(piece, ev.clientX, ev.clientY, originalParent, originalNextSibling);
+}
+
+piece.addEventListener('pointermove', onMove);
+piece.addEventListener('pointerup', onUp);
+});
+
+function movePieceTo(clientX, clientY){
+piece.style.left = (clientX - offsetX)+'px';
+piece.style.top = (clientY - offsetY)+'px';
+}
+}
+
+function handleDrop(piece, clientX, clientY, originalParent, originalNextSibling){
+const slots = document.querySelectorAll('.slot:not(.filled)');
+let targetSlot = null;
+
+slots.forEach(slot=>{
+const r = slot.getBoundingClientRect();
+if(clientX > r.left && clientX < r.right && clientY > r.top && clientY < r.bottom){
+targetSlot = slot;
+}
+});
+
+piece.style.position = '';
+piece.style.left = '';
+piece.style.top = '';
+piece.style.width = '';
+piece.style.height = '';
+
+if(targetSlot && parseInt(targetSlot.dataset.slot) === parseInt(piece.dataset.piece)){
+targetSlot.appendChild(piece);
+piece.style.width = '100%';
+piece.style.height = '100%';
+piece.classList.add('placed');
+targetSlot.classList.add('filled');
+placedCount++;
+
+if(placedCount === 4){
+statusMsg.textContent = "🎉 Selesai! Pintar sekali!";
+burstConfetti();
+}
+}else{
+if(originalNextSibling){
+originalParent.insertBefore(piece, originalNextSibling);
+}else{
+originalParent.appendChild(piece);
+}
+}
+}
+
+function burstConfetti(){
+const box = document.getElementById('confetti');
+for(let i=0;i<40;i++){
+const p = document.createElement('span');
+p.className = 'confetti-piece';
+p.style.left = Math.random()*100+'%';
+p.style.background = ['#ff69b4','#ffe066','#7ec8f2','#9be7a3','#caa6ff'][Math.floor(Math.random()*5)];
+p.style.animationDelay = (Math.random()*0.5)+'s';
+box.appendChild(p);
+}
+setTimeout(()=>{ box.innerHTML=''; }, 2500);
+}
+
+initPuzzle();
+
+const audio = document.getElementById('bgMusic');
+const btn = document.getElementById('musicToggle');
+let playing = false;
+
+function onPlaySuccess(){
+btn.textContent = '🎵';
+btn.style.animation = 'none';
+playing = true;
+}
+
+function startMusic(){
+if(!playing){
+audio.play().then(onPlaySuccess).catch(()=>{});
+}
+}
+
+function toggleMusic(){
+if(playing){
+audio.pause();
+btn.textContent = '🔇';
+btn.style.animation = 'musicBounce 1.4s ease-in-out infinite';
+playing = false;
+}else{
+audio.play().then(onPlaySuccess).catch(()=>{});
+}
+}
+
+window.addEventListener('load', startMusic);
+document.addEventListener('click', startMusic, { once:true });
+</script>
 </body>
 </html>
