@@ -256,7 +256,7 @@ color:white;
 <p class="setup-label">2️⃣ Pilih gambar</p>
 <div class="image-options" id="imageOptions">
 <div class="image-pick active" data-img="lebah" onclick="selectImage('lebah', this)">
-<img src="../assets/mewarnai/lebah.jpg">
+<img src="../assets/puzzle/lebah.png">
 <div class="pick-name">🐝 Lebah</div>
 </div>
 <div class="image-pick" data-img="kelinci" onclick="selectImage('kelinci', this)">
@@ -307,6 +307,13 @@ color:white;
 <button id="musicToggle" onclick="toggleMusic()">🔇</button>
 
 <script>
+const imagePaths = {
+lebah: '../assets/puzzle/lebah.png',
+kelinci: '../assets/mewarnai/kelinci.jpg',
+pelangi: '../assets/mewarnai/pelangi.jpg',
+kucing: '../assets/mewarnai/kucing.jpg'
+};
+
 let gridSize = 2; // 2 = 4 kotak, 3 = 9 kotak
 let selectedImage = 'lebah';
 let placedCount = 0;
@@ -346,7 +353,7 @@ board.classList.remove('show-reference');
 document.getElementById('btnReference').textContent = '👁️ Lihat Contoh';
 document.getElementById('statusMsg').textContent = "Ayo susun puzzlenya!";
 
-const imgUrl = '../assets/mewarnai/' + selectedImage + '.jpg';
+const imgUrl = imagePaths[selectedImage];
 board.style.setProperty('--ref-img', 'url(' + imgUrl + ')');
 board.style.setProperty('borderImage', 'none');
 
