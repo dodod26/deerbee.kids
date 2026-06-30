@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mewarnai Kucing - DeerBee</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/coloring.css">
+</head>
+<body>
+
+<div class="page-deco">
+<span class="deco-star s1">⭐</span>
+<span class="deco-star s2">✨</span>
+<span class="deco-star s3">⭐</span>
+</div>
+
+<h1>🐱 Mewarnai Kucing Lucu</h1>
+<p class="page-subtitle">Tap warna, lalu tap bagian gambar untuk mewarnai ✨</p>
+
+<div class="zoom-controls">
+<button onclick="zoomOut()">🔍−</button>
+<button onclick="zoomIn()">🔍+</button>
+</div>
+
+<div class="canvas-frame">
+<div class="zoom-controls">
+<button id="zoomOut" onclick="zoomCanvas(-0.2)">➖</button>
+<button id="zoomReset" onclick="zoomReset()">🔍</button>
+<button id="zoomIn" onclick="zoomCanvas(0.2)">➕</button>
+</div>
+<div class="canvas-scroll" id="canvasScroll">
+<canvas id="canvas"></canvas>
+</div>
+<div class="loading-msg" id="loading">Memuat gambar... ⏳</div>
+</div>
+
+<div class="palette" id="palette">
+<div class="color-dot" style="background:#ffe066" data-color="255,224,102"></div>
+<div class="color-dot" style="background:#ffc94d" data-color="255,201,77"></div>
+<div class="color-dot" style="background:#ffb347" data-color="255,179,71"></div>
+<div class="color-dot" style="background:#ff914d" data-color="255,145,77"></div>
+<div class="color-dot" style="background:#ff5c5c" data-color="255,92,92"></div>
+<div class="color-dot" style="background:#ff8fb3" data-color="255,143,179"></div>
+<div class="color-dot" style="background:#ffd1e6" data-color="255,209,230"></div>
+<div class="color-dot" style="background:#e066ff" data-color="224,102,255"></div>
+<div class="color-dot" style="background:#caa6ff" data-color="202,166,255"></div>
+<div class="color-dot" style="background:#9b8cff" data-color="155,140,255"></div>
+<div class="color-dot" style="background:#5c7cff" data-color="92,124,255"></div>
+<div class="color-dot" style="background:#7ec8f2" data-color="126,200,242"></div>
+<div class="color-dot" style="background:#5ec9e0" data-color="94,201,224"></div>
+<div class="color-dot" style="background:#4dd0c4" data-color="77,208,196"></div>
+<div class="color-dot" style="background:#9be7a3" data-color="155,231,163"></div>
+<div class="color-dot" style="background:#6fcf6f" data-color="111,207,111"></div>
+<div class="color-dot" style="background:#4caf50" data-color="76,175,80"></div>
+<div class="color-dot" style="background:#c9e066" data-color="201,224,102"></div>
+<div class="color-dot" style="background:#e0c44d" data-color="224,196,77"></div>
+<div class="color-dot" style="background:#c98a4d" data-color="201,138,77"></div>
+<div class="color-dot" style="background:#a9714c" data-color="169,113,76"></div>
+<div class="color-dot" style="background:#7a4a2b" data-color="122,74,43"></div>
+<div class="color-dot" style="background:#dddddd" data-color="221,221,221"></div>
+<div class="color-dot" style="background:#888888" data-color="136,136,136"></div>
+<div class="color-dot" style="background:#333333" data-color="51,51,51"></div>
+<div class="color-dot" style="background:#ffffff;border-color:#ccc" data-color="255,255,255"></div>
+</div>
+
+<div class="action-buttons">
+<button id="btnUndo" onclick="undoLast()" title="Undo">↩️</button>
+<button id="btnReset" onclick="resetImage()" title="Ulangi">🔄</button>
+<button id="btnDone" onclick="celebrate()" title="Selesai">🎉</button>
+</div>
+
+<a class="btn-back" href="../mewarnai.html">⬅ Kembali</a>
+
+<div class="confetti-layer" id="confetti"></div>
+
+<audio id="bgMusic" src="../assets/musik/bgm.mp3" loop></audio>
+<button id="musicToggle" onclick="toggleMusic()">🔇</button>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d', { willReadFrequently:true });
+const img = new Image();
+img.src = '../assets/mewarnai/kucing.jpg';
+
+let selectedColor = [255,224,102];
+let outlineMask = null;
+
+img.onload = ()=>{
+const maxW = 700;
+const scale = Math.min(1, maxW / img.width);
+canvas.width = img.width * scale;
+canvas.height = img.height * scale;
+ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+buildOutlineMask();
+canvas.style.width = canvas.width + 'px';
+document.getElementById('loading').style.display = 'none';
+};
+
+img.onerror = ()=>{
+document.getElementById('loading').textContent = 'Gambar tidak ditemukan 😢';
+};
+
+let zoomLevel = 1;
+
+function zoomCanvas(delta){
+zoomLevel = Math.min(2.5, Math.max(0.6, zoomLevel + delta));
+canvas.style.width = (canvas.width * zoomLevel) + 'px';
+}
+
+function zoomReset(){
+zoomLevel = 1;
+canvas.style.width = canvas.width + 'px';
+}
+
+function buildOutlineMask(){
+const w = canvas.width;
+const h = canvas.height;
+const data = ctx.getImageData(0,0,w,h).data;
+const raw = new Uint8Array(w*h);
+const threshold = 170;
+for(let i=0;i<w*h;i++){
+const r = data[i*4];
+const g = data[i*4+1];
+const b = data[i*4+2];
+if(r < threshold && g < threshold && b < threshold){
+raw[i] = 1;
+}
+}
+
+// Dilasi: tebalkan garis outline 1 pixel ke semua arah
+// supaya celah kecil akibat kompresi gambar tidak bikin warna bocor
+outlineMask = new Uint8Array(w*h);
+for(let y=0;y<h;y++){
+for(let x=0;x<w;x++){
+const idx = y*w+x;
+if(raw[idx]){
+outlineMask[idx] = 1;
+continue;
+}
+let isNearOutline = false;
+for(let dy=-1; dy<=1 && !isNearOutline; dy++){
+for(let dx=-1; dx<=1; dx++){
+const nx = x+dx, ny = y+dy;
+if(nx<0||nx>=w||ny<0||ny>=h) continue;
+if(raw[ny*w+nx]){ isNearOutline = true; break; }
+}
+}
+outlineMask[idx] = isNearOutline ? 1 : 0;
+}
+}
+}
+
+function resetImage(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+buildOutlineMask();
+history = [];
+}
+
+let history = [];
+const MAX_HISTORY = 15;
+
+function undoLast(){
+if(history.length === 0) return;
+const last = history.pop();
+ctx.putImageData(last, 0, 0);
+}
+
+const dots = document.querySelectorAll('.color-dot');
+dots.forEach(dot=>{
+dot.addEventListener('click', ()=>{
+dots.forEach(d=>d.classList.remove('selected'));
+dot.classList.add('selected');
+selectedColor = dot.dataset.color.split(',').map(Number);
+});
+});
+dots[0].classList.add('selected');
+
+function setPixel(data, x, y, w, color){
+const i = (y * w + x) * 4;
+data[i] = color[0];
+data[i+1] = color[1];
+data[i+2] = color[2];
+data[i+3] = 255;
+}
+
+function floodFill(startX, startY, fillColor){
+if(!outlineMask) return;
+const w = canvas.width;
+const h = canvas.height;
+
+const startIdx = startY*w + startX;
+if(outlineMask[startIdx]) return; // tap di garis, jangan diisi
+
+const imageData = ctx.getImageData(0,0,w,h);
+const data = imageData.data;
+
+const stack = [[startX, startY]];
+const visited = new Uint8Array(w*h);
+let changed = false;
+
+while(stack.length){
+const [x,y] = stack.pop();
+if(x<0 || x>=w || y<0 || y>=h) continue;
+const idx = y*w + x;
+if(visited[idx]) continue;
+if(outlineMask[idx]) continue;
+
+visited[idx] = 1;
+changed = true;
+setPixel(data, x, y, w, fillColor);
+
+stack.push([x+1,y]);
+stack.push([x-1,y]);
+stack.push([x,y+1]);
+stack.push([x,y-1]);
+}
+
+if(changed){
+// Simpan kondisi SEBELUM dicat untuk undo
+history.push(ctx.getImageData(0,0,w,h));
+if(history.length > MAX_HISTORY) history.shift();
+ctx.putImageData(imageData, 0, 0);
+}
+}
+
+function handleTap(e){
+const rect = canvas.getBoundingClientRect();
+const clientX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+const clientY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
+const x = Math.floor((clientX - rect.left) * (canvas.width / rect.width));
+const y = Math.floor((clientY - rect.top) * (canvas.height / rect.height));
+floodFill(x, y, selectedColor);
+}
+
+canvas.addEventListener('click', handleTap);
+
+// Bedakan TAP (untuk mewarnai) dengan GESER/PAN (untuk geser saat zoom)
+let touchStartPos = null;
+
+canvas.addEventListener('touchstart', (e)=>{
+const t = e.touches[0];
+touchStartPos = { x:t.clientX, y:t.clientY };
+}, { passive:true });
+
+canvas.addEventListener('touchend', (e)=>{
+if(!touchStartPos) return;
+const t = e.changedTouches[0];
+const dx = Math.abs(t.clientX - touchStartPos.x);
+const dy = Math.abs(t.clientY - touchStartPos.y);
+// Kalau jari tidak banyak bergerak, anggap ini TAP (mewarnai)
+// Kalau bergerak jauh, anggap GESER (biarkan browser scroll seperti biasa)
+if(dx < 10 && dy < 10){
+e.preventDefault();
+handleTap(e);
+}
+touchStartPos = null;
+});
+
+// ===== ZOOM =====
+const zoomSteps = [1, 1.4, 1.8, 2.2];
+let zoomIndex = 0;
+let canvasBaseDisplayWidth = 0;
+
+function zoomIn(){
+if(zoomIndex < zoomSteps.length-1) zoomIndex++;
+canvas.style.width = (canvasBaseDisplayWidth * zoomSteps[zoomIndex]) + 'px';
+}
+
+function zoomOut(){
+if(zoomIndex > 0) zoomIndex--;
+canvas.style.width = (canvasBaseDisplayWidth * zoomSteps[zoomIndex]) + 'px';
+}
+
+function celebrate(){
+const box = document.getElementById('confetti');
+box.innerHTML = '';
+for(let i=0;i<40;i++){
+const piece = document.createElement('span');
+piece.className = 'confetti-piece';
+piece.style.left = Math.random()*100 + '%';
+piece.style.background = ['#ff69b4','#ffe066','#7ec8f2','#9be7a3','#caa6ff'][Math.floor(Math.random()*5)];
+piece.style.animationDelay = (Math.random()*0.5)+'s';
+box.appendChild(piece);
+}
+setTimeout(()=>{ box.innerHTML=''; }, 2500);
+}
+
+const audio = document.getElementById('bgMusic');
+const btn = document.getElementById('musicToggle');
+let playing = false;
+
+function onPlaySuccess(){
+btn.textContent = '🎵';
+btn.style.animation = 'none';
+playing = true;
+}
+
+function startMusic(){
+if(!playing){
+audio.play().then(onPlaySuccess).catch(()=>{});
+}
+}
+
+function toggleMusic(){
+if(playing){
+audio.pause();
+btn.textContent = '🔇';
+btn.style.animation = 'musicBounce 1.4s ease-in-out infinite';
+playing = false;
+}else{
+audio.play().then(onPlaySuccess).catch(()=>{});
+}
+}
+
+window.addEventListener('load', startMusic);
+document.addEventListener('click', startMusic, { once:true });
+</script>
+</body>
+</html>
