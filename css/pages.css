@@ -24,6 +24,14 @@ padding:30px 20px;
 text-align:center;
 }
 
+.page-hello{
+font-size:16px;
+color:#ff69b4;
+font-weight:bold;
+margin-bottom:4px;
+min-height:20px;
+}
+
 h1{
 font-size:30px;
 color:#ff69b4;
