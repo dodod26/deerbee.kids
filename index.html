@@ -127,7 +127,9 @@ cursor:pointer;
 <p>di DeerBee Kids Club</p>
 <p class="ask-label">Siapa nama kamu? 😊</p>
 <input type="text" id="nameInput" placeholder="Tulis nama di sini..." maxlength="20">
+<p id="nameError" style="display:none;color:#ff4d4d;font-size:13px;margin:-6px 0 10px;">Isi nama dulu ya 😊</p>
 <button onclick="submitName()">Mulai Main 🎉</button>
+<p onclick="skipName()" style="text-align:center;color:#aaa;font-size:13px;margin-top:12px;text-decoration:underline;cursor:pointer;">Lewati ⏭️</p>
 </div>
 
 <div id="welcomeGreet" style="display:none;">
@@ -155,7 +157,6 @@ cursor:pointer;
 </center>
 <h1>DeerBee Kids Club</h1>
 <p class="main-greeting" id="mainGreeting"></p>
-<span class="change-name" id="changeNameBtn" onclick="changeName()" style="display:none;">✏️ Ganti nama</span>
 <p class="subtitle">
 🌈 Belajar sambil bermain jadi makin seru!
 </p>
@@ -187,6 +188,7 @@ cursor:pointer;
 <span>|</span>
 <a class="social" href="https://s.shopee.co.id/8fQON5OFGt" target="_blank">🛍️ Shopee</a>
 </p>
+<p id="changeNameBtn" onclick="changeName()" style="display:none;position:static;text-align:center;color:#888;font-size:14px;text-decoration:underline;cursor:pointer;margin-top:10px;">✏️ Ganti nama</p>
 </div>
 </div>
 
@@ -206,12 +208,24 @@ function hideWelcome(){
 
 function showMainGreeting(name){
   mainGreeting.textContent = '👋 Halo, ' + name + '! Yuk main sambil belajar~';
-  document.getElementById('changeNameBtn').style.display = 'inline-block';
+  document.getElementById('changeNameBtn').style.display = 'block';
 }
 
 function submitName(){
-  const val  = document.getElementById('nameInput').value.trim();
-  const name = val || 'Teman';
+  const val = document.getElementById('nameInput').value.trim();
+  if(!val){
+    document.getElementById('nameError').style.display = 'block';
+    return;
+  }
+  document.getElementById('nameError').style.display = 'none';
+  finishWelcome(val);
+}
+
+function skipName(){
+  finishWelcome('Teman');
+}
+
+function finishWelcome(name){
   localStorage.setItem('deerbee_name', name);
   showMainGreeting(name);
   askBox.style.display  = 'none';
