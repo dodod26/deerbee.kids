@@ -62,8 +62,6 @@ audio.play().then(onPlaySuccess).catch(()=>{});
 // Coba autoplay duluan saat halaman dibuka (berhasil di sebagian browser)
 window.addEventListener('load', startMusic);
 
-// Kalau autoplay diblokir, musik tetap mulai begitu ada klik pertama
-document.addEventListener('click', startMusic, { once:true });
 </script>
 </body>
 </html>
