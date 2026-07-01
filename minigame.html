@@ -51,17 +51,20 @@ audio.play().then(onPlaySuccess).catch(()=>{});
 }
 
 function toggleMusic(){
-if(playing){
-audio.pause();
-btn.textContent = '🔇';
-btn.style.animation = 'musicBounce 1.4s ease-in-out infinite';
-playing = false;
-}else{
-audio.play().then(onPlaySuccess).catch(()=>{});
+  if(playing){
+    audio.pause();
+    btn.textContent = '🔇';
+    btn.style.animation = 'musicBounce 1.4s ease-in-out infinite';
+    playing = false;
+    localStorage.setItem('deerbee_music', 'off');
+  }else{
+    audio.play().then(onPlaySuccess).catch(()=>{});
+    localStorage.setItem('deerbee_music', 'on');
+  }
 }
+ if(localStorage.getItem('deerbee_music') !== 'off'){
+  startMusic();
 }
-  window.addEventListener('load', startMusic);
-
 </script>
 </body>
 </html>
