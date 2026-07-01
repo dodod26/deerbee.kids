@@ -165,9 +165,13 @@ const mainGreeting = document.getElementById('mainGreeting');
 
 function hideWelcomeSoon(delay){
 setTimeout(()=>{
-welcomeEl.style.transition = 'opacity .8s';
+welcomeEl.style.transition = 'opacity .8s ease';
 welcomeEl.style.opacity = '0';
-setTimeout(()=>{ welcomeEl.style.visibility = 'hidden'; }, 800);
+setTimeout(()=>{
+welcomeEl.style.display = 'none';
+welcomeEl.style.visibility = 'hidden';
+welcomeEl.style.pointerEvents = 'none';
+}, 850);
 }, delay);
 }
 
@@ -178,16 +182,21 @@ document.getElementById('changeNameBtn').style.display = 'inline-block';
 
 const savedName = localStorage.getItem('deerbee_name');
 
+// Matikan dulu animasi CSS bawaan welcome (kita handle manual)
+welcomeEl.style.animation = 'none';
+welcomeEl.style.opacity = '1';
+welcomeEl.style.visibility = 'visible';
+
 if(savedName){
 askBox.style.display = 'none';
 greetBox.style.display = 'block';
 document.getElementById('greetName').textContent = savedName;
 showMainGreeting(savedName);
-hideWelcomeSoon(2200);
+// Popup hilang setelah 2.5 detik
+hideWelcomeSoon(2500);
 }else{
 askBox.style.display = 'block';
 greetBox.style.display = 'none';
-welcomeEl.style.animation = 'none';
 welcomeEl.style.pointerEvents = 'auto';
 }
 
@@ -200,6 +209,11 @@ askBox.style.display = 'none';
 greetBox.style.display = 'block';
 document.getElementById('greetName').textContent = name;
 showMainGreeting(name);
+
+// Coba mulai musik saat submit (ada interaksi user)
+startMusic();
+
+// Popup hilang 1.5 detik setelah submit
 hideWelcomeSoon(1500);
 }
 
@@ -271,10 +285,7 @@ audio.play().then(onPlaySuccess).catch(()=>{});
 }
 }
 
-// Coba autoplay duluan saat halaman dibuka (berhasil di sebagian browser)
-window.addEventListener('load', startMusic);
-
-// Kalau autoplay diblokir, musik tetap mulai begitu ada klik pertama
+// Musik mulai saat ada klik pertama di mana saja
 document.addEventListener('click', startMusic, { once:true });
 </script>
 
