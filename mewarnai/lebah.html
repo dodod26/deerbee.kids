@@ -5,6 +5,7 @@
 <title>Mewarnai Lebah - DeerBee</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/coloring.css">
+<script src="../js/shared.js"></script>
 </head>
 <body>
 
@@ -59,9 +60,15 @@
 </div>
 
 <div class="action-buttons">
-<button id="btnUndo" onclick="undoLast()" title="Undo">↩️</button>
-<button id="btnReset" onclick="resetImage()" title="Ulangi">🔄</button>
-<button id="btnDone" onclick="celebrate()" title="Selesai">🎉</button>
+<button id="btnUndo" onclick="undoLast()" title="Undo">
+<span class="btn-ico">↩️</span>Undo
+</button>
+<button id="btnReset" onclick="resetImage()" title="Ulangi">
+<span class="btn-ico">🔄</span>Ulangi
+</button>
+<button id="btnDone" onclick="onDone()" title="Selesai">
+<span class="btn-ico">🎉</span>Selesai
+</button>
 </div>
 
 <a class="btn-back" href="../mewarnai.html">⬅ Kembali</a>
@@ -265,6 +272,14 @@ canvas.style.width = (canvasBaseDisplayWidth * zoomSteps[zoomIndex]) + 'px';
 function zoomOut(){
 if(zoomIndex > 0) zoomIndex--;
 canvas.style.width = (canvasBaseDisplayWidth * zoomSteps[zoomIndex]) + 'px';
+}
+
+
+function onDone(){
+Sound.finish();
+burstConfetti();
+const newBadge = Badge.onMewarnaiDone();
+if(newBadge) setTimeout(()=> showBadgeToast(newBadge), 800);
 }
 
 function celebrate(){
