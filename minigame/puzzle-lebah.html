@@ -5,6 +5,7 @@
 <title>Puzzle DeerBee</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/coloring.css">
+<script src="../js/shared.js"></script>
 <style>
 .puzzle-wrap{
 max-width:460px;
@@ -493,6 +494,9 @@ const total = gridSize*gridSize;
 if(placedCount === total){
 document.getElementById('statusMsg').textContent = "🎉 Selesai! Pintar sekali!";
 burstConfetti();
+Sound.finish();
+const nb = Badge.onPuzzleDone();
+if(nb) setTimeout(()=>showBadgeToast(nb), 800);
 }
 }else{
 piece.style.width = slotSize+'px';
