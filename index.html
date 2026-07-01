@@ -320,6 +320,15 @@ function toggleMusic(){
   }
 }
 
+// ====== FIX: popup nyangkut pas balik dari halaman lain (bfcache) ======
+window.addEventListener('pageshow', function(e){
+  if(e.persisted && localStorage.getItem('deerbee_name')){
+    welcomeEl.style.transition = 'none';
+    welcomeEl.style.opacity    = '0';
+    welcomeEl.style.display    = 'none';
+  }
+});
+
 </script>
 </body>
 </html>
