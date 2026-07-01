@@ -6,6 +6,17 @@
 <link rel="stylesheet" href="css/pages.css">
 </head>
 <body>
+
+<p class="page-hello" id="pageHello"></p>
+<script>
+(function(){
+const n = localStorage.getItem('deerbee_name');
+if(n){
+const el = document.getElementById('pageHello');
+if(el) el.textContent = '👋 Halo, ' + n + '!';
+}
+})();
+</script>
 <h1>📚 Cerita Anak DeerBee</h1>
 <p class="page-subtitle">Pilih cerita yang ingin dibaca</p>
 
