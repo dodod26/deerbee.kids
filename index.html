@@ -96,11 +96,6 @@ filter:grayscale(1);
 .badge-item .b-name{font-size:11px;font-weight:700;color:#555;text-align:center;line-height:1.3;}
 .badge-item .b-desc{font-size:10px;color:#aaa;text-align:center;line-height:1.3;}
 
-.badge-item.new-earned{
-border-color:#ffb347;
-animation:badgePop .5s ease;
-}
-
 @keyframes badgePop{
 0%{transform:scale(0.8);} 60%{transform:scale(1.1);} 100%{transform:scale(1);}
 }
@@ -119,18 +114,18 @@ font-family:'Baloo 2',cursive;
 cursor:pointer;
 }
 </style>
-  
 </head>
 <body>
-<div id="welcome">
-<div class="welcome-box">
 
+<!-- WELCOME POPUP -->
+<div id="welcome" style="display:none;">
+<div class="welcome-box">
 <img src="assets/logo/logo.png" width="120" class="logo">
 
 <div id="welcomeAsk">
 <h2>Selamat Datang!</h2>
 <p>di DeerBee Kids Club</p>
-<p class="ask-label">Siapa nama adik? 😊</p>
+<p class="ask-label">Siapa nama kamu? 😊</p>
 <input type="text" id="nameInput" placeholder="Tulis nama di sini..." maxlength="20">
 <button onclick="submitName()">Mulai Main 🎉</button>
 </div>
@@ -140,160 +135,23 @@ cursor:pointer;
 <p>Selamat datang kembali di DeerBee Kids Club</p>
 <p>🎁 Bonus Eksklusif untuk pelanggan DeerBee</p>
 </div>
+</div>
+</div>
 
-</div>
-</div>
-  <!-- ===================== -->
 <!-- AWAN -->
-<!-- ===================== -->
 <div class="cloud cloud1"></div>
 <div class="cloud cloud2"></div>
 <div class="cloud cloud3"></div>
 <img src="assets/logo/bee.png" class="bee">
 
-<!-- ===================== -->
-<!-- MUSIK BACKGROUND -->
-<!-- ===================== -->
+<!-- MUSIK -->
 <audio id="bgMusic" src="assets/musik/bgm.mp3" loop></audio>
 <button id="musicToggle" onclick="toggleMusic()">🔇</button>
 
-<script>
-const welcomeEl = document.getElementById('welcome');
-const askBox = document.getElementById('welcomeAsk');
-const greetBox = document.getElementById('welcomeGreet');
-const mainGreeting = document.getElementById('mainGreeting');
-
-function hideWelcomeSoon(delay){
-setTimeout(()=>{
-welcomeEl.style.transition = 'opacity .8s ease';
-welcomeEl.style.opacity = '0';
-setTimeout(()=>{
-welcomeEl.style.display = 'none';
-welcomeEl.style.visibility = 'hidden';
-welcomeEl.style.pointerEvents = 'none';
-}, 850);
-}, delay);
-}
-
-function showMainGreeting(name){
-mainGreeting.textContent = '👋 Halo, ' + name + '! Yuk main sambil belajar~';
-document.getElementById('changeNameBtn').style.display = 'inline-block';
-}
-
-const savedName = localStorage.getItem('deerbee_name');
-
-// Matikan dulu animasi CSS bawaan welcome (kita handle manual)
-welcomeEl.style.animation = 'none';
-welcomeEl.style.opacity = '1';
-welcomeEl.style.visibility = 'visible';
-
-if(savedName){
-askBox.style.display = 'none';
-greetBox.style.display = 'block';
-document.getElementById('greetName').textContent = savedName;
-showMainGreeting(savedName);
-// Popup hilang setelah 2.5 detik
-hideWelcomeSoon(2500);
-}else{
-askBox.style.display = 'block';
-greetBox.style.display = 'none';
-welcomeEl.style.pointerEvents = 'auto';
-}
-
-function submitName(){
-const val = document.getElementById('nameInput').value.trim();
-const name = val || 'Teman';
-localStorage.setItem('deerbee_name', name);
-
-askBox.style.display = 'none';
-greetBox.style.display = 'block';
-document.getElementById('greetName').textContent = name;
-showMainGreeting(name);
-
-// Coba mulai musik saat submit (ada interaksi user)
-startMusic();
-
-// Popup hilang 1.5 detik setelah submit
-hideWelcomeSoon(1500);
-}
-
-document.getElementById('nameInput').addEventListener('keydown', (e)=>{
-if(e.key === 'Enter') submitName();
-});
-
-function changeName(){
-localStorage.removeItem('deerbee_name');
-location.reload();
-}
-
-function openBadges(){
-const grid = document.getElementById('badgeGrid');
-grid.innerHTML = '';
-const all = Badge.getAll();
-let earned = 0;
-all.forEach(b=>{
-const has = Badge.hasEarned(b.id);
-if(has) earned++;
-const el = document.createElement('div');
-el.className = 'badge-item' + (has ? ' earned' : ' locked');
-el.innerHTML = `
-<span class="b-ico">${b.emoji}</span>
-<span class="b-name">${b.name}</span>
-<span class="b-desc">${b.desc}</span>
-`;
-grid.appendChild(el);
-});
-document.getElementById('badgeSubtitle').textContent =
-earned === all.length
-? '🏆 Kamu sudah kumpulkan semua stiker!'
-: `Sudah dapat ${earned} dari ${all.length} stiker`;
-document.getElementById('badgeOverlay').style.display = 'flex';
-}
-
-function closeBadges(e){
-if(e.target === document.getElementById('badgeOverlay')) closeBadgesBtn();
-}
-
-function closeBadgesBtn(){
-document.getElementById('badgeOverlay').style.display = 'none';
-}
-
-const audio = document.getElementById('bgMusic');
-const btn = document.getElementById('musicToggle');
-let playing = false;
-
-function onPlaySuccess(){
-btn.textContent = '🎵';
-btn.style.animation = 'none';
-playing = true;
-}
-
-function startMusic(){
-if(!playing){
-audio.play().then(onPlaySuccess).catch(()=>{});
-}
-}
-
-function toggleMusic(){
-if(playing){
-audio.pause();
-btn.textContent = '🔇';
-btn.style.animation = 'musicBounce 1.4s ease-in-out infinite';
-playing = false;
-}else{
-audio.play().then(onPlaySuccess).catch(()=>{});
-}
-}
-
-// Musik mulai saat ada klik pertama di mana saja
-document.addEventListener('click', startMusic, { once:true });
-</script>
-
+<!-- KONTEN UTAMA -->
 <div class="container">
-  <center>
-<img class="logo"
-src="assets/logo/logo.png"
-width="180">
+<center>
+<img class="logo" src="assets/logo/logo.png" width="180">
 </center>
 <h1>DeerBee Kids Club</h1>
 <p class="main-greeting" id="mainGreeting"></p>
@@ -304,20 +162,12 @@ width="180">
 <p class="features">
 📚 Cerita Lucu • 🎨 Mewarnai • 🎵 Musik • 🎮 Game
 </p>
-  
-<a class="menu" href="mewarnai.html">
-🎨 Mewarnai
-</a>
-<a class="menu" href="cerita.html">
-📖 Cerita Anak
-</a>
-<a class="menu" href="minigame.html">
-🧩 Mini Game
-</a>
 
-<button class="badge-btn" onclick="openBadges()">
-✨ Koleksi Stiker
-</button>
+<a class="menu" href="mewarnai.html">🎨 Mewarnai</a>
+<a class="menu" href="cerita.html">📖 Cerita Anak</a>
+<a class="menu" href="minigame.html">🧩 Mini Game</a>
+
+<button class="badge-btn" onclick="openBadges()">✨ Koleksi Stiker</button>
 
 <!-- Badge Overlay -->
 <div class="badge-overlay" id="badgeOverlay" style="display:none;" onclick="closeBadges(event)">
@@ -328,28 +178,134 @@ width="180">
 <button class="close-badge" onclick="closeBadgesBtn()">Tutup</button>
 </div>
 </div>
+
 <div class="footer">
 <hr>
-<p>
-© DeerBee Kids Club
-<br>
-Dibuat khusus untuk pelanggan DeerBee
-</p>
+<p>© DeerBee Kids Club<br>Dibuat khusus untuk pelanggan DeerBee</p>
 <p class="footer-links">
-<a class="social"
-href="https://www.instagram.com/deerbee.kids/"
-target="_blank">
-📸 Instagram
-</a>
+<a class="social" href="https://www.instagram.com/deerbee.kids/" target="_blank">📸 Instagram</a>
 <span>|</span>
-<a class="social"
-href="https://s.shopee.co.id/8fQON5OFGt"
-target="_blank">
-🛍️ Shopee
-</a>
+<a class="social" href="https://s.shopee.co.id/8fQON5OFGt" target="_blank">🛍️ Shopee</a>
 </p>
-<button class="btn-change-name" onclick="changeName()">✏️ Ganti nama</button>
 </div>
 </div>
+
+<!-- SCRIPT — di sini, SETELAH semua elemen ada di DOM -->
+<script>
+// ====== WELCOME ======
+const welcomeEl  = document.getElementById('welcome');
+const askBox     = document.getElementById('welcomeAsk');
+const greetBox   = document.getElementById('welcomeGreet');
+const mainGreeting = document.getElementById('mainGreeting'); // sudah ada karena script di bawah
+
+function hideWelcome(){
+  welcomeEl.style.transition = 'opacity .6s ease';
+  welcomeEl.style.opacity = '0';
+  setTimeout(()=>{ welcomeEl.style.display = 'none'; }, 650);
+}
+
+function showMainGreeting(name){
+  mainGreeting.textContent = '👋 Halo, ' + name + '! Yuk main sambil belajar~';
+  document.getElementById('changeNameBtn').style.display = 'inline-block';
+}
+
+function submitName(){
+  const val  = document.getElementById('nameInput').value.trim();
+  const name = val || 'Teman';
+  localStorage.setItem('deerbee_name', name);
+  showMainGreeting(name);
+  askBox.style.display  = 'none';
+  greetBox.style.display = 'block';
+  document.getElementById('greetName').textContent = name;
+  startMusic();
+  setTimeout(hideWelcome, 1500);
+}
+
+document.getElementById('nameInput').addEventListener('keydown', (e)=>{
+  if(e.key === 'Enter') submitName();
+});
+
+function changeName(){
+  localStorage.removeItem('deerbee_name');
+  location.reload();
+}
+
+// Tampilkan welcome setelah semua elemen siap
+const savedName = localStorage.getItem('deerbee_name');
+welcomeEl.style.display = 'flex';
+welcomeEl.style.opacity  = '1';
+
+if(savedName){
+  askBox.style.display   = 'none';
+  greetBox.style.display = 'block';
+  document.getElementById('greetName').textContent = savedName;
+  showMainGreeting(savedName);
+  setTimeout(hideWelcome, 2500);
+} else {
+  askBox.style.display   = 'block';
+  greetBox.style.display = 'none';
+}
+
+// ====== BADGE ======
+function openBadges(){
+  const grid = document.getElementById('badgeGrid');
+  grid.innerHTML = '';
+  const all = Badge.getAll();
+  let earned = 0;
+  all.forEach(b=>{
+    const has = Badge.hasEarned(b.id);
+    if(has) earned++;
+    const el = document.createElement('div');
+    el.className = 'badge-item ' + (has ? 'earned' : 'locked');
+    el.innerHTML = `
+      <span class="b-ico">${b.emoji}</span>
+      <span class="b-name">${b.name}</span>
+      <span class="b-desc">${b.desc}</span>
+    `;
+    grid.appendChild(el);
+  });
+  document.getElementById('badgeSubtitle').textContent =
+    earned === all.length
+      ? '🏆 Kamu sudah kumpulkan semua stiker!'
+      : `Sudah dapat ${earned} dari ${all.length} stiker`;
+  document.getElementById('badgeOverlay').style.display = 'flex';
+}
+
+function closeBadges(e){
+  if(e.target === document.getElementById('badgeOverlay')) closeBadgesBtn();
+}
+
+function closeBadgesBtn(){
+  document.getElementById('badgeOverlay').style.display = 'none';
+}
+
+// ====== MUSIK ======
+const audio  = document.getElementById('bgMusic');
+const btn    = document.getElementById('musicToggle');
+let playing  = false;
+
+function onPlaySuccess(){
+  btn.textContent    = '🎵';
+  btn.style.animation = 'none';
+  playing = true;
+}
+
+function startMusic(){
+  if(!playing) audio.play().then(onPlaySuccess).catch(()=>{});
+}
+
+function toggleMusic(){
+  if(playing){
+    audio.pause();
+    btn.textContent    = '🔇';
+    btn.style.animation = 'musicBounce 1.4s ease-in-out infinite';
+    playing = false;
+  } else {
+    audio.play().then(onPlaySuccess).catch(()=>{});
+  }
+}
+
+document.addEventListener('click', startMusic, { once:true });
+</script>
 </body>
 </html>
