@@ -49,19 +49,21 @@ audio.play().then(onPlaySuccess).catch(()=>{});
 }
 
 function toggleMusic(){
-if(playing){
-audio.pause();
-btn.textContent = '🔇';
-btn.style.animation = 'musicBounce 1.4s ease-in-out infinite';
-playing = false;
-}else{
-audio.play().then(onPlaySuccess).catch(()=>{});
-}
+  if(playing){
+    audio.pause();
+    btn.textContent = '🔇';
+    btn.style.animation = 'musicBounce 1.4s ease-in-out infinite';
+    playing = false;
+    localStorage.setItem('deerbee_music', 'off');
+  }else{
+    audio.play().then(onPlaySuccess).catch(()=>{});
+    localStorage.setItem('deerbee_music', 'on');
+  }
 }
 
-// Coba autoplay duluan saat halaman dibuka (berhasil di sebagian browser)
-window.addEventListener('load', startMusic);
-
+if(localStorage.getItem('deerbee_music') !== 'off'){
+  startMusic();
+}
 </script>
 </body>
 </html>
