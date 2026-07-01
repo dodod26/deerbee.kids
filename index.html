@@ -161,7 +161,7 @@ cursor:pointer;
 🌈 Belajar sambil bermain jadi makin seru!
 </p>
 <p class="features">
-📚 Cerita Lucu • 🎨 Mewarnai • 🎵 Musik • 🎮 Game
+📚 Cerita Lucu • 🎨 Mewarnai • 🎮 Game
 </p>
 
 <a class="menu" href="mewarnai.html">🎨 Mewarnai</a>
@@ -254,6 +254,7 @@ if(savedName){
   greetBox.style.display = 'block';
   document.getElementById('greetName').textContent = savedName;
   showMainGreeting(savedName);
+  startMusic();
   setTimeout(hideWelcome, 2500);
 } else {
   askBox.style.display   = 'block';
