@@ -5,6 +5,7 @@
 <title>Dunia Warna - DeerBee</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/coloring.css">
+<script src="../js/shared.js"></script>
 <style>
 .game-wrap{
 max-width:460px;
@@ -413,7 +414,9 @@ fb.textContent = praiseWords[Math.floor(Math.random()*praiseWords.length)];
 fb.style.color = "#2ecc71";
 boxEl.classList.add('correct-pulse');
 burstConfetti();
-
+Sound.correct();
+const nb = Badge.onTebakBenar();
+if(nb) setTimeout(()=>showBadgeToast(nb), 600);
 setTimeout(newRoundTebak, 1100);
 }else{
 streak = 0;
@@ -495,8 +498,12 @@ lockBoard = false;
 if(matchCount === 6){
 document.getElementById('cocokFeedback').textContent = "🎉 Semua cocok! Pintar sekali!";
 burstConfetti();
+Sound.finish();
+const nb2 = Badge.onMemoryDone();
+if(nb2) setTimeout(()=>showBadgeToast(nb2), 800);
 }else{
 document.getElementById('cocokFeedback').textContent = praiseWords[Math.floor(Math.random()*praiseWords.length)];
+Sound.correct();
 }
 }, 500);
 }else{
