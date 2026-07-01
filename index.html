@@ -10,12 +10,23 @@
 <body>
 <div id="welcome">
 <div class="welcome-box">
+
 <img src="assets/logo/logo.png" width="120" class="logo">
-<h2>
-Selamat Datang!
-</h2>
+
+<div id="welcomeAsk">
+<h2>Selamat Datang!</h2>
 <p>di DeerBee Kids Club</p>
+<p class="ask-label">Siapa nama adik? 😊</p>
+<input type="text" id="nameInput" placeholder="Tulis nama di sini..." maxlength="20">
+<button onclick="submitName()">Mulai Main 🎉</button>
+</div>
+
+<div id="welcomeGreet" style="display:none;">
+<h2>Halo, <span id="greetName">Teman</span>! 👋</h2>
+<p>Selamat datang kembali di DeerBee Kids Club</p>
 <p>🎁 Bonus Eksklusif untuk pelanggan DeerBee</p>
+</div>
+
 </div>
 </div>
   <!-- ===================== -->
@@ -33,6 +44,60 @@ Selamat Datang!
 <button id="musicToggle" onclick="toggleMusic()">🔇</button>
 
 <script>
+const welcomeEl = document.getElementById('welcome');
+const askBox = document.getElementById('welcomeAsk');
+const greetBox = document.getElementById('welcomeGreet');
+const mainGreeting = document.getElementById('mainGreeting');
+
+function hideWelcomeSoon(delay){
+setTimeout(()=>{
+welcomeEl.style.transition = 'opacity .8s';
+welcomeEl.style.opacity = '0';
+setTimeout(()=>{ welcomeEl.style.visibility = 'hidden'; }, 800);
+}, delay);
+}
+
+function showMainGreeting(name){
+mainGreeting.textContent = '👋 Halo, ' + name + '! Yuk main sambil belajar~';
+document.getElementById('changeNameBtn').style.display = 'inline-block';
+}
+
+const savedName = localStorage.getItem('deerbee_name');
+
+if(savedName){
+askBox.style.display = 'none';
+greetBox.style.display = 'block';
+document.getElementById('greetName').textContent = savedName;
+showMainGreeting(savedName);
+hideWelcomeSoon(2200);
+}else{
+askBox.style.display = 'block';
+greetBox.style.display = 'none';
+welcomeEl.style.animation = 'none';
+welcomeEl.style.pointerEvents = 'auto';
+}
+
+function submitName(){
+const val = document.getElementById('nameInput').value.trim();
+const name = val || 'Teman';
+localStorage.setItem('deerbee_name', name);
+
+askBox.style.display = 'none';
+greetBox.style.display = 'block';
+document.getElementById('greetName').textContent = name;
+showMainGreeting(name);
+hideWelcomeSoon(1500);
+}
+
+document.getElementById('nameInput').addEventListener('keydown', (e)=>{
+if(e.key === 'Enter') submitName();
+});
+
+function changeName(){
+localStorage.removeItem('deerbee_name');
+location.reload();
+}
+
 const audio = document.getElementById('bgMusic');
 const btn = document.getElementById('musicToggle');
 let playing = false;
@@ -74,11 +139,13 @@ src="assets/logo/logo.png"
 width="180">
 </center>
 <h1>DeerBee Kids Club</h1>
+<p class="main-greeting" id="mainGreeting"></p>
+<span class="change-name" id="changeNameBtn" onclick="changeName()" style="display:none;">✏️ Ganti nama</span>
 <p class="subtitle">
 🌈 Belajar sambil bermain jadi makin seru!
 </p>
 <p class="features">
-📚 Cerita Lucu • 🎨 Mewarnai • 🎮 Game
+📚 Cerita Lucu • 🎨 Mewarnai • 🎵 Musik • 🎮 Game
 </p>
   
 <a class="menu" href="mewarnai.html">
@@ -110,6 +177,7 @@ target="_blank">
 🛍️ Shopee
 </a>
 </p>
+<button class="btn-change-name" onclick="changeName()">✏️ Ganti nama</button>
 </div>
 </div>
 </body>
