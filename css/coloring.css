@@ -172,45 +172,51 @@ box-shadow:0 0 0 3px rgba(255,105,180,.3), 0 3px 8px rgba(0,0,0,.18);
 .action-buttons{
 display:flex;
 justify-content:center;
-gap:16px;
+gap:14px;
 margin-bottom:20px;
 position:relative;
 z-index:1;
+flex-wrap:wrap;
 }
 
 .action-buttons button{
-width:58px;
-height:58px;
-border:none;
-border-radius:50%;
-color:white;
-font-size:22px;
-cursor:pointer;
-transition:.2s;
-box-shadow:0 4px 10px rgba(0,0,0,.2);
 display:flex;
+flex-direction:column;
 align-items:center;
-justify-content:center;
-}
-
-.action-buttons button:hover{
-transform:translateY(-3px) scale(1.05);
+gap:4px;
+width:72px;
+height:72px;
+border:none;
+border-radius:18px;
+cursor:pointer;
+font-family:'Baloo 2','Arial',sans-serif;
+font-size:10px;
+font-weight:700;
+transition:.15s;
 }
 
 .action-buttons button:active{
-transform:scale(0.95);
+transform:scale(0.93);
+}
+
+.action-buttons button .btn-ico{
+font-size:28px;
+line-height:1;
 }
 
 #btnUndo{
-background:linear-gradient(160deg,#7ec8f2,#4fa8e0);
+background:#dceffe;
+color:#0c447c;
 }
 
 #btnReset{
-background:linear-gradient(160deg,#ff8f8f,#ff5c5c);
+background:#fde8e8;
+color:#a32d2d;
 }
 
 #btnDone{
-background:linear-gradient(160deg,#caa6ff,#a974f5);
+background:#e8f5e9;
+color:#27500a;
 }
 
 .btn-back{
