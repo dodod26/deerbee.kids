@@ -231,6 +231,7 @@ function finishWelcome(name){
   askBox.style.display  = 'none';
   greetBox.style.display = 'block';
   document.getElementById('greetName').textContent = name;
+  startMusic();
   setTimeout(hideWelcome, 1500);
 }
 
