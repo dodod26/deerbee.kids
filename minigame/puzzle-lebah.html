@@ -478,14 +478,19 @@ targetSlot = slot;
 }
 });
 
+// Reset semua inline style dulu
 piece.style.position = '';
 piece.style.left = '';
 piece.style.top = '';
 piece.style.width = slotSize+'px';
 piece.style.height = slotSize+'px';
+piece.style.zIndex = '';
 
 if(targetSlot && parseInt(targetSlot.dataset.slot) === parseInt(piece.dataset.piece)){
+// Cocok — pasang ke slot
 targetSlot.appendChild(piece);
+piece.style.width = '100%';
+piece.style.height = '100%';
 piece.classList.add('placed');
 targetSlot.classList.add('filled');
 placedCount++;
@@ -499,12 +504,16 @@ const nb = Badge.onPuzzleDone();
 if(nb) setTimeout(()=>showBadgeToast(nb), 800);
 }
 }else{
+// Tidak cocok — kembalikan ke tray
 piece.style.width = slotSize+'px';
 piece.style.height = slotSize+'px';
-if(originalNextSibling){
+// Pastikan piece benar-benar ke originalParent (tray), bukan tertinggal di body
+if(piece.parentElement !== originalParent){
+if(originalNextSibling && originalNextSibling.parentElement === originalParent){
 originalParent.insertBefore(piece, originalNextSibling);
 }else{
 originalParent.appendChild(piece);
+}
 }
 }
 }
