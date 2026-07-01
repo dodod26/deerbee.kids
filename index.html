@@ -231,7 +231,6 @@ function finishWelcome(name){
   askBox.style.display  = 'none';
   greetBox.style.display = 'block';
   document.getElementById('greetName').textContent = name;
-  startMusic();
   setTimeout(hideWelcome, 1500);
 }
 
@@ -265,9 +264,16 @@ function toggleMusic(){
     btn.textContent    = '🔇';
     btn.style.animation = 'musicBounce 1.4s ease-in-out infinite';
     playing = false;
+    localStorage.setItem('deerbee_music', 'off');
   } else {
     audio.play().then(onPlaySuccess).catch(()=>{});
+    localStorage.setItem('deerbee_music', 'on');
   }
+}
+
+// Auto-nyala kalau user belum pernah matiin musik secara manual
+if(localStorage.getItem('deerbee_music') !== 'off'){
+  startMusic();
 }
 
 // Tampilkan welcome setelah semua elemen siap
@@ -280,7 +286,6 @@ if(savedName){
   greetBox.style.display = 'block';
   document.getElementById('greetName').textContent = savedName;
   showMainGreeting(savedName);
-  startMusic();
   setTimeout(hideWelcome, 2500);
 } else {
   askBox.style.display   = 'block';
