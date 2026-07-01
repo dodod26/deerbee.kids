@@ -244,6 +244,32 @@ function changeName(){
   location.reload();
 }
 
+// ====== MUSIK (dipindah ke atas, harus siap sebelum WELCOME manggil startMusic) ======
+const audio  = document.getElementById('bgMusic');
+const btn    = document.getElementById('musicToggle');
+let playing  = false;
+
+function onPlaySuccess(){
+  btn.textContent    = '🎵';
+  btn.style.animation = 'none';
+  playing = true;
+}
+
+function startMusic(){
+  if(!playing) audio.play().then(onPlaySuccess).catch(()=>{});
+}
+
+function toggleMusic(){
+  if(playing){
+    audio.pause();
+    btn.textContent    = '🔇';
+    btn.style.animation = 'musicBounce 1.4s ease-in-out infinite';
+    playing = false;
+  } else {
+    audio.play().then(onPlaySuccess).catch(()=>{});
+  }
+}
+
 // Tampilkan welcome setelah semua elemen siap
 const savedName = localStorage.getItem('deerbee_name');
 welcomeEl.style.display = 'flex';
@@ -292,32 +318,6 @@ function closeBadges(e){
 
 function closeBadgesBtn(){
   document.getElementById('badgeOverlay').style.display = 'none';
-}
-
-// ====== MUSIK ======
-const audio  = document.getElementById('bgMusic');
-const btn    = document.getElementById('musicToggle');
-let playing  = false;
-
-function onPlaySuccess(){
-  btn.textContent    = '🎵';
-  btn.style.animation = 'none';
-  playing = true;
-}
-
-function startMusic(){
-  if(!playing) audio.play().then(onPlaySuccess).catch(()=>{});
-}
-
-function toggleMusic(){
-  if(playing){
-    audio.pause();
-    btn.textContent    = '🔇';
-    btn.style.animation = 'musicBounce 1.4s ease-in-out infinite';
-    playing = false;
-  } else {
-    audio.play().then(onPlaySuccess).catch(()=>{});
-  }
 }
 
 // ====== FIX: popup nyangkut pas balik dari halaman lain (bfcache) ======
