@@ -172,6 +172,7 @@ box-shadow:0 0 0 3px rgba(255,105,180,.3), 0 3px 8px rgba(0,0,0,.18);
 .action-buttons{
 display:flex;
 justify-content:center;
+align-items:flex-start;
 gap:14px;
 margin-bottom:20px;
 position:relative;
@@ -183,6 +184,7 @@ flex-wrap:wrap;
 display:flex;
 flex-direction:column;
 align-items:center;
+justify-content:center;
 gap:4px;
 width:72px;
 height:72px;
@@ -192,7 +194,9 @@ cursor:pointer;
 font-family:'Baloo 2','Arial',sans-serif;
 font-size:10px;
 font-weight:700;
+line-height:1;
 transition:.15s;
+padding:0;
 }
 
 .action-buttons button:active{
@@ -202,33 +206,25 @@ transform:scale(0.93);
 .action-buttons button .btn-ico{
 font-size:28px;
 line-height:1;
+display:block;
 }
 
-#btnUndo{
-background:#dceffe;
-color:#0c447c;
-}
-
-#btnReset{
-background:#fde8e8;
-color:#a32d2d;
-}
-
-#btnDone{
-background:#e8f5e9;
-color:#27500a;
-}
+#btnUndo{ background:#dceffe; color:#0c447c; }
+#btnReset{ background:#fde8e8; color:#a32d2d; }
+#btnDone{ background:#e8f5e9; color:#27500a; }
 
 .btn-back{
-display:inline-block;
+display:block;
+width:fit-content;
+margin:4px auto 18px;
 padding:12px 25px;
 background:white;
 color:#ff69b4;
 border:2px solid #ff69b4;
 text-decoration:none;
-border-radius:10px;
-margin-top:5px;
+border-radius:14px;
 font-weight:bold;
+font-family:'Baloo 2','Arial',sans-serif;
 transition:.25s;
 position:relative;
 z-index:1;
