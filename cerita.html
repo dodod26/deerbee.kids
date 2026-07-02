@@ -4,10 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cerita Anak DeerBee</title>
 <link rel="stylesheet" href="css/pages.css">
-<link rel="icon" type="image/png" href="assets/logo/favicon.png">
 </head>
 <body>
-
+ 
 <p class="page-hello" id="pageHello"></p>
 <script>
 (function(){
@@ -20,29 +19,29 @@ if(el) el.textContent = '👋 Halo, ' + n + '!';
 </script>
 <h1>📚 Cerita Anak DeerBee</h1>
 <p class="page-subtitle">Pilih cerita yang ingin dibaca</p>
-
-<a class="menu" href="stories/beebee-pelangi.html">
-📖 BeeBee dan Pelangi
+ 
+<a class="menu" href="stories/milo-detektif.html">
+📖 Milo Si Kucing Detektif
 </a>
-
+ 
 <a class="btn-back" href="index.html">
 🏠 Kembali ke Beranda
 </a>
-
+ 
 <audio id="bgMusic" src="assets/musik/bgm.mp3" loop></audio>
 <button id="musicToggle" onclick="toggleMusic()">🔇</button>
-
+ 
 <script>
 const audio = document.getElementById('bgMusic');
 const btn = document.getElementById('musicToggle');
 let playing = false;
-
+ 
 function onPlaySuccess(){
 btn.textContent = '🎵';
 btn.style.animation = 'none';
 playing = true;
 }
-
+ 
 function startMusic(){
 if(!playing){
 audio.play().then(onPlaySuccess).catch(()=>{});
