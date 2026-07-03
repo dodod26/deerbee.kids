@@ -409,7 +409,10 @@ dotsEl.appendChild(d);
 function updateUI(){
 document.getElementById('pageIndicator').textContent = (current+1)+'/'+TOTAL;
 document.getElementById('btnPrev').disabled = current === 0;
-document.getElementById('btnNext').disabled = current === TOTAL-1;
+const btnNext = document.getElementById('btnNext');
+btnNext.disabled = false;
+btnNext.textContent = current === TOTAL-1 ? '✨' : '▶';
+btnNext.title = current === TOTAL-1 ? 'Selesai' : 'Halaman berikutnya';
 // dots
 for(let i=0;i<TOTAL;i++){
 const d = document.getElementById('dot-'+i);
@@ -429,7 +432,6 @@ updateUI();
 function nextPage(){
 if(current < TOTAL-1){
 goToPage(current+1);
-if(current === TOTAL-1) setTimeout(showFinish, 600);
 } else {
 showFinish();
 }
