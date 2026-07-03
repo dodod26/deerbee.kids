@@ -98,6 +98,7 @@ const Badge = (function(){
   const ALL_BADGES = [
     { id:'mewarnai1',  emoji:'🎨', name:'Seniman Muda',    desc:'Selesai mewarnai 1 gambar' },
     { id:'mewarnai4',  emoji:'🌈', name:'Raja Pelangi',    desc:'Selesai mewarnai 4 gambar' },
+    { id:'painter',    emoji:'🖌️', name:'Pelukis Cilik',   desc:'Selesai corat-coret bebas' },
     { id:'puzzle1',    emoji:'🧩', name:'Jagoan Puzzle',   desc:'Selesai puzzle sekali' },
     { id:'tebak5',     emoji:'⭐', name:'Bintang Warna',   desc:'Jawab benar 5x Tebak Warna' },
     { id:'memory1',    emoji:'🧠', name:'Master Memory',   desc:'Selesai Cocokkan Warna' },
