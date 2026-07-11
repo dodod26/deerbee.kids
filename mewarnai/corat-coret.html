@@ -52,19 +52,40 @@ padding:8px 14px;
 
 .color-dot{
 flex:0 0 auto;
-width:40px;
-height:40px;
-border-radius:10px;
-border:3px solid white;
-box-shadow:0 3px 8px rgba(0,0,0,.18);
+position:relative;
+width:44px;
+height:44px;
+border-radius:63% 37% 54% 46% / 55% 48% 52% 45%;
+border:2.5px solid rgba(0,0,0,.15);
+box-shadow:
+inset 0 -5px 7px rgba(0,0,0,.22),
+inset 0 3px 5px rgba(255,255,255,.55),
+0 3px 8px rgba(0,0,0,.18);
 cursor:pointer;
-transition:.15s;
+transition:.2s;
+overflow:hidden;
+}
+
+.color-dot::after{
+content:'';
+position:absolute;
+top:14%;
+left:18%;
+width:42%;
+height:32%;
+background:rgba(255,255,255,.55);
+border-radius:50%;
+filter:blur(1.5px);
+pointer-events:none;
 }
 
 .color-dot.selected{
-border-color:#ff69b4;
-transform:scale(1.18);
-box-shadow:0 0 0 3px rgba(255,105,180,.3);
+transform:scale(1.18) rotate(-4deg);
+box-shadow:
+inset 0 -5px 7px rgba(0,0,0,.22),
+inset 0 3px 5px rgba(255,255,255,.55),
+0 0 0 3px rgba(255,105,180,.4),
+0 3px 8px rgba(0,0,0,.18);
 }
 
 /* ===== UKURAN KUAS ===== */
@@ -113,56 +134,68 @@ background:#f0f8ff;
 .action-buttons{
 display:flex;
 justify-content:center;
-gap:14px;
+align-items:center;
+gap:10px;
 margin-bottom:20px;
 flex-wrap:wrap;
 }
 
 .action-buttons button{
+background:none;
+border:none;
+padding:0;
+cursor:pointer;
+line-height:0;
+transition:.15s;
+}
+
+.action-buttons button img{
+width:70px;
+height:auto;
+display:block;
+filter:drop-shadow(0 3px 5px rgba(0,0,0,.15));
+}
+
+.action-buttons button:hover{
+transform:translateY(-2px);
+}
+
+.action-buttons button:active{ transform:scale(0.92); }
+
+/* Simpan belum ada gambar 3D-nya, jadi tetap kartu bulat pastel biar senada */
+#btnSave{
 display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
-gap:4px;
-width:72px;
-height:72px;
-border:none;
+gap:2px;
+width:70px;
+height:70px;
 border-radius:18px;
-cursor:pointer;
+background:#e8f5e9;
+color:#27500a;
 font-family:'Baloo 2','Arial',sans-serif;
 font-size:10px;
 font-weight:700;
-transition:.15s;
-padding:0;
 }
 
-.action-buttons button:active{ transform:scale(0.93); }
-.action-buttons button .btn-ico{ font-size:26px; line-height:1; display:block; }
+#btnSave .btn-ico{ font-size:24px; line-height:1; display:block; }
 
-#btnUndo{ background:#dceffe; color:#0c447c; }
-#btnReset{ background:#fde8e8; color:#a32d2d; }
-#btnSave{ background:#e8f5e9; color:#27500a; }
-#btnDone{ background:#f3effe; color:#3c3489; }
-
-.btn-back{
+.btn-back-icon{
 display:block;
-width:fit-content;
+width:110px;
 margin:0 auto 18px;
-padding:12px 25px;
-background:white;
-color:#ff69b4;
-border:2px solid #ff69b4;
-text-decoration:none;
-border-radius:14px;
-font-weight:bold;
-font-family:'Baloo 2','Arial',sans-serif;
-transition:.25s;
+transition:.2s;
 }
 
-.btn-back:hover{
-background:#ff69b4;
-color:white;
+.btn-back-icon img{
+width:100%;
+display:block;
+filter:drop-shadow(0 4px 6px rgba(0,0,0,.15));
 }
+
+.btn-back-icon:hover{ transform:translateY(-3px); }
+.btn-back-icon:active{ transform:scale(0.95); }
 
 /* Kursor preview */
 #cursorPreview{
@@ -237,20 +270,22 @@ mix-blend-mode:multiply;
 <!-- TOMBOL AKSI -->
 <div class="action-buttons">
 <button id="btnUndo" onclick="undoDraw()">
-<span class="btn-ico">↩️</span>Undo
+<img src="../assets/icons/btn-undo.png" alt="Undo">
 </button>
 <button id="btnReset" onclick="resetCanvas()">
-<span class="btn-ico">🗑️</span>Hapus
+<img src="../assets/icons/btn-reset.png" alt="Hapus">
 </button>
 <button id="btnSave" onclick="saveDrawing()">
 <span class="btn-ico">💾</span>Simpan
 </button>
 <button id="btnDone" onclick="onDone()">
-<span class="btn-ico">🎉</span>Selesai
+<img src="../assets/icons/btn-selesai.png" alt="Selesai">
 </button>
 </div>
 
-<a class="btn-back" href="../mewarnai.html">⬅ Kembali</a>
+<a class="btn-back-icon" href="../mewarnai.html">
+<img src="../assets/icons/btn-back.png" alt="Kembali">
+</a>
 
 </div>
 
