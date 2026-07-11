@@ -431,7 +431,9 @@ d.className = 'dot' + (i===current?' active': i<current?' done':'');
 function goToPage(n){
 const pages = document.querySelectorAll('.page');
 pages.forEach((p,i)=>{
-p.className = 'page ' + (i===n?'active': i<n?'prev':'next');
+const isEnd = p.classList.contains('page-end');
+const pos = i===n?'active': i<n?'prev':'next';
+p.className = 'page ' + pos + (isEnd?' page-end':'');
 });
 current = n;
 updateUI();
