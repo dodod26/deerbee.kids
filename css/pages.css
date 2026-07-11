@@ -65,6 +65,50 @@ transform:translateY(-3px);
 box-shadow:0 8px 18px rgba(0,0,0,.15);
 }
 
+/* ===== Grid 2 kolom khusus halaman mewarnai.html ===== */
+.menu-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+max-width:480px;
+margin:18px auto;
+}
+
+.menu-grid .menu{
+margin:0;
+max-width:none;
+padding:16px 8px;
+font-size:19px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+min-height:70px;
+}
+
+/* ===== Kartu Corat-Coret Bebas, dibuat menonjol & terpisah ===== */
+.menu-freeform{
+max-width:480px;
+margin:24px auto 18px;
+background:linear-gradient(135deg,#fff4c4,#ffd6e8);
+border:3px dashed #ff69b4;
+font-size:22px;
+}
+
+@media(max-width:480px){
+.menu-grid{
+gap:10px;
+}
+.menu-grid .menu{
+font-size:16px;
+padding:14px 6px;
+min-height:60px;
+}
+.menu-freeform{
+font-size:19px;
+}
+}
+
 /* ===== Card (mewarnai.html style) ===== */
 .card{
 background:white;
