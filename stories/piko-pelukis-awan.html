@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panda Pelukis Awan - DeerBee</title>
+<title>Piko Panda Pelukis Awan - DeerBee</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
 <script src="../js/shared.js"></script>
 <style>
@@ -10,7 +10,7 @@
 
 body{
 font-family:'Baloo 2','Arial',sans-serif;
-background:#1a0a2e;
+background:#0a1628;
 min-height:100vh;
 display:flex;
 flex-direction:column;
@@ -19,11 +19,11 @@ overflow:hidden;
 user-select:none;
 }
 
-/* ===== COVER JUDUL ===== */
+/* ===== COVER ===== */
 #coverScreen{
 position:fixed;
 top:0;left:0;right:0;bottom:0;
-background:linear-gradient(160deg,#1a0a2e,#2d1654);
+background:linear-gradient(160deg,#0a1628,#1a2f5e);
 display:flex;
 flex-direction:column;
 align-items:center;
@@ -48,27 +48,35 @@ animation:float 3s ease-in-out infinite;
 
 #coverScreen h1{
 color:white;
-font-size:28px;
+font-size:26px;
 text-align:center;
 line-height:1.3;
 }
 
-#coverScreen .author{
-color:#caa6ff;
+#coverScreen .subtitle-cover{
+color:#7ec8f2;
 font-size:15px;
+text-align:center;
+line-height:1.5;
+max-width:320px;
+}
+
+#coverScreen .author{
+color:#aac8ff;
+font-size:14px;
 }
 
 #coverScreen .btn-start{
 padding:15px 40px;
 border:none;
 border-radius:20px;
-background:linear-gradient(135deg,#ff8fc6,#ff69b4);
+background:linear-gradient(135deg,#7ec8f2,#5c7cff);
 color:white;
 font-size:18px;
 font-weight:bold;
 font-family:'Baloo 2',cursive;
 cursor:pointer;
-box-shadow:0 6px 20px rgba(255,105,180,.5);
+box-shadow:0 6px 20px rgba(92,124,255,.5);
 animation:pulse 2s infinite;
 }
 
@@ -87,13 +95,12 @@ flex-direction:column;
 overflow:hidden;
 }
 
-/* Top bar */
 .top-bar{
 display:flex;
 align-items:center;
 justify-content:space-between;
 padding:10px 16px;
-background:rgba(0,0,0,.4);
+background:rgba(0,0,0,.5);
 backdrop-filter:blur(8px);
 flex-shrink:0;
 }
@@ -109,19 +116,19 @@ text-align:center;
 .top-bar .btn-back-book{
 background:none;
 border:none;
-color:#caa6ff;
+color:#7ec8f2;
 font-size:22px;
 cursor:pointer;
 padding:4px 8px;
 }
 
 .page-indicator{
-color:#caa6ff;
+color:#7ec8f2;
 font-size:13px;
 font-weight:600;
 }
 
-/* ===== PAGE CONTAINER ===== */
+/* ===== PAGE ===== */
 #pageContainer{
 flex:1;
 position:relative;
@@ -143,7 +150,6 @@ transition:transform .4s cubic-bezier(.4,0,.2,1), opacity .4s;
 .page-img{
 flex:1;
 overflow:hidden;
-position:relative;
 }
 
 .page-img img{
@@ -153,9 +159,8 @@ object-fit:cover;
 display:block;
 }
 
-/* Text overlay */
 .page-text{
-background:rgba(15,5,35,.88);
+background:rgba(10,22,40,.9);
 padding:18px 20px 14px;
 flex-shrink:0;
 }
@@ -173,10 +178,9 @@ font-style:normal;
 font-weight:700;
 }
 
-/* Halaman akhir */
 .page-end .page-text{
-background:linear-gradient(180deg,rgba(42,8,84,.9),rgba(100,20,160,.9));
-padding:30px 24px;
+background:linear-gradient(180deg,rgba(10,22,40,.9),rgba(20,50,120,.95));
+padding:26px 24px;
 }
 
 .page-end .page-text .end-title{
@@ -187,11 +191,15 @@ margin-bottom:10px;
 display:block;
 }
 
+.page-end .page-text p{
+color:#ffffff !important;
+}
+
 .page-end .page-text .moral{
 font-size:15px;
-color:#e0cfff;
+color:#aac8ff !important;
 line-height:1.6;
-margin-bottom:20px;
+margin-bottom:4px;
 display:block;
 }
 
@@ -211,7 +219,7 @@ width:56px;
 height:56px;
 border:none;
 border-radius:50%;
-background:rgba(255,255,255,.12);
+background:rgba(255,255,255,.1);
 color:white;
 font-size:22px;
 cursor:pointer;
@@ -222,9 +230,8 @@ justify-content:center;
 }
 
 .btn-nav:active{ transform:scale(0.92); }
-.btn-nav:disabled{ opacity:.25; pointer-events:none; }
+.btn-nav:disabled{ opacity:.2; pointer-events:none; }
 
-/* Progress dots */
 .dots{
 display:flex;
 gap:6px;
@@ -237,24 +244,24 @@ flex:1;
 width:8px;
 height:8px;
 border-radius:50%;
-background:rgba(255,255,255,.25);
+background:rgba(255,255,255,.2);
 transition:.3s;
 }
 
 .dot.active{
-background:#ff69b4;
+background:#7ec8f2;
 transform:scale(1.3);
 }
 
 .dot.done{
-background:#caa6ff;
+background:#5c7cff;
 }
 
-/* ===== SELESAI OVERLAY ===== */
+/* ===== SELESAI ===== */
 #finishOverlay{
 position:fixed;
 top:0;left:0;right:0;bottom:0;
-background:rgba(26,10,46,.92);
+background:rgba(10,22,40,.93);
 display:none;
 flex-direction:column;
 align-items:center;
@@ -266,13 +273,13 @@ gap:16px;
 
 #finishOverlay .fin-icon{ font-size:60px; }
 #finishOverlay h2{ color:#ffe066; font-size:24px; text-align:center; }
-#finishOverlay p{ color:#e0cfff; font-size:16px; text-align:center; line-height:1.6; }
+#finishOverlay p{ color:#aac8ff; font-size:16px; text-align:center; line-height:1.6; }
 
 .btn-finish{
 padding:14px 32px;
 border:none;
 border-radius:18px;
-background:linear-gradient(135deg,#ff8fc6,#ff69b4);
+background:linear-gradient(135deg,#7ec8f2,#5c7cff);
 color:white;
 font-size:17px;
 font-weight:bold;
@@ -283,19 +290,14 @@ margin-top:8px;
 
 .btn-finish-outline{
 padding:12px 28px;
-border:2px solid #caa6ff;
+border:2px solid #7ec8f2;
 border-radius:18px;
 background:none;
-color:#caa6ff;
+color:#7ec8f2;
 font-size:15px;
 font-weight:bold;
 font-family:'Baloo 2',cursive;
 cursor:pointer;
-}
-
-@keyframes musicBounce{
-0%,100%{transform:scale(1);}
-50%{transform:scale(1.12);}
 }
 </style>
 </head>
@@ -304,17 +306,18 @@ cursor:pointer;
 <!-- COVER -->
 <div id="coverScreen">
 <img src="../assets/cerita/piko/hal01.jpg" alt="Cover">
-<h1>🎨 Panda Pelukis Awan</h1>
+<h1>🎨 Piko Panda Pelukis Awan</h1>
+<p class="subtitle-cover">Di sebuah desa kecil dekat pegunungan,<br>hiduplah panda bernama Piko.<br>Ia punya kuas ajaib yang sangat spesial.</p>
 <p class="author">Cerita untuk DeerBee Kids Club</p>
 <button class="btn-start" onclick="startBook()">Baca Cerita ▶</button>
 </div>
 
-<!-- BOOK AREA -->
+<!-- BOOK -->
 <div id="bookArea" style="display:none;">
 
 <div class="top-bar">
 <button class="btn-back-book" onclick="goBack()">←</button>
-<span class="title-small">🎨 Panda Pelukis Awan</span>
+<span class="title-small">🎨 Piko Panda Pelukis Awan</span>
 <span class="page-indicator" id="pageIndicator">1/10</span>
 </div>
 
@@ -322,7 +325,7 @@ cursor:pointer;
 
 <div class="page active" id="page-0">
 <div class="page-img"><img src="../assets/cerita/piko/hal01.jpg" loading="eager"></div>
-<div class="page-text"><p>Setiap pagi, Piko melukis awan di langit.<br>Kadang awannya berbentuk ikan. Kadang berbentuk kelinci.</p></div>
+<div class="page-text"><p>Setiap pagi, Piko melukis awan di langit.<br>Kadang awannya berbentuk ikan.<br>Kadang berbentuk kelinci.</p></div>
 </div>
 
 <div class="page next" id="page-1">
@@ -332,45 +335,52 @@ cursor:pointer;
 
 <div class="page next" id="page-2">
 <div class="page-img"><img src="../assets/cerita/piko/hal03.jpg" loading="lazy"></div>
-<div class="page-text"><p>Tapi suatu pagi…<br>Langit terlihat aneh.<br>Semua warna menghilang.</p></div>
+<div class="page-text"><p>Tapi suatu pagi…<br>Langit terlihat aneh.<br><em>Semua warna menghilang.</em></p></div>
 </div>
 
 <div class="page next" id="page-3">
 <div class="page-img"><img src="../assets/cerita/piko/hal04.jpg" loading="lazy"></div>
-<div class="page-text"><p>Piko mencoba melukis lagi.<br>Tapi kuas ajaibnya tidak mengeluarkan warna.<br>Piko pun duduk sedih.</p></div>
+<div class="page-text"><p>Piko mencoba melukis lagi.<br>Tapi kuas ajaibnya tidak mengeluarkan warna.<br><em>"Kenapa…?"</em></p></div>
 </div>
 
 <div class="page next" id="page-4">
-<div class="page-img"><img src="../assets/cerita/piko/hal05.jpg" loading="lazy"></div>
+<!-- hal06 = Piko di persimpangan jalan → cocok untuk "pergi ke Gunung Pelangi" -->
+<div class="page-img"><img src="../assets/cerita/piko/hal06.jpg" loading="lazy"></div>
 <div class="page-text"><p>Piko memutuskan pergi ke Gunung Pelangi.<br>Katanya, semua warna berasal dari sana.</p></div>
 </div>
 
 <div class="page next" id="page-5">
-<div class="page-img"><img src="../assets/cerita/piko/hal06.jpg" loading="lazy"></div>
-<div class="page-text"><p>Perjalanan tidak mudah.<br>Kabut tebal menutupi jalan.</p></div>
+<!-- hal07 = Piko di hutan berkabut → cocok untuk "kabut tebal" -->
+<div class="page-img"><img src="../assets/cerita/piko/hal07.jpg" loading="lazy"></div>
+<div class="page-text"><p>Perjalanan tidak mudah.<br>Kabut tebal menutupi jalan.<br>Piko terus berjalan meski takut.</p></div>
 </div>
 
 <div class="page next" id="page-6">
-<div class="page-img"><img src="../assets/cerita/piko/hal07.jpg" loading="lazy"></div>
-<div class="page-text"><p>Piko hampir menyerah.<br>Langit masih tetap abu-abu.</p></div>
+<!-- hal05 = Piko sedih → cocok untuk "hampir menyerah" -->
+<div class="page-img"><img src="../assets/cerita/piko/hal05.jpg" loading="lazy"></div>
+<div class="page-text"><p>Piko hampir menyerah.<br>Langit masih tetap abu-abu.<br><em>"Aku tidak bisa…"</em></p></div>
 </div>
 
 <div class="page next" id="page-7">
 <div class="page-img"><img src="../assets/cerita/piko/hal08.jpg" loading="lazy"></div>
-<div class="page-text"><p>Lalu Piko teringat sesuatu.<br>Warna bukan berasal dari kuas.<br>Warna berasal dari hati.</p></div>
+<div class="page-text"><p>Lalu Piko teringat sesuatu.<br><em>Warna bukan berasal dari kuas.</em><br>Warna berasal dari hati.</p></div>
 </div>
 
 <div class="page next" id="page-8">
 <div class="page-img"><img src="../assets/cerita/piko/hal09.jpg" loading="lazy"></div>
-<div class="page-text"><p>Piko melukis lagi.<br>Kali ini dengan senyum hangat.</p></div>
+<div class="page-text"><p>Piko melukis lagi.<br>Kali ini dengan senyum hangat.<br>Kuas bersinar lebih terang dari sebelumnya.</p></div>
 </div>
 
 <div class="page next page-end" id="page-9">
 <div class="page-img"><img src="../assets/cerita/piko/hal10.jpg" loading="lazy"></div>
-<div class="page-text">🌟 <strong>Tamat!</strong><br>Perlahan, warna kembali memenuhi langit.<br>Awan berubah indah seperti dulu.<br>Bahkan lebih indah.<br><br>✨ <em>Ketika hati penuh harapan, dunia menjadi penuh warna.</em></div>
+<div class="page-text">
+<span class="end-title">🌈 Tamat!</span>
+<p>Perlahan, warna kembali memenuhi langit.<br>Awan berubah indah seperti dulu — bahkan lebih indah.</p>
+<span class="moral">✨ Warna yang paling indah adalah warna yang datang dari hati yang tulus.</span>
+</div>
 </div>
 
-</div><!-- end pageContainer -->
+</div>
 
 <div class="bottom-nav">
 <button class="btn-nav" id="btnPrev" onclick="prevPage()" disabled>◀</button>
@@ -378,13 +388,13 @@ cursor:pointer;
 <button class="btn-nav" id="btnNext" onclick="nextPage()">▶</button>
 </div>
 
-</div><!-- end bookArea -->
+</div>
 
-<!-- SELESAI OVERLAY -->
+<!-- SELESAI -->
 <div id="finishOverlay">
-<div class="fin-icon">🎉</div>
+<div class="fin-icon">🌈</div>
 <h2>Cerita selesai!</h2>
-<p>Kamu sudah membaca<br><strong>Panda Pelukis Awan</strong> sampai habis!<br>Pintar sekali! 🌟</p>
+<p>Kamu sudah membaca<br><strong>Piko Panda Pelukis Awan</strong>!<br>Ingat ya, warna terindah ada di hatimu 🎨</p>
 <button class="btn-finish" onclick="closeFinish()">Baca Ulang 🔄</button>
 <button class="btn-finish-outline" onclick="goBack()">⬅ Kembali</button>
 </div>
@@ -393,11 +403,10 @@ cursor:pointer;
 const TOTAL = 10;
 let current = 0;
 
-// Build dots
 const dotsEl = document.getElementById('dots');
 for(let i=0;i<TOTAL;i++){
 const d = document.createElement('div');
-d.className = 'dot' + (i===0?' active':'');
+d.className = 'dot'+(i===0?' active':'');
 d.id = 'dot-'+i;
 dotsEl.appendChild(d);
 }
@@ -408,29 +417,32 @@ document.getElementById('btnPrev').disabled = current === 0;
 const btnNext = document.getElementById('btnNext');
 btnNext.disabled = false;
 btnNext.textContent = current === TOTAL-1 ? '✨' : '▶';
-btnNext.title = current === TOTAL-1 ? 'Selesai' : 'Halaman berikutnya';
-// dots
 for(let i=0;i<TOTAL;i++){
 const d = document.getElementById('dot-'+i);
-d.className = 'dot' + (i===current?' active': i<current?' done':'');
+d.className = 'dot'+(i===current?' active':i<current?' done':'');
 }
 }
 
 function goToPage(n){
-const pages = document.querySelectorAll('.page');
-pages.forEach((p,i)=>{
-p.className = 'page ' + (i===n?'active': i<n?'prev':'next');
+document.querySelectorAll('.page').forEach((p,i)=>{
+p.className = 'page '+(i===n?'active':i<n?'prev':'next');
+if(i===n && p.className.includes('page-end')) p.className += ' page-end';
+});
+// Preserve page-end class
+document.querySelectorAll('.page').forEach((p,i)=>{
+if(p.id === 'page-9'){
+if(i===n) p.className = 'page active page-end';
+else if(i<n) p.className = 'page prev page-end';
+else p.className = 'page next page-end';
+}
 });
 current = n;
 updateUI();
 }
 
 function nextPage(){
-if(current < TOTAL-1){
-goToPage(current+1);
-} else {
-showFinish();
-}
+if(current < TOTAL-1) goToPage(current+1);
+else showFinish();
 }
 
 function prevPage(){
@@ -452,21 +464,18 @@ goToPage(0);
 function startBook(){
 document.getElementById('coverScreen').style.display = 'none';
 document.getElementById('bookArea').style.display = 'flex';
-// Musik dimatikan otomatis dari halaman sebelumnya
 }
 
 function goBack(){
 window.location.href = '../cerita.html';
 }
 
-// ===== SWIPE =====
-let touchStartX = 0;
-let touchStartY = 0;
-
+// Swipe
+let touchStartX = 0, touchStartY = 0;
 document.getElementById('pageContainer').addEventListener('touchstart', e=>{
 touchStartX = e.touches[0].clientX;
 touchStartY = e.touches[0].clientY;
-}, {passive:true});
+},{passive:true});
 
 document.getElementById('pageContainer').addEventListener('touchend', e=>{
 const dx = e.changedTouches[0].clientX - touchStartX;
@@ -475,16 +484,14 @@ if(Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40){
 if(dx < 0) nextPage();
 else prevPage();
 }
-}, {passive:true});
+},{passive:true});
 
-// ===== KEYBOARD =====
 document.addEventListener('keydown', e=>{
 if(e.key==='ArrowRight') nextPage();
 if(e.key==='ArrowLeft') prevPage();
 });
 
-// ===== MUSIK =====
-
+updateUI();
 </script>
 </body>
 </html>
