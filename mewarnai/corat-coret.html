@@ -162,25 +162,6 @@ transform:translateY(-2px);
 
 .action-buttons button:active{ transform:scale(0.92); }
 
-/* Simpan belum ada gambar 3D-nya, jadi tetap kartu bulat pastel biar senada */
-#btnSave{
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-gap:2px;
-width:70px;
-height:70px;
-border-radius:18px;
-background:#e8f5e9;
-color:#27500a;
-font-family:'Baloo 2','Arial',sans-serif;
-font-size:10px;
-font-weight:700;
-}
-
-#btnSave .btn-ico{ font-size:24px; line-height:1; display:block; }
-
 .btn-back-icon{
 display:block;
 width:110px;
@@ -276,7 +257,7 @@ mix-blend-mode:multiply;
 <img src="../assets/icons/btn-reset.png" alt="Hapus">
 </button>
 <button id="btnSave" onclick="saveDrawing()">
-<span class="btn-ico">💾</span>Simpan
+<img src="../assets/icons/btn-save.png" alt="Simpan">
 </button>
 <button id="btnDone" onclick="onDone()">
 <img src="../assets/icons/btn-selesai.png" alt="Selesai">
