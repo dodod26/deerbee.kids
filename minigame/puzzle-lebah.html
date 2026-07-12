@@ -275,7 +275,9 @@ color:white;
 </div>
 </div>
 
-<button class="btn-start" onclick="startGame()">▶️ Mulai Main</button>
+<button class="btn-start-icon" onclick="startGame()">
+<img src="../assets/icons/btn-play.png" alt="Mulai Main">
+</button>
 
 </div>
 
@@ -291,12 +293,23 @@ color:white;
 <div class="tray" id="tray"></div>
 
 <div class="action-row">
-<button class="btn-small" id="btnReference" onclick="toggleReference()">👁️ Lihat Contoh</button>
-<button class="btn-small" onclick="initPuzzle()">🔄 Acak Ulang</button>
-<button class="btn-small" onclick="backToSetup()">⚙️ Ganti Pilihan</button>
+<button class="icon-btn" id="btnReference" onclick="toggleReference()">
+<img src="../assets/icons/btn-contoh.png" alt="Lihat Contoh">
+<span>Lihat Contoh</span>
+</button>
+<button class="icon-btn" onclick="initPuzzle()">
+<img src="../assets/icons/btn-acak.png" alt="Acak Ulang">
+<span>Acak Ulang</span>
+</button>
+<button class="icon-btn" onclick="backToSetup()">
+<img src="../assets/icons/btn-gantimode.png" alt="Ganti Pilihan">
+<span>Ganti Pilihan</span>
+</button>
 </div>
 
-<a class="btn-back" href="../minigame.html">⬅ Kembali</a>
+<a class="btn-back-icon" href="../minigame.html">
+<img src="../assets/icons/btn-back.png" alt="Kembali">
+</a>
 
 </div>
 
@@ -351,7 +364,9 @@ tray.innerHTML = "";
 placedCount = 0;
 referenceOn = false;
 board.classList.remove('show-reference');
-document.getElementById('btnReference').textContent = '👁️ Lihat Contoh';
+const refBtn = document.getElementById('btnReference');
+refBtn.classList.remove('filled');
+refBtn.querySelector('span').textContent = 'Lihat Contoh';
 document.getElementById('statusMsg').textContent = "Ayo susun puzzlenya!";
 
 const imgUrl = imagePaths[selectedImage];
@@ -414,13 +429,14 @@ function toggleReference(){
 referenceOn = !referenceOn;
 const board = document.getElementById('board');
 const btn = document.getElementById('btnReference');
+const label = btn.querySelector('span');
 if(referenceOn){
 board.classList.add('show-reference');
-btn.textContent = '🙈 Sembunyikan';
+label.textContent = 'Sembunyikan';
 btn.classList.add('filled');
 }else{
 board.classList.remove('show-reference');
-btn.textContent = '👁️ Lihat Contoh';
+label.textContent = 'Lihat Contoh';
 btn.classList.remove('filled');
 }
 }
