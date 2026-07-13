@@ -102,6 +102,7 @@ const Badge = (function(){
     { id:'puzzle1',    emoji:'🧩', name:'Jagoan Puzzle',   desc:'Selesai puzzle sekali' },
     { id:'tebak5',     emoji:'⭐', name:'Bintang Warna',   desc:'Jawab benar 5x Tebak Warna' },
     { id:'hitung5',    emoji:'🔢', name:'Jago Hitung',     desc:'Jawab benar 5x Hitung Yuk' },
+    { id:'bentuk5',    emoji:'🔺', name:'Detektif Bentuk', desc:'Jawab benar 5x Cocok Bentuk' },
     { id:'memory1',    emoji:'🧠', name:'Master Memory',   desc:'Selesai Cocokkan Warna' },
     { id:'cerita1',    emoji:'📖', name:'Kutu Buku',       desc:'Baca 1 cerita sampai selesai' },
     { id:'all',        emoji:'🏆', name:'Juara DeerBee',   desc:'Dapat semua stiker di atas' },
@@ -169,6 +170,11 @@ const Badge = (function(){
     return r.earned;
   }
 
+  function onBentukBenar(){
+    const r = increment('bentuk', 5, 'bentuk5');
+    return r.earned;
+  }
+
   function onMemoryDone(){
     const r = increment('memory', 1, 'memory1');
     return r.earned;
@@ -183,7 +189,7 @@ const Badge = (function(){
   function hasEarned(id){ return getEarned().includes(id); }
   function getProgressData(){ return getProgress(); }
 
-  return { onMewarnaiDone, onPuzzleDone, onTebakBenar, onHitungBenar, onMemoryDone,
+  return { onMewarnaiDone, onPuzzleDone, onTebakBenar, onHitungBenar, onBentukBenar, onMemoryDone,
            onCeritaDone, earn, getAll, hasEarned, getProgressData };
 })();
 
