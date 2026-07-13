@@ -106,8 +106,9 @@ animation:correctPulse .5s;
 }
 
 .shape-inner{
-width:62%;
-height:62%;
+width:74%;
+height:74%;
+object-fit:contain;
 filter:drop-shadow(0 2px 3px rgba(0,0,0,.2));
 }
 
@@ -174,17 +175,16 @@ margin-bottom:14px;
 
 <script>
 const SHAPES = [
-  { id:"lingkaran", name:"Lingkaran", style:"border-radius:50%; width:62%; height:62%;" },
-  { id:"persegi", name:"Persegi", style:"border-radius:14%; width:62%; height:62%;" },
-  { id:"persegipanjang", name:"Persegi Panjang", style:"border-radius:10%; width:88%; height:44%;" },
-  { id:"segitiga", name:"Segitiga", style:"clip-path:polygon(50% 0%, 100% 100%, 0% 100%); width:62%; height:62%;" },
-  { id:"wajik", name:"Wajik", style:"clip-path:polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); width:62%; height:62%;" },
-  { id:"bintang", name:"Bintang", style:"clip-path:polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); width:62%; height:62%;" },
-  { id:"hexagon", name:"Segi Enam", style:"clip-path:polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); width:62%; height:62%;" },
-  { id:"oval", name:"Oval", style:"border-radius:50%; width:88%; height:44%;" },
+  { id:"lingkaran", name:"Lingkaran", img:"../assets/icons/bentuk/lingkaran.png" },
+  { id:"persegi", name:"Persegi", img:"../assets/icons/bentuk/persegi.png" },
+  { id:"persegipanjang", name:"Persegi Panjang", img:"../assets/icons/bentuk/persegipanjang.png" },
+  { id:"segitiga", name:"Segitiga", img:"../assets/icons/bentuk/segitiga.png" },
+  { id:"wajik", name:"Wajik", img:"../assets/icons/bentuk/wajik.png" },
+  { id:"bintang", name:"Bintang", img:"../assets/icons/bentuk/bintang.png" },
+  { id:"hexagon", name:"Segi Enam", img:"../assets/icons/bentuk/hexagon.png" },
+  { id:"oval", name:"Oval", img:"../assets/icons/bentuk/oval.png" },
 ];
 
-const COLORS = ["#ff8fc6","#5ec9e0","#ffd166","#7bcf7b","#b28dff","#ffab5e","#ff6b6b","#4dd0c4"];
 
 const praiseWords = ["🎉 Hebat!", "👏 Pintar!", "✨ Keren!", "🌟 Betul!", "😄 Asyik!"];
 const tryAgainWords = ["Coba lihat lagi bentuknya!", "Hampir, ayo coba lagi!", "Yuk cek lagi bentuknya!"];
@@ -193,14 +193,11 @@ let targetShape = null;
 let score = 0;
 let streak = 0;
 
-function randomColor(){
-  return COLORS[Math.floor(Math.random()*COLORS.length)];
-}
-
-function makeShapeEl(shape, color){
-  const el = document.createElement('div');
+function makeShapeEl(shape){
+  const el = document.createElement('img');
   el.className = 'shape-inner';
-  el.style.cssText = shape.style + `background:${color};display:flex;`;
+  el.src = shape.img;
+  el.alt = shape.name;
   return el;
 }
 
@@ -220,7 +217,7 @@ function newRound(){
 
   const targetBox = document.getElementById('targetBox');
   targetBox.innerHTML = "";
-  targetBox.appendChild(makeShapeEl(targetShape, randomColor()));
+  targetBox.appendChild(makeShapeEl(targetShape));
   document.getElementById('targetName').textContent = targetShape.name;
 
   // pilih 3 bentuk lain yang berbeda dari target
@@ -233,7 +230,7 @@ function newRound(){
     const box = document.createElement('div');
     box.className = "shape-box";
     box.style.animationDelay = (idx*0.07)+'s';
-    box.appendChild(makeShapeEl(shape, randomColor()));
+    box.appendChild(makeShapeEl(shape));
     box.onclick = ()=> checkAnswer(shape, box);
     optionsBox.appendChild(box);
   });
