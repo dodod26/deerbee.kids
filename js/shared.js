@@ -282,6 +282,12 @@ function showBadgeToast(badgeId){
     return banner;
   }
 
+  function gaTrack(eventName, params){
+    if(typeof gtag === 'function'){
+      gtag('event', eventName, params || {});
+    }
+  }
+
   function showAndroidBanner(deferredPrompt){
     const banner = buildBannerBase();
     banner.innerHTML = `
@@ -300,13 +306,19 @@ function showBadgeToast(badgeId){
     `;
     document.body.appendChild(banner);
     requestAnimationFrame(()=>{ banner.style.transform = 'translateY(0)'; });
+    gaTrack('pwa_banner_shown', { platform:'android' });
 
     document.getElementById('deerbeeInstallBtn').onclick = async ()=>{
       banner.remove();
+      gaTrack('pwa_install_clicked', { platform:'android' });
       deferredPrompt.prompt();
-      await deferredPrompt.userChoice;
+      const choice = await deferredPrompt.userChoice;
+      gaTrack('pwa_install_choice', { platform:'android', outcome: choice.outcome });
     };
-    document.getElementById('deerbeeDismissBtn').onclick = ()=> dismiss(banner);
+    document.getElementById('deerbeeDismissBtn').onclick = ()=>{
+      gaTrack('pwa_banner_dismissed', { platform:'android' });
+      dismiss(banner);
+    };
   }
 
   function showIOSBanner(){
@@ -325,8 +337,18 @@ function showBadgeToast(badgeId){
     `;
     document.body.appendChild(banner);
     requestAnimationFrame(()=>{ banner.style.transform = 'translateY(0)'; });
-    document.getElementById('deerbeeDismissBtn').onclick = ()=> dismiss(banner);
+    gaTrack('pwa_banner_shown', { platform:'ios' });
+    document.getElementById('deerbeeDismissBtn').onclick = ()=>{
+      gaTrack('pwa_banner_dismissed', { platform:'ios' });
+      dismiss(banner);
+    };
   }
+
+  // Event resmi browser: fires waktu app BENERAN sukses ke-install
+  // (baik lewat banner kita, atau lewat menu browser manual)
+  window.addEventListener('appinstalled', ()=>{
+    gaTrack('pwa_installed', {});
+  });
 
   if(alreadyInstalled() || recentlyDismissed()) return;
 
