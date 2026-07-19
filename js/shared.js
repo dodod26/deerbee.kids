@@ -238,3 +238,109 @@ function showBadgeToast(badgeId){
     setTimeout(()=> toast.remove(), 400);
   }, 3000);
 }
+
+/* ===================== BANNER PASANG APLIKASI (PWA) ===================== */
+(function(){
+  const DISMISS_KEY = 'deerbee_install_dismissed_at';
+  const DISMISS_DAYS = 14; // kalau ditutup, ga muncul lagi selama 14 hari
+
+  function alreadyInstalled(){
+    return window.matchMedia('(display-mode: standalone)').matches ||
+           window.navigator.standalone === true; // iOS
+  }
+
+  function recentlyDismissed(){
+    const t = localStorage.getItem(DISMISS_KEY);
+    if(!t) return false;
+    const daysPassed = (Date.now() - Number(t)) / (1000*60*60*24);
+    return daysPassed < DISMISS_DAYS;
+  }
+
+  function dismiss(banner){
+    localStorage.setItem(DISMISS_KEY, String(Date.now()));
+    banner.style.transform = 'translateY(120%)';
+    setTimeout(()=> banner.remove(), 300);
+  }
+
+  function isIOS(){
+    return /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+  }
+
+  function buildBannerBase(){
+    const banner = document.createElement('div');
+    banner.style.cssText = `
+      position:fixed; left:12px; right:12px; bottom:12px;
+      background:white; border-radius:20px; padding:14px 16px;
+      box-shadow:0 10px 28px rgba(0,0,0,.22);
+      display:flex; align-items:center; gap:12px;
+      font-family:'Baloo 2',sans-serif; z-index:99999;
+      border:2px solid #ffe066;
+      transition:transform .3s ease;
+      max-width:460px; margin:0 auto;
+      transform:translateY(120%);
+    `;
+    return banner;
+  }
+
+  function showAndroidBanner(deferredPrompt){
+    const banner = buildBannerBase();
+    banner.innerHTML = `
+      <img src="/assets/logo/favicon.png" style="width:44px;height:44px;border-radius:12px;flex-shrink:0;" alt="DeerBee">
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:14px;font-weight:700;color:#444;">Pasang Aplikasi DeerBee</div>
+        <div style="font-size:12px;color:#888;">Biar gampang dibuka dari layar HP</div>
+      </div>
+      <button id="deerbeeInstallBtn" style="
+        background:#ff69b4;color:white;border:none;border-radius:14px;
+        padding:9px 16px;font-weight:700;font-size:13px;font-family:'Baloo 2',sans-serif;
+        cursor:pointer;flex-shrink:0;">Pasang</button>
+      <button id="deerbeeDismissBtn" style="
+        background:none;border:none;font-size:18px;color:#bbb;cursor:pointer;
+        padding:4px;flex-shrink:0;">✕</button>
+    `;
+    document.body.appendChild(banner);
+    requestAnimationFrame(()=>{ banner.style.transform = 'translateY(0)'; });
+
+    document.getElementById('deerbeeInstallBtn').onclick = async ()=>{
+      banner.remove();
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+    };
+    document.getElementById('deerbeeDismissBtn').onclick = ()=> dismiss(banner);
+  }
+
+  function showIOSBanner(){
+    const banner = buildBannerBase();
+    banner.innerHTML = `
+      <img src="/assets/logo/favicon.png" style="width:44px;height:44px;border-radius:12px;flex-shrink:0;" alt="DeerBee">
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:14px;font-weight:700;color:#444;">Pasang Aplikasi DeerBee</div>
+        <div style="font-size:12px;color:#888;">
+          Tap tombol Share <span style="font-size:14px;">⬆️</span> lalu pilih "Add to Home Screen"
+        </div>
+      </div>
+      <button id="deerbeeDismissBtn" style="
+        background:none;border:none;font-size:18px;color:#bbb;cursor:pointer;
+        padding:4px;flex-shrink:0;">✕</button>
+    `;
+    document.body.appendChild(banner);
+    requestAnimationFrame(()=>{ banner.style.transform = 'translateY(0)'; });
+    document.getElementById('deerbeeDismissBtn').onclick = ()=> dismiss(banner);
+  }
+
+  if(alreadyInstalled() || recentlyDismissed()) return;
+
+  // Android / Chrome / Edge dkk: pakai event resmi beforeinstallprompt
+  window.addEventListener('beforeinstallprompt', (e)=>{
+    e.preventDefault();
+    setTimeout(()=> showAndroidBanner(e), 2500); // muncul setelah 2.5 detik, ga langsung nyamber
+  });
+
+  // iOS Safari: ga ada event beforeinstallprompt, jadi kasih instruksi manual
+  if(isIOS()){
+    const isSafari = /safari/i.test(navigator.userAgent) && !/crios|fxios|edgios/i.test(navigator.userAgent);
+    if(isSafari){
+      setTimeout(showIOSBanner, 2500);
+    }
+  }
+})();
