@@ -19,156 +19,6 @@
 <title>Mewarnai Motor Polisi - DeerBee</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/coloring.css">
-<style>
-.rotate-prompt{
-display:none;
-position:fixed; inset:0; z-index:9998;
-background:linear-gradient(135deg,#7ec8f2,#ffd6e8,#fff4c4);
-flex-direction:column; align-items:center; justify-content:center;
-text-align:center; padding:30px;
-}
-.rotate-prompt.show{ display:flex; }
-.rotate-icon{
-font-size:64px;
-animation: rotateHint 1.6s ease-in-out infinite;
-margin-bottom:18px;
-}
-@keyframes rotateHint{
-0%,100%{ transform:rotate(0deg); }
-50%{ transform:rotate(90deg); }
-}
-.rotate-prompt h2{
-font-size:22px; color:#444; margin-bottom:8px;
-font-family:'Baloo 2',cursive;
-}
-.rotate-prompt p{
-font-size:15px; color:#666; margin-bottom:22px; max-width:280px;
-}
-.rotate-skip{
-background:white; border:2px solid #ff69b4; color:#ff69b4;
-padding:10px 24px; border-radius:14px; font-weight:bold;
-cursor:pointer; font-family:'Baloo 2',cursive; font-size:14px;
-}
-.rotate-skip:active{ transform:scale(0.96); }
-
-.landscape-btn-row{
-display:contents;
-}
-
-/* ===================== LANDSCAPE MODE: semua muat 1 layar ===================== */
-body.landscape-mode{
-overflow:hidden;
-height:100vh;
-padding:8px;
-}
-
-body.landscape-mode .page-deco,
-body.landscape-mode h1,
-body.landscape-mode .page-subtitle{
-display:none;
-}
-
-body.landscape-mode .coloring-layout{
-display:flex;
-flex-direction:row;
-flex-wrap:nowrap;
-align-items:center;
-justify-content:center;
-gap:10px;
-height:96vh;
-}
-
-body.landscape-mode .side-panel{
-display:flex;
-align-items:center;
-height:100%;
-}
-
-body.landscape-mode .canvas-frame{
-margin:0;
-max-height:96vh;
-display:flex;
-align-items:center;
-justify-content:center;
-flex-shrink:1;
-}
-
-body.landscape-mode .zoom-controls{
-display:none;
-}
-
-body.landscape-mode .canvas-scroll{
-max-height:90vh;
-overflow:hidden;
-display:flex;
-align-items:center;
-justify-content:center;
-}
-
-body.landscape-mode .canvas-frame canvas{
-max-height:88vh;
-width:auto !important;
-height:auto;
-}
-
-body.landscape-mode .mewarnai-controls{
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-gap:8px;
-max-height:96vh;
-overflow-y:auto;
-flex-shrink:0;
-width:186px;
-padding:4px 0;
-}
-
-body.landscape-mode .palette{
-display:grid;
-grid-template-columns:repeat(5, 1fr);
-gap:5px;
-max-width:172px;
-margin:0;
-overflow:visible;
-}
-
-body.landscape-mode .color-dot{
-width:28px;
-height:28px;
-}
-
-body.landscape-mode .landscape-btn-row{
-display:flex;
-flex-direction:row;
-align-items:center;
-justify-content:center;
-gap:6px;
-}
-
-body.landscape-mode .action-buttons{
-flex-direction:row;
-gap:6px;
-margin:0;
-}
-
-body.landscape-mode .action-buttons button{
-padding:3px;
-}
-
-body.landscape-mode .action-buttons button img{
-width:38px;
-}
-
-body.landscape-mode .btn-back-icon{
-width:38px;
-margin:0;
-}
-
-body.landscape-mode #musicToggle{
-transform:scale(0.75);
-}
-</style>
 <script src="../js/shared.js"></script>
 <script>
 if ('serviceWorker' in navigator) {
@@ -180,13 +30,6 @@ if ('serviceWorker' in navigator) {
 </head>
 <body>
 
-<div class="rotate-prompt" id="rotatePrompt">
-<div class="rotate-icon">📱</div>
-<h2>Putar HP-nya yuk!</h2>
-<p>Biar gambarnya jadi lebih besar dan gampang diwarnai ✨</p>
-<button class="rotate-skip" id="skipRotateBtn">Lanjut aja, ga usah muter</button>
-</div>
-
 <div class="page-deco">
 <span class="deco-star s1">⭐</span>
 <span class="deco-star s2">✨</span>
@@ -195,8 +38,6 @@ if ('serviceWorker' in navigator) {
 
 <h1>🏍️ Mewarnai Motor Polisi</h1>
 <p class="page-subtitle">Tap warna, lalu tap bagian gambar untuk mewarnai ✨</p>
-
-<div class="coloring-layout">
 
 <div class="canvas-frame">
 <div class="zoom-controls">
@@ -209,10 +50,6 @@ if ('serviceWorker' in navigator) {
 </div>
 <div class="loading-msg" id="loading">Memuat gambar... ⏳</div>
 </div>
-
-<div class="side-panel">
-
-<div class="mewarnai-controls" id="mewarnaiControls">
 
 <div class="palette" id="palette">
 <div class="color-dot" style="background:#ffe066" data-color="255,224,102"></div>
@@ -243,7 +80,6 @@ if ('serviceWorker' in navigator) {
 <div class="color-dot" style="background:#ffffff;border-color:#ccc" data-color="255,255,255"></div>
 </div>
 
-<div class="landscape-btn-row">
 <div class="action-buttons">
 <button id="btnUndo" onclick="undoLast()" title="Undo">
 <img src="../assets/icons/btn-undo.png" alt="Undo">
@@ -259,12 +95,6 @@ if ('serviceWorker' in navigator) {
 <a class="btn-back-icon" href="../mewarnai.html">
 <img src="../assets/icons/btn-back.png" alt="Kembali">
 </a>
-</div>
-
-</div>
-
-</div>
-</div>
 
 <div class="confetti-layer" id="confetti"></div>
 
@@ -296,7 +126,6 @@ ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 buildOutlineMask();
 canvas.style.width = (canvas.width / RENDER_SCALE) + 'px';
 document.getElementById('loading').style.display = 'none';
-updateRotatePrompt();
 };
 
 img.onerror = ()=>{
@@ -314,39 +143,6 @@ function zoomReset(){
 zoomLevel = 1;
 canvas.style.width = (canvas.width / RENDER_SCALE) + 'px';
 }
-
-/* ===================== ROTASI: MINTA PUTAR HP KE LANDSCAPE ===================== */
-let skippedRotatePrompt = false;
-
-function updateRotatePrompt(){
-const promptEl = document.getElementById('rotatePrompt');
-if(!canvas.width) return; // gambar belum siap
-
-const isPortrait = window.matchMedia('(orientation: portrait)').matches;
-const isSmallScreen = window.innerWidth < 900; // hindari muncul di desktop biasa
-
-if(isPortrait && isSmallScreen && !skippedRotatePrompt){
-promptEl.classList.add('show');
-}else{
-promptEl.classList.remove('show');
-}
-
-applyLandscapeLayout();
-}
-
-function applyLandscapeLayout(){
-// landscape-mode: canvas & kontrol disusun ulang biar muat 1 layar tanpa scroll/zoom manual
-const isLandscapeSmall = window.matchMedia('(orientation: landscape)').matches && window.innerHeight < 500;
-document.body.classList.toggle('landscape-mode', isLandscapeSmall);
-}
-
-document.getElementById('skipRotateBtn').onclick = ()=>{
-skippedRotatePrompt = true;
-updateRotatePrompt();
-};
-
-window.addEventListener('resize', updateRotatePrompt);
-window.addEventListener('orientationchange', ()=> setTimeout(updateRotatePrompt, 100));
 
 function buildOutlineMask(){
 const w = canvas.width;
