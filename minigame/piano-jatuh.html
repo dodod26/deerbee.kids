@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NQYKMMJ8C1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-NQYKMMJ8C1');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#ff69b4">
+<link rel="apple-touch-icon" href="/assets/icons/pwa/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="DeerBee">
+<title>Piano Jatuh - DeerBee</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/coloring.css">
+<script src="../js/shared.js"></script>
+<style>
+.game-wrap{
+max-width:460px;
+margin:0 auto;
+}
+
+.score-board{
+display:flex;
+justify-content:center;
+gap:14px;
+margin-bottom:14px;
+}
+
+.score-pill{
+background:white;
+border-radius:16px;
+padding:8px 18px;
+font-weight:bold;
+font-size:15px;
+color:#444;
+box-shadow:0 3px 10px rgba(0,0,0,.1);
+}
+
+.score-pill span{
+font-size:18px;
+margin-right:4px;
+}
+
+.inline-icon{
+height:24px;
+width:24px;
+object-fit:contain;
+vertical-align:middle;
+margin-right:4px;
+}
+
+.btn-mulai .inline-icon{
+height:20px;
+width:20px;
+margin-right:6px;
+}
+
+/* ===== Panggung not jatuh ===== */
+.piano-stage{
+position:relative;
+background:white;
+border-radius:22px;
+padding:10px;
+margin-bottom:14px;
+box-shadow:0 6px 18px rgba(0,0,0,.12);
+border:4px dashed #ffd1e3;
+overflow:hidden;
+}
+
+.note-track{
+position:relative;
+height:260px;
+display:flex;
+gap:6px;
+}
+
+.lane{
+position:relative;
+flex:1;
+height:100%;
+background:rgba(0,0,0,.03);
+border-radius:10px;
+overflow:hidden;
+}
+
+.lane-target{
+position:absolute;
+left:4px;
+right:4px;
+bottom:8px;
+height:44px;
+border-radius:12px;
+border:3px dashed rgba(0,0,0,.15);
+}
+
+.falling-note{
+position:absolute;
+left:50%;
+top:-60px;
+width:52px;
+height:52px;
+transform:translateX(-50%);
+transition: top linear;
+}
+
+.falling-note img{
+width:100%;
+height:100%;
+object-fit:contain;
+filter:drop-shadow(0 3px 6px rgba(0,0,0,.25));
+pointer-events:none;
+}
+
+.falling-note.hit{
+animation: notePop .3s ease forwards;
+}
+
+@keyframes notePop{
+0%{ transform:translateX(-50%) scale(1); opacity:1; }
+100%{ transform:translateX(-50%) scale(1.6); opacity:0; }
+}
+
+.falling-note.missed{
+animation: noteFade .3s ease forwards;
+}
+
+@keyframes noteFade{
+0%{ opacity:1; }
+100%{ opacity:0; }
+}
+
+/* ===== Tombol piano ===== */
+.piano-keys{
+display:flex;
+gap:6px;
+margin-bottom:16px;
+}
+
+.piano-key{
+flex:1;
+height:96px;
+border:none;
+border-radius:14px;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:flex-start;
+padding:4px 2px 6px;
+font-family:'Baloo 2',cursive;
+font-weight:700;
+font-size:13px;
+color:white;
+box-shadow:0 5px 0 rgba(0,0,0,.18), 0 6px 12px rgba(0,0,0,.15);
+cursor:pointer;
+transition:.08s;
+overflow:hidden;
+position:relative;
+}
+
+.piano-key img{
+flex:1;
+min-height:0;
+width:100%;
+object-fit:contain;
+pointer-events:none;
+}
+
+.piano-key .key-label{
+flex-shrink:0;
+text-shadow:0 1px 2px rgba(0,0,0,.25);
+}
+
+.piano-key:active,
+.piano-key.pressed{
+transform:translateY(4px);
+box-shadow:0 1px 0 rgba(0,0,0,.18), 0 2px 6px rgba(0,0,0,.15);
+}
+
+.game-feedback{
+font-size:19px;
+font-weight:bold;
+min-height:30px;
+margin-bottom:10px;
+}
+
+.start-overlay{
+position:absolute;
+inset:0;
+background:rgba(255,255,255,.92);
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:12px;
+border-radius:18px;
+z-index:5;
+}
+
+.btn-mulai{
+background:linear-gradient(160deg,#ff8fc6,#ff69b4);
+color:white;
+border:none;
+border-radius:18px;
+padding:14px 28px;
+font-family:'Baloo 2',cursive;
+font-weight:700;
+font-size:17px;
+box-shadow:0 5px 14px rgba(255,105,180,.4);
+cursor:pointer;
+}
+
+.btn-mulai:active{
+transform:scale(0.96);
+}
+</style>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
+  });
+}
+</script>
+</head>
+<body>
+
+<div class="game-wrap">
+
+<h1><img class="inline-icon" style="height:32px;width:32px" src="../assets/icons/piano/icon-piano.png" alt="Piano"> Piano Jatuh</h1>
+<p class="page-subtitle">Tekan tombol piano pas notenya sampai bawah!</p>
+
+<div class="score-board">
+<div class="score-pill"><img class="inline-icon" src="../assets/icons/piano/icon-skor.png" alt="Skor"><span id="scoreVal">0</span></div>
+<div class="score-pill"><img class="inline-icon" src="../assets/icons/piano/icon-lagu.png" alt="Lagu"><span id="songName">Pilih lagu</span></div>
+</div>
+
+<div class="piano-stage">
+<div class="note-track" id="noteTrack">
+<div class="start-overlay" id="startOverlay"></div>
+</div>
+</div>
+
+<p class="game-feedback" id="feedback"></p>
+
+<div class="piano-keys" id="pianoKeys"></div>
+
+<button class="icon-btn" onclick="playAgain()">
+<img src="../assets/icons/btn-acak.png" alt="Main Lagi">
+<span>Main Lagi</span>
+</button>
+
+<button class="icon-btn" onclick="showSongSelect()">
+<img src="../assets/icons/piano/icon-lagu.png" alt="Ganti Lagu">
+<span>Ganti Lagu</span>
+</button>
+
+<a class="btn-back-icon" href="../minigame.html">
+<img src="../assets/icons/btn-back.png" alt="Kembali">
+</a>
+
+<div class="confetti-layer" id="confetti"></div>
+
+<audio id="bgMusic" src="../assets/musik/bgm.mp3" loop></audio>
+<button id="musicToggle" onclick="toggleMusic()">🔇</button>
+
+<script>
+/* Ganti path keyImg/noteImg di sini kalau nama filenya beda */
+const LANES = [
+  { note:'C', label:'Do',  color:'#ff6b6b', keyImg:'../assets/icons/piano/rakun-do.png',  noteImg:'../assets/icons/piano/note-do.png' },
+  { note:'D', label:'Re',  color:'#ffb347', keyImg:'../assets/icons/piano/rakun-re.png',  noteImg:'../assets/icons/piano/note-re.png' },
+  { note:'E', label:'Mi',  color:'#ffe066', keyImg:'../assets/icons/piano/rakun-mi.png',  noteImg:'../assets/icons/piano/note-mi.png' },
+  { note:'F', label:'Fa',  color:'#9be7a3', keyImg:'../assets/icons/piano/rakun-fa.png',  noteImg:'../assets/icons/piano/note-fa.png' },
+  { note:'G', label:'Sol', color:'#7ec8f2', keyImg:'../assets/icons/piano/rakun-sol.png', noteImg:'../assets/icons/piano/note-sol.png' },
+  { note:'A', label:'La',  color:'#caa6ff', keyImg:'../assets/icons/piano/rakun-la.png',  noteImg:'../assets/icons/piano/note-la.png' },
+  { note:'B', label:'Si',  color:'#ff8fd4', keyImg:'../assets/icons/piano/rakun-si.png',  noteImg:'../assets/icons/piano/note-si.png' },
+];
+
+const FREQ = { C:261.63, D:293.66, E:329.63, F:349.23, G:392.00, A:440.00, B:493.88 };
+
+/* ===== Data lagu (semua lagu rakyat tradisional / pencipta tidak diketahui) ===== */
+const SONGS = {
+  twinkle: {
+    name: 'Twinkle Twinkle',
+    notes: [
+      'C','C','G','G','A','A','G',
+      'F','F','E','E','D','D','C',
+      'G','G','F','F','E','E','D',
+      'G','G','F','F','E','E','D',
+      'C','C','G','G','A','A','G',
+      'F','F','E','E','D','D','C'
+    ]
+  },
+  cicak: {
+    name: 'Cicak-Cicak di Dinding',
+    notes: [
+      'G','E','G','E','E','F','G',
+      'F','D','F','A','G','F','E',
+      'A','F','A','F','A','B','C',
+      'C','E','G','F','D','C'
+    ]
+  }
+};
+
+let currentSongKey = null;
+let SONG = [];
+
+const FALL_DURATION = 1100;  // lama not jatuh dari atas sampai posisi tunggu (ms)
+const TARGET_OFFSET = 52;    // jarak posisi "siap ditekan" dari dasar lane
+const QUEUE_OFFSET  = 140;   // jarak posisi "antre nunggu giliran" dari dasar lane
+const PROMOTE_DURATION = 280; // lama not antrean geser turun ke posisi siap (ms)
+
+const laneIndexOf = {};
+LANES.forEach((l,i)=> laneIndexOf[l.note] = i);
+
+let laneEls = [];
+let currentNote = null;  // {el, lane} — not di posisi siap ditekan
+let queuedNote = null;   // {el, lane} — not di posisi antre, nunggu giliran
+let songIndex = 0;
+let score = 0;
+let songRunning = false;
+
+/* ===== Bangun tombol piano ===== */
+const keysBox = document.getElementById('pianoKeys');
+LANES.forEach((l, i)=>{
+  const btn = document.createElement('button');
+  btn.className = 'piano-key';
+  btn.style.background = l.color; // fallback warna kalau gambar belum ada/gagal load
+  btn.innerHTML = `<img src="${l.keyImg}" alt="${l.label}"><span class="key-label">${l.label}</span>`;
+  btn.onclick = ()=> pressKey(i, btn);
+  keysBox.appendChild(btn);
+});
+
+function pressKey(laneIdx, btnEl){
+  Sound.note(FREQ[LANES[laneIdx].note]);
+  btnEl.classList.add('pressed');
+  setTimeout(()=> btnEl.classList.remove('pressed'), 120);
+
+  if(!songRunning || !currentNote) return;
+  if(currentNote.lane !== laneIdx) return;
+
+  const done = currentNote;
+  done.el.classList.add('hit');
+  setTimeout(()=> done.el.remove(), 300);
+  score += 1;
+  songIndex += 1;
+  document.getElementById('scoreVal').textContent = score;
+
+  if(songIndex >= SONG.length){
+    songRunning = false;
+    currentNote = null;
+    setTimeout(finishSong, 300);
+    return;
+  }
+
+  if(queuedNote){
+    // geser not yang tadi antre, jadi giliran sekarang
+    promoteToTarget(queuedNote);
+    currentNote = queuedNote;
+    queuedNote = null;
+  }else{
+    currentNote = spawnNote(SONG[songIndex], TARGET_OFFSET, FALL_DURATION);
+  }
+
+  // sudah siapkan not berikutnya biar selalu ada yang jatuh duluan
+  if(songIndex + 1 < SONG.length){
+    queuedNote = spawnNote(SONG[songIndex + 1], QUEUE_OFFSET, FALL_DURATION);
+  }
+}
+
+/* ===== Layar pilih lagu ===== */
+function showSongSelect(){
+  clearAll();
+  const track = document.getElementById('noteTrack');
+  let overlay = document.getElementById('startOverlay');
+  if(!overlay){
+    overlay = document.createElement('div');
+    overlay.className = 'start-overlay';
+    overlay.id = 'startOverlay';
+    track.appendChild(overlay);
+  }
+  overlay.innerHTML = `
+    <p style="font-family:'Baloo 2',cursive;color:#888;font-size:15px;max-width:260px;text-align:center;">
+      Pilih lagu dulu yuk! 🎶
+    </p>
+    <div id="songList" style="display:flex;flex-direction:column;gap:8px;width:100%;padding:0 20px;"></div>
+  `;
+  const list = document.getElementById('songList');
+  Object.keys(SONGS).forEach(key=>{
+    const b = document.createElement('button');
+    b.className = 'btn-mulai';
+    b.style.fontSize = '15px';
+    b.style.padding = '10px 18px';
+    b.innerHTML = `<img class="inline-icon" src="../assets/icons/piano/icon-main.png" alt="Mulai">${SONGS[key].name}`;
+    b.onclick = ()=> startSong(key);
+    list.appendChild(b);
+  });
+}
+
+/* ===== Jalankan lagu ===== */
+function startSong(songKey){
+  clearAll();
+  currentSongKey = songKey;
+  SONG = SONGS[songKey].notes;
+  document.getElementById('songName').textContent = SONGS[songKey].name;
+
+  const overlay = document.getElementById('startOverlay');
+  if(overlay) overlay.remove();
+
+  score = 0;
+  songIndex = 0;
+  document.getElementById('scoreVal').textContent = 0;
+  document.getElementById('feedback').textContent = '';
+  songRunning = true;
+
+  currentNote = spawnNote(SONG[0], TARGET_OFFSET, FALL_DURATION);
+  if(SONG.length > 1){
+    queuedNote = spawnNote(SONG[1], QUEUE_OFFSET, FALL_DURATION);
+  }
+}
+
+function playAgain(){
+  if(currentSongKey){
+    startSong(currentSongKey);
+  }else{
+    showSongSelect();
+  }
+}
+
+function clearAll(){
+  if(currentNote) currentNote.el.remove();
+  if(queuedNote) queuedNote.el.remove();
+  currentNote = null;
+  queuedNote = null;
+  songRunning = false;
+}
+
+function spawnNote(noteChar, offsetFromBottom, duration){
+  const laneIdx = laneIndexOf[noteChar];
+  const lane = laneEls[laneIdx];
+  if(!lane) return null;
+
+  const el = document.createElement('div');
+  el.className = 'falling-note';
+  const img = document.createElement('img');
+  img.src = LANES[laneIdx].noteImg;
+  img.alt = LANES[laneIdx].label;
+  el.appendChild(img);
+  lane.appendChild(el);
+
+  const stopTop = lane.clientHeight - offsetFromBottom;
+  requestAnimationFrame(()=>{
+    el.style.transition = `top ${duration}ms linear`;
+    el.style.top = stopTop + 'px';
+  });
+
+  return { el, lane: laneIdx };
+}
+
+function promoteToTarget(noteObj){
+  const lane = laneEls[noteObj.lane];
+  const targetTop = lane.clientHeight - TARGET_OFFSET;
+  noteObj.el.style.transition = `top ${PROMOTE_DURATION}ms ease`;
+  noteObj.el.style.top = targetTop + 'px';
+}
+
+function finishSong(){
+  const fb = document.getElementById('feedback');
+  fb.style.color = '#2ecc71';
+  fb.textContent = `🎉 Lagu selesai! Kamu berhasil main ${SONG.length} not 🎶`;
+  Sound.finish();
+  burstConfetti();
+  const nb = Badge.onPianoDone();
+  if(nb) setTimeout(()=> showBadgeToast(nb), 700);
+}
+
+/* ===== Bangun lane kosong duluan (dipakai start overlay) ===== */
+(function buildLanes(){
+  const track = document.getElementById('noteTrack');
+  LANES.forEach(()=>{
+    const lane = document.createElement('div');
+    lane.className = 'lane';
+    const target = document.createElement('div');
+    target.className = 'lane-target';
+    lane.appendChild(target);
+    track.insertBefore(lane, document.getElementById('startOverlay'));
+    laneEls.push(lane);
+  });
+  showSongSelect();
+})();
+
+function burstConfetti(){
+  const box = document.getElementById('confetti');
+  for(let i=0;i<40;i++){
+    const p = document.createElement('span');
+    p.className = 'confetti-piece';
+    p.style.left = Math.random()*100+'%';
+    p.style.background = ['#ff69b4','#ffe066','#7ec8f2','#9be7a3','#caa6ff'][Math.floor(Math.random()*5)];
+    p.style.animationDelay = (Math.random()*0.5)+'s';
+    box.appendChild(p);
+  }
+  setTimeout(()=>{ box.innerHTML=''; }, 2500);
+}
+
+/* ===================== MUSIK ===================== */
+const audio = document.getElementById('bgMusic');
+const btn = document.getElementById('musicToggle');
+let playing = false;
+
+function onPlaySuccess(){
+btn.textContent = '🎵';
+btn.style.animation = 'none';
+playing = true;
+}
+
+function startMusic(){
+if(!playing){
+audio.play().then(onPlaySuccess).catch(()=>{});
+}
+}
+
+function toggleMusic(){
+if(playing){
+audio.pause();
+btn.textContent = '🔇';
+btn.style.animation = 'musicBounce 1.4s ease-in-out infinite';
+playing = false;
+}else{
+audio.play().then(onPlaySuccess).catch(()=>{});
+}
+}
+
+// Sengaja TIDAK autoplay di halaman game musik ini (biar ga tabrakan sama nada piano)
+</script>
+
+</div>
+
+</body>
+</html>
