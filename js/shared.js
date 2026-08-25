@@ -84,7 +84,25 @@ const Sound = (function(){
     );
   }
 
-  return { correct, finish };
+  // Nada piano pendek untuk 1 frekuensi (dipakai game Piano Jatuh)
+  function note(freq, duration){
+    try{
+      const c = getCtx();
+      const osc = c.createOscillator();
+      const gain = c.createGain();
+      osc.type = 'triangle';
+      osc.frequency.value = freq;
+      const d = duration || 0.45;
+      gain.gain.setValueAtTime(0.0001, c.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.5, c.currentTime+0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, c.currentTime+d);
+      osc.connect(gain); gain.connect(c.destination);
+      osc.start(c.currentTime);
+      osc.stop(c.currentTime+d);
+    }catch(e){}
+  }
+
+  return { correct, finish, note };
 })();
 
 
@@ -106,6 +124,7 @@ const Badge = (function(){
     { id:'hewan5',     emoji:'🍽️', name:'Teman Hewan',     desc:'Jawab benar 5x Hewan & Makanannya' },
     { id:'memory1',    emoji:'🧠', name:'Master Memory',   desc:'Selesai Cocokkan Warna' },
     { id:'cerita1',    emoji:'📖', name:'Kutu Buku',       desc:'Baca 1 cerita sampai selesai' },
+    { id:'piano1',     emoji:'🎹', name:'Pianis Cilik',    desc:'Selesai mainkan 1 lagu piano' },
     { id:'all',        emoji:'🏆', name:'Juara DeerBee',   desc:'Dapat semua stiker di atas' },
   ];
 
@@ -191,12 +210,17 @@ const Badge = (function(){
     return r.earned;
   }
 
+  function onPianoDone(){
+    const r = increment('piano', 1, 'piano1');
+    return r.earned;
+  }
+
   function getAll(){ return ALL_BADGES; }
   function hasEarned(id){ return getEarned().includes(id); }
   function getProgressData(){ return getProgress(); }
 
   return { onMewarnaiDone, onPuzzleDone, onTebakBenar, onHitungBenar, onBentukBenar, onHewanBenar, onMemoryDone,
-           onCeritaDone, earn, getAll, hasEarned, getProgressData };
+           onCeritaDone, onPianoDone, earn, getAll, hasEarned, getProgressData };
 })();
 
 
