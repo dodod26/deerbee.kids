@@ -192,6 +192,31 @@ font-style:normal;
 font-weight:700;
 }
 
+/* ===== Tombol Dengarkan (Cerita Bersuara) ===== */
+.btn-listen{
+display:block;
+margin:12px auto 2px;
+padding:10px 26px;
+border:none;
+border-radius:999px;
+background:linear-gradient(135deg,#ff8fc6,#ff69b4);
+color:white;
+font-size:16px;
+font-weight:bold;
+font-family:'Baloo 2',cursive;
+cursor:pointer;
+box-shadow:0 4px 14px rgba(255,105,180,.45);
+transition:.2s;
+}
+.btn-listen:active{ transform:scale(.95); }
+.btn-listen.playing{ background:linear-gradient(135deg,#ffd968,#f5a623); }
+
+.cover-note{
+color:#e0cfff;
+font-size:14px;
+margin-top:-8px;
+}
+
 .page-end .page-text{
 background:linear-gradient(180deg,rgba(10,22,40,.9),rgba(20,50,120,.95));
 padding:26px 24px;
@@ -331,6 +356,7 @@ if ('serviceWorker' in navigator) {
 <p class="subtitle-cover">Di sebuah desa kecil dekat pegunungan,<br>hiduplah panda bernama Piko.<br>Ia punya kuas ajaib yang sangat spesial.</p>
 <p class="author">Cerita untuk DeerBee Kids Club</p>
 <button class="btn-start" onclick="startBook()">Baca Cerita ▶</button>
+<p class="cover-note">🔊 Setiap halaman bisa didengarkan suaranya</p>
 </div>
 
 <!-- BOOK -->
@@ -346,50 +372,59 @@ if ('serviceWorker' in navigator) {
 
 <div class="page active" id="page-0">
 <div class="page-img"><img src="../assets/cerita/piko/hal01.jpg" loading="eager"></div>
-<div class="page-text"><p>Setiap pagi, Piko melukis awan di langit.<br>Kadang awannya berbentuk ikan.<br>Kadang berbentuk kelinci.</p></div>
+<div class="page-text"><p>Setiap pagi, Piko melukis awan di langit.<br>Kadang awannya berbentuk ikan.<br>Kadang berbentuk kelinci.</p>
+<button class="btn-listen" id="listen-0" onclick="toggleListen(0)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next" id="page-1">
 <div class="page-img"><img src="../assets/cerita/piko/hal02.jpg" loading="lazy"></div>
-<div class="page-text"><p>Setiap goresan kuas Piko membuat langit menjadi indah.<br>Semua hewan menyukai lukisannya.</p></div>
+<div class="page-text"><p>Setiap goresan kuas Piko membuat langit menjadi indah.<br>Semua hewan menyukai lukisannya.</p>
+<button class="btn-listen" id="listen-1" onclick="toggleListen(1)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next" id="page-2">
 <div class="page-img"><img src="../assets/cerita/piko/hal03.jpg" loading="lazy"></div>
-<div class="page-text"><p>Tapi suatu pagi…<br>Langit terlihat aneh.<br><em>Semua warna menghilang.</em></p></div>
+<div class="page-text"><p>Tapi suatu pagi…<br>Langit terlihat aneh.<br><em>Semua warna menghilang.</em></p>
+<button class="btn-listen" id="listen-2" onclick="toggleListen(2)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next" id="page-3">
 <div class="page-img"><img src="../assets/cerita/piko/hal04.jpg" loading="lazy"></div>
-<div class="page-text"><p>Piko mencoba melukis lagi.<br>Tapi kuas ajaibnya tidak mengeluarkan warna.<br><em>"Kenapa…?"</em></p></div>
+<div class="page-text"><p>Piko mencoba melukis lagi.<br>Tapi kuas ajaibnya tidak mengeluarkan warna.<br><em>"Kenapa…?"</em></p>
+<button class="btn-listen" id="listen-3" onclick="toggleListen(3)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next" id="page-4">
 <!-- hal06 = Piko di persimpangan jalan → cocok untuk "pergi ke Gunung Pelangi" -->
 <div class="page-img"><img src="../assets/cerita/piko/hal06.jpg" loading="lazy"></div>
-<div class="page-text"><p>Piko memutuskan pergi ke Gunung Pelangi.<br>Katanya, semua warna berasal dari sana.</p></div>
+<div class="page-text"><p>Piko memutuskan pergi ke Gunung Pelangi.<br>Katanya, semua warna berasal dari sana.</p>
+<button class="btn-listen" id="listen-4" onclick="toggleListen(4)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next" id="page-5">
 <!-- hal07 = Piko di hutan berkabut → cocok untuk "kabut tebal" -->
 <div class="page-img"><img src="../assets/cerita/piko/hal07.jpg" loading="lazy"></div>
-<div class="page-text"><p>Perjalanan tidak mudah.<br>Kabut tebal menutupi jalan.<br>Piko terus berjalan meski takut.</p></div>
+<div class="page-text"><p>Perjalanan tidak mudah.<br>Kabut tebal menutupi jalan.<br>Piko terus berjalan meski takut.</p>
+<button class="btn-listen" id="listen-5" onclick="toggleListen(5)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next" id="page-6">
 <!-- hal05 = Piko sedih → cocok untuk "hampir menyerah" -->
 <div class="page-img"><img src="../assets/cerita/piko/hal05.jpg" loading="lazy"></div>
-<div class="page-text"><p>Piko hampir menyerah.<br>Langit masih tetap abu-abu.<br><em>"Aku tidak bisa…"</em></p></div>
+<div class="page-text"><p>Piko hampir menyerah.<br>Langit masih tetap abu-abu.<br><em>"Aku tidak bisa…"</em></p>
+<button class="btn-listen" id="listen-6" onclick="toggleListen(6)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next" id="page-7">
 <div class="page-img"><img src="../assets/cerita/piko/hal08.jpg" loading="lazy"></div>
-<div class="page-text"><p>Lalu Piko teringat sesuatu.<br><em>Warna bukan berasal dari kuas.</em><br>Warna berasal dari hati.</p></div>
+<div class="page-text"><p>Lalu Piko teringat sesuatu.<br><em>Warna bukan berasal dari kuas.</em><br>Warna berasal dari hati.</p>
+<button class="btn-listen" id="listen-7" onclick="toggleListen(7)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next" id="page-8">
 <div class="page-img"><img src="../assets/cerita/piko/hal09.jpg" loading="lazy"></div>
-<div class="page-text"><p>Piko melukis lagi.<br>Kali ini dengan senyum hangat.<br>Kuas bersinar lebih terang dari sebelumnya.</p></div>
+<div class="page-text"><p>Piko melukis lagi.<br>Kali ini dengan senyum hangat.<br>Kuas bersinar lebih terang dari sebelumnya.</p>
+<button class="btn-listen" id="listen-8" onclick="toggleListen(8)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next page-end" id="page-9">
@@ -398,6 +433,7 @@ if ('serviceWorker' in navigator) {
 <span class="end-title">🌈 Tamat!</span>
 <p>Perlahan, warna kembali memenuhi langit.<br>Awan berubah indah seperti dulu — bahkan lebih indah.</p>
 <span class="moral">✨ Warna yang paling indah adalah warna yang datang dari hati yang tulus.</span>
+<button class="btn-listen" id="listen-9" onclick="toggleListen(9)">🔊 Dengarkan</button>
 </div>
 </div>
 
@@ -424,6 +460,40 @@ if ('serviceWorker' in navigator) {
 const TOTAL = 10;
 let current = 0;
 
+// ===== CERITA BERSUARA =====
+const listenAudio = new Audio();
+let listenPage = -1;
+function stopListen(){
+  listenAudio.pause();
+  listenAudio.currentTime = 0;
+  if(listenPage >= 0){
+    const b = document.getElementById('listen-'+listenPage);
+    if(b){ b.textContent = '🔊 Dengarkan'; b.classList.remove('playing'); }
+  }
+  listenPage = -1;
+}
+function toggleListen(i){
+  if(listenPage === i && !listenAudio.paused){
+    listenAudio.pause();
+    const b = document.getElementById('listen-'+i);
+    if(b){ b.textContent = '🔊 Dengarkan'; b.classList.remove('playing'); }
+    return;
+  }
+  stopListen();
+  listenAudio.src = '../assets/cerita/piko/audio/hal' + String(i+1).padStart(2,'0') + '.mp3';
+  listenAudio.play().catch(()=>{});
+  listenPage = i;
+  const b = document.getElementById('listen-'+i);
+  if(b){ b.textContent = '⏸ Berhenti'; b.classList.add('playing'); }
+}
+listenAudio.addEventListener('ended', ()=>{
+  if(listenPage >= 0){
+    const b = document.getElementById('listen-'+listenPage);
+    if(b){ b.textContent = '🔊 Dengarkan'; b.classList.remove('playing'); }
+    listenPage = -1;
+  }
+});
+
 const dotsEl = document.getElementById('dots');
 for(let i=0;i<TOTAL;i++){
 const d = document.createElement('div');
@@ -445,6 +515,7 @@ d.className = 'dot'+(i===current?' active':i<current?' done':'');
 }
 
 function goToPage(n){
+stopListen();
 document.querySelectorAll('.page').forEach((p,i)=>{
 p.className = 'page '+(i===n?'active':i<n?'prev':'next');
 if(i===n && p.className.includes('page-end')) p.className += ' page-end';
@@ -471,6 +542,7 @@ if(current > 0) goToPage(current-1);
 }
 
 function showFinish(){
+stopListen();
 document.getElementById('finishOverlay').style.display = 'flex';
 Sound.finish();
 const nb = Badge.onCeritaDone();
@@ -488,6 +560,7 @@ document.getElementById('bookArea').style.display = 'flex';
 }
 
 function goBack(){
+stopListen();
 window.location.href = '../cerita.html';
 }
 

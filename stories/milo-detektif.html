@@ -187,6 +187,31 @@ font-style:normal;
 font-weight:700;
 }
 
+/* ===== Tombol Dengarkan (Cerita Bersuara) ===== */
+.btn-listen{
+display:block;
+margin:12px auto 2px;
+padding:10px 26px;
+border:none;
+border-radius:999px;
+background:linear-gradient(135deg,#ff8fc6,#ff69b4);
+color:white;
+font-size:16px;
+font-weight:bold;
+font-family:'Baloo 2',cursive;
+cursor:pointer;
+box-shadow:0 4px 14px rgba(255,105,180,.45);
+transition:.2s;
+}
+.btn-listen:active{ transform:scale(.95); }
+.btn-listen.playing{ background:linear-gradient(135deg,#ffd968,#f5a623); }
+
+.cover-note{
+color:#e0cfff;
+font-size:14px;
+margin-top:-8px;
+}
+
 /* Halaman akhir */
 .page-end .page-text{
 background:linear-gradient(180deg,rgba(42,8,84,.92),rgba(100,20,160,.95));
@@ -336,6 +361,7 @@ if ('serviceWorker' in navigator) {
 <h1>🐱 Milo Si Kucing Detektif</h1>
 <p class="author">Cerita untuk DeerBee Kids Club</p>
 <button class="btn-start" onclick="startBook()">Baca Cerita ▶</button>
+<p class="cover-note">🔊 Setiap halaman bisa didengarkan suaranya</p>
 </div>
 
 <!-- BOOK AREA -->
@@ -351,47 +377,56 @@ if ('serviceWorker' in navigator) {
 
 <div class="page active" id="page-0">
 <div class="page-img"><img src="../assets/cerita/milo/hal01.jpg" loading="eager"></div>
-<div class="page-text"><p>Milo adalah kucing oren yang sangat suka tidur.<br>Pagi, siang, sore… kalau ada tempat nyaman, Milo pasti tertidur.</p></div>
+<div class="page-text"><p>Milo adalah kucing oren yang sangat suka tidur.<br>Pagi, siang, sore… kalau ada tempat nyaman, Milo pasti tertidur.</p>
+<button class="btn-listen" id="listen-0" onclick="toggleListen(0)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next" id="page-1">
 <div class="page-img"><img src="../assets/cerita/milo/hal02.jpg" loading="lazy"></div>
-<div class="page-text"><p>Suatu pagi, Milo terbangun.<br>Hidung kecilnya bergerak-gerak.<br><em>"Hmmm… bau ikan!"</em></p></div>
+<div class="page-text"><p>Suatu pagi, Milo terbangun.<br>Hidung kecilnya bergerak-gerak.<br><em>"Hmmm… bau ikan!"</em></p>
+<button class="btn-listen" id="listen-1" onclick="toggleListen(1)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next" id="page-2">
 <div class="page-img"><img src="../assets/cerita/milo/hal03.jpg" loading="lazy"></div>
-<div class="page-text"><p>Aroma ikan itu berasal dari pasar.<br>Tapi tiba-tiba terdengar teriakan keras.<br><em>"AAAA! IKANKU HILANG!"</em></p></div>
+<div class="page-text"><p>Aroma ikan itu berasal dari pasar.<br>Tapi tiba-tiba terdengar teriakan keras.<br><em>"AAAA! IKANKU HILANG!"</em></p>
+<button class="btn-listen" id="listen-2" onclick="toggleListen(2)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next" id="page-3">
 <div class="page-img"><img src="../assets/cerita/milo/hal04.jpg" loading="lazy"></div>
-<div class="page-text"><p>Semua orang berkumpul di kios ikan.<br>Mereka melihat Milo berdiri di sana.<br><em>"Hei… jangan-jangan Milo pelakunya!"</em></p></div>
+<div class="page-text"><p>Semua orang berkumpul di kios ikan.<br>Mereka melihat Milo berdiri di sana.<br><em>"Hei… jangan-jangan Milo pelakunya!"</em></p>
+<button class="btn-listen" id="listen-3" onclick="toggleListen(3)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next" id="page-4">
 <div class="page-img"><img src="../assets/cerita/milo/hal05.jpg" loading="lazy"></div>
-<div class="page-text"><p>Milo terkejut.<br><em>"Aku bukan pencurinya!"</em><br>Ia mengepalkan kaki kecilnya. Milo harus membersihkan namanya.</p></div>
+<div class="page-text"><p>Milo terkejut.<br><em>"Aku bukan pencurinya!"</em><br>Ia mengepalkan kaki kecilnya. Milo harus membersihkan namanya.</p>
+<button class="btn-listen" id="listen-4" onclick="toggleListen(4)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next" id="page-5">
 <div class="page-img"><img src="../assets/cerita/milo/hal06.jpg" loading="lazy"></div>
-<div class="page-text"><p>Milo mencari bantuan sahabatnya.<br><em>"Cici! Aku butuh bantuanmu!"</em><br>Cici langsung terbang mendekat. <em>"Ayo pecahkan misteri ini!"</em></p></div>
+<div class="page-text"><p>Milo mencari bantuan sahabatnya.<br><em>"Cici! Aku butuh bantuanmu!"</em><br>Cici langsung terbang mendekat. <em>"Ayo pecahkan misteri ini!"</em></p>
+<button class="btn-listen" id="listen-5" onclick="toggleListen(5)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next" id="page-6">
 <div class="page-img"><img src="../assets/cerita/milo/hal07.jpg" loading="lazy"></div>
-<div class="page-text"><p>Mereka mencari petunjuk di sekitar pasar.<br>Lalu Cici berseru, <em>"Lihat!"</em><br>Ada jejak kaki kecil di tanah.</p></div>
+<div class="page-text"><p>Mereka mencari petunjuk di sekitar pasar.<br>Lalu Cici berseru, <em>"Lihat!"</em><br>Ada jejak kaki kecil di tanah.</p>
+<button class="btn-listen" id="listen-6" onclick="toggleListen(6)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next" id="page-7">
 <div class="page-img"><img src="../assets/cerita/milo/hal08.jpg" loading="lazy"></div>
-<div class="page-text"><p>Jejak itu membawa mereka ke gang kecil.<br>Di sana, seekor anak kucing kecil memeluk ikan sambil gemetar.</p></div>
+<div class="page-text"><p>Jejak itu membawa mereka ke gang kecil.<br>Di sana, seekor anak kucing kecil memeluk ikan sambil gemetar.</p>
+<button class="btn-listen" id="listen-7" onclick="toggleListen(7)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next" id="page-8">
 <div class="page-img"><img src="../assets/cerita/milo/hal09.jpg" loading="lazy"></div>
-<div class="page-text"><p><em>"A-aku lapar…"</em> katanya pelan.<br>Milo menatap anak kucing itu.<br>Rasa marahnya perlahan hilang.</p></div>
+<div class="page-text"><p><em>"A-aku lapar…"</em> katanya pelan.<br>Milo menatap anak kucing itu.<br>Rasa marahnya perlahan hilang.</p>
+<button class="btn-listen" id="listen-8" onclick="toggleListen(8)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next page-end" id="page-9">
@@ -400,6 +435,7 @@ if ('serviceWorker' in navigator) {
 <span class="end-title">🌟 Tamat!</span>
 <p>Pak Kumis akhirnya menghela napas. <em>"Lain kali bilang dulu."</em><br>Hari itu, Milo, Cici, Pak Kumis, dan anak kucing kecil makan bersama.</p>
 <span class="moral">✨ Ternyata, berbagi membuat semuanya terasa lebih hangat.</span>
+<button class="btn-listen" id="listen-9" onclick="toggleListen(9)">🔊 Dengarkan</button>
 </div>
 </div>
 
@@ -426,6 +462,40 @@ if ('serviceWorker' in navigator) {
 const TOTAL = 10;
 let current = 0;
 
+// ===== CERITA BERSUARA =====
+const listenAudio = new Audio();
+let listenPage = -1;
+function stopListen(){
+  listenAudio.pause();
+  listenAudio.currentTime = 0;
+  if(listenPage >= 0){
+    const b = document.getElementById('listen-'+listenPage);
+    if(b){ b.textContent = '🔊 Dengarkan'; b.classList.remove('playing'); }
+  }
+  listenPage = -1;
+}
+function toggleListen(i){
+  if(listenPage === i && !listenAudio.paused){
+    listenAudio.pause();
+    const b = document.getElementById('listen-'+i);
+    if(b){ b.textContent = '🔊 Dengarkan'; b.classList.remove('playing'); }
+    return;
+  }
+  stopListen();
+  listenAudio.src = '../assets/cerita/milo/audio/hal' + String(i+1).padStart(2,'0') + '.mp3';
+  listenAudio.play().catch(()=>{});
+  listenPage = i;
+  const b = document.getElementById('listen-'+i);
+  if(b){ b.textContent = '⏸ Berhenti'; b.classList.add('playing'); }
+}
+listenAudio.addEventListener('ended', ()=>{
+  if(listenPage >= 0){
+    const b = document.getElementById('listen-'+listenPage);
+    if(b){ b.textContent = '🔊 Dengarkan'; b.classList.remove('playing'); }
+    listenPage = -1;
+  }
+});
+
 // Build dots
 const dotsEl = document.getElementById('dots');
 for(let i=0;i<TOTAL;i++){
@@ -450,6 +520,7 @@ d.className = 'dot' + (i===current?' active': i<current?' done':'');
 }
 
 function goToPage(n){
+stopListen();
 const pages = document.querySelectorAll('.page');
 pages.forEach((p,i)=>{
 const isEnd = p.classList.contains('page-end');
@@ -473,6 +544,7 @@ if(current > 0) goToPage(current-1);
 }
 
 function showFinish(){
+stopListen();
 document.getElementById('finishOverlay').style.display = 'flex';
 Sound.finish();
 const nb = Badge.onCeritaDone();
@@ -491,6 +563,7 @@ document.getElementById('bookArea').style.display = 'flex';
 }
 
 function goBack(){
+stopListen();
 window.location.href = '../cerita.html';
 }
 
