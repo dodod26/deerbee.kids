@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NQYKMMJ8C1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-NQYKMMJ8C1');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#ff69b4">
+<link rel="apple-touch-icon" href="/assets/icons/pwa/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="DeerBee">
+<title>Lulu Cari Madu - DeerBee</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="../assets/logo/favicon.png">
+<style>
+  :root{
+    color-scheme: light;
+    --pink:#ff5a8a;
+    --pink-deep:#ff69b4;
+    --pink-soft:#ffd6e3;
+    --pink-bg:#fff0f5;
+    --sun:#ffc93c;
+    --sun-deep:#f5a623;
+    --leaf:#4ecb71;
+    --ink:#4a2340;
+    --ink-soft:#8a5a76;
+    --card:#ffffff;
+    --card-shadow:0 10px 30px rgba(74,35,64,.14), 0 2px 8px rgba(74,35,64,.08);
+    --grass:#b8f0c2;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:"Baloo 2", "Nunito", system-ui, sans-serif;
+    background-color:#a8ddf0;
+    background-image:
+      radial-gradient(rgba(255,255,255,.55) 1.5px, transparent 1.7px),
+      radial-gradient(rgba(255,255,255,.35) 1.5px, transparent 1.7px),
+      linear-gradient(135deg, #7ec8f2, #a8ddf0, #fff4c4, #ffd6e8, #c2f0d0);
+    background-size:26px 26px, 44px 44px, 100% 100%;
+    background-position:0 0, 13px 22px, 0 0;
+    background-attachment:fixed;
+    color:var(--ink);
+    min-height:100dvh;
+  }
+  button{font-family:inherit; cursor:pointer; border:none; background:none; color:inherit;}
+  button:focus-visible{outline:4px solid var(--sun); outline-offset:3px;}
+
+  .wrap{max-width:680px;margin:0 auto;padding:14px 14px 28px;}
+
+  /* ---------- top bar for parents ---------- */
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:4px 2px 10px;}
+  .brand{display:flex;align-items:center;gap:10px;min-width:0;}
+  .brand img{width:46px;height:46px;border-radius:50%;object-fit:cover;border:3px solid #fff;box-shadow:0 3px 10px rgba(232,62,116,.3);background:#fff0f5;}
+  .brand .t1{font-weight:800;font-size:19px;line-height:1.05;color:var(--pink-deep);}
+  .brand .t2{font-weight:700;font-size:12.5px;color:var(--ink-soft);line-height:1.1;}
+  .icon-btn{
+    width:52px;height:52px;flex:0 0 52px;border-radius:50%;
+    background:var(--card);box-shadow:var(--card-shadow);
+    display:grid;place-items:center;font-size:24px;
+  }
+  .icon-btn:active{transform:scale(.94);}
+
+  /* ---------- progress stars ---------- */
+  .progress{
+    background:var(--card);border-radius:22px;box-shadow:var(--card-shadow);
+    padding:12px 16px 10px;margin-bottom:14px;
+  }
+  .stars{display:flex;justify-content:center;gap:8px;}
+  .star{width:44px;height:44px;display:grid;place-items:center;}
+  .star svg{width:42px;height:42px;display:block;}
+  .star .fill-star{opacity:0;transform:scale(.4);transform-origin:center;transition:opacity .25s, transform .35s cubic-bezier(.34,1.8,.5,1);}
+  .star.earned .fill-star{opacity:1;transform:scale(1);}
+  .star.earned .empty-star{opacity:0;}
+  .star .empty-star{transition:opacity .2s;}
+  .round-label{text-align:center;font-weight:800;font-size:15px;color:var(--ink-soft);margin-top:2px;letter-spacing:.02em;}
+  .round-label b{color:var(--pink-deep);font-size:17px;}
+
+  /* ---------- screens ---------- */
+  .screen{display:none;}
+  .screen.active{display:block;animation:screenIn .35s ease both;}
+  @keyframes screenIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+  .card{
+    background:var(--card);border-radius:28px;box-shadow:var(--card-shadow);
+    padding:20px 16px 22px;text-align:center;position:relative;overflow:hidden;
+  }
+
+  /* START */
+  .hero-lulu{width:min(62vw,250px);height:auto;border-radius:24px;display:block;margin:2px auto 6px;animation:bob 2.6s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+  h1{font-size:clamp(30px,7.5vw,42px);line-height:1.05;margin:8px 0 4px;font-weight:800;color:var(--pink-deep);}
+  .subtitle{font-family:"Nunito",sans-serif;font-weight:700;font-size:16px;color:var(--ink-soft);margin:0 auto 6px;max-width:420px;line-height:1.45;}
+  .howto{display:flex;justify-content:center;gap:10px;margin:14px 0 18px;flex-wrap:wrap;}
+  .howto .step{
+    display:flex;flex-direction:column;align-items:center;gap:2px;
+    background:var(--pink-bg);border-radius:18px;padding:10px 12px 8px;min-width:88px;
+  }
+  .howto .step .ic{font-size:30px;line-height:1;}
+  .howto .step span{font-size:13px;font-weight:800;color:var(--ink-soft);}
+  .btn-big{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    min-height:72px;padding:14px 38px;border-radius:999px;
+    background:linear-gradient(180deg,#ff7aa3,var(--pink) 55%,var(--pink-deep));
+    color:#fff;font-size:26px;font-weight:800;letter-spacing:.01em;
+    box-shadow:0 8px 0 #c22a58, 0 14px 24px rgba(232,62,116,.35);
+    transition:transform .08s, box-shadow .08s;
+    width:min(100%,360px);
+  }
+  .btn-big:active{transform:translateY(6px);box-shadow:0 2px 0 #c22a58, 0 6px 14px rgba(232,62,116,.3);}
+  .btn-big .play-ic{font-size:24px;}
+  .btn-sun{
+    background:linear-gradient(180deg,#ffd968,var(--sun) 55%,var(--sun-deep));
+    box-shadow:0 8px 0 #c47f0a, 0 14px 24px rgba(245,166,35,.35);color:#5b3a00;
+  }
+  .btn-sun:active{box-shadow:0 2px 0 #c47f0a, 0 6px 14px rgba(245,166,35,.3);}
+
+  /* GAME */
+  .lulu-row{display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:4px;}
+  .lulu-row img{width:84px;height:84px;border-radius:50%;object-fit:cover;border:4px solid var(--pink-soft);background:#fff0f5;flex:0 0 auto;}
+  .bubble{
+    position:relative;background:var(--pink-bg);border:3px solid var(--pink-soft);
+    border-radius:20px;padding:10px 16px;font-weight:800;font-size:19px;color:var(--ink);
+    max-width:300px;line-height:1.25;text-align:left;
+  }
+  .bubble::before{
+    content:"";position:absolute;left:-11px;top:50%;margin-top:-8px;
+    border:8px solid transparent;border-right-color:var(--pink-soft);border-left:0;
+  }
+  .bubble.pop{animation:bubblePop .35s ease;}
+  @keyframes bubblePop{0%{transform:scale(.92);}60%{transform:scale(1.05);}100%{transform:scale(1);}}
+  .lulu-row img.jump{animation:jump .55s ease;}
+  @keyframes jump{0%{transform:translateY(0);}35%{transform:translateY(-16px) rotate(-4deg);}70%{transform:translateY(-4px);}100%{transform:translateY(0);}}
+  .lulu-row img.sad{animation:sadShake .45s ease;}
+  @keyframes sadShake{0%,100%{transform:rotate(0);}25%{transform:rotate(-6deg);}75%{transform:rotate(6deg);}}
+
+  .meadow{
+    margin-top:14px;border-radius:24px;padding:20px 8px 14px;
+    background:linear-gradient(180deg, #fff7fb 0%, #ffeef5 55%, var(--grass) 55.2%, #8fe0a2 100%);
+    position:relative;
+  }
+  .flowers{display:flex;justify-content:center;align-items:flex-end;gap:6px;flex-wrap:wrap;}
+  .flower-btn{
+    flex:1 1 0;max-width:190px;min-height:190px;padding:6px 2px 2px;border-radius:24px;
+    display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+    position:relative;touch-action:manipulation;
+  }
+  .flower-btn svg{width:100%;height:auto;max-height:172px;display:block;filter:drop-shadow(0 6px 8px rgba(74,35,64,.18));}
+  /* Kesulitan bertahap: 4 bunga (ronde 3-4) sedikit lebih kecil, tetap besar untuk diketuk */
+  .flowers.count-4{gap:5px;}
+  .flowers.count-4 .flower-btn{max-width:152px;min-height:178px;}
+  .flowers.count-4 .flower-btn svg{max-height:156px;}
+  .flowers.count-4 .honey-reveal{width:80px;height:80px;}
+  /* Kesulitan bertahap: 5 bunga (ronde 5) */
+  .flowers.count-5{gap:4px;}
+  .flowers.count-5 .flower-btn{max-width:122px;min-height:162px;padding-top:16px;}
+  .flowers.count-5 .flower-btn svg{max-height:138px;}
+  .flowers.count-5 .honey-reveal{width:68px;height:68px;top:-2px;}
+  .flower-btn:active svg{transform:scale(.96);}
+  .flower-btn.wiggle svg{animation:wiggle .55s ease;}
+  @keyframes wiggle{
+    0%,100%{transform:rotate(0);}
+    15%{transform:rotate(-9deg);}
+    35%{transform:rotate(8deg);}
+    55%{transform:rotate(-6deg);}
+    75%{transform:rotate(4deg);}
+  }
+  .flower-btn.found svg{animation:foundBounce .7s cubic-bezier(.34,1.6,.5,1);}
+  @keyframes foundBounce{0%{transform:scale(1);}35%{transform:scale(1.14) rotate(-3deg);}65%{transform:scale(1.06) rotate(2deg);}100%{transform:scale(1.1);}}
+  .flower-btn.dim{opacity:.55;}
+  .flower-btn:disabled{cursor:default;}
+  .honey-reveal{
+    position:absolute;left:50%;top:-6px;transform:translate(-50%,0) scale(0);
+    width:92px;height:92px;border-radius:50%;object-fit:cover;
+    border:4px solid #fff;box-shadow:0 8px 20px rgba(245,166,35,.5);z-index:3;background:#fff8dc;
+    pointer-events:none;
+  }
+  .flower-btn.found .honey-reveal{animation:honeyPop .6s cubic-bezier(.34,1.8,.5,1) forwards;}
+  @keyframes honeyPop{from{transform:translate(-50%,10px) scale(0);}to{transform:translate(-50%,0) scale(1);}}
+  .tap-hint{text-align:center;font-weight:800;color:var(--ink-soft);font-size:15px;margin-top:12px;}
+  .tap-hint .hand{display:inline-block;font-size:19px;animation:tapPulse 1.2s ease-in-out infinite;vertical-align:-2px;}
+  @keyframes tapPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.25);}}
+
+  /* burst stars */
+  .burst{position:absolute;inset:0;pointer-events:none;z-index:5;overflow:visible;}
+  .burst i{
+    position:absolute;left:50%;top:38%;font-style:normal;font-size:26px;color:var(--sun);
+    text-shadow:0 2px 6px rgba(245,166,35,.5);
+    animation:burstFly .8s ease-out forwards;
+  }
+  @keyframes burstFly{
+    from{transform:translate(0,0) scale(.4) rotate(0deg);opacity:1;}
+    to{transform:translate(var(--dx),var(--dy)) scale(1.15) rotate(var(--rot));opacity:0;}
+  }
+
+  /* FINISH */
+  .finish-stars{display:flex;justify-content:center;gap:6px;margin:4px 0 8px;}
+  .finish-stars svg{width:46px;height:46px;animation:starIn .5s cubic-bezier(.34,1.8,.5,1) both;}
+  .finish-stars svg:nth-child(2){animation-delay:.12s;}
+  .finish-stars svg:nth-child(3){animation-delay:.24s;}
+  .finish-stars svg:nth-child(4){animation-delay:.36s;}
+  .finish-stars svg:nth-child(5){animation-delay:.48s;}
+  @keyframes starIn{from{transform:scale(0) rotate(-40deg);opacity:0;}to{transform:scale(1) rotate(0);opacity:1;}}
+  .finish-pair{display:flex;justify-content:center;align-items:flex-end;gap:8px;margin:8px 0 4px;flex-wrap:wrap;}
+  .finish-pair img{border-radius:22px;object-fit:cover;}
+  .finish-pair .lulu-fin{width:min(44vw,180px);height:auto;animation:bob 2.2s ease-in-out infinite;}
+  .finish-pair .madu-fin{width:min(38vw,150px);height:auto;animation:bob 2.2s ease-in-out .3s infinite;}
+  .confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:4;}
+  .confetti i{position:absolute;top:-24px;width:12px;height:18px;border-radius:3px;opacity:.95;animation:fall linear forwards;}
+  @keyframes fall{to{transform:translateY(560px) rotate(560deg);opacity:.9;}}
+
+  /* parent / debug bar */
+  .parent-bar{
+    margin-top:16px;background:var(--card);border-radius:20px;box-shadow:var(--card-shadow);
+    padding:12px 14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+  }
+  .parent-bar .note{font-family:"Nunito",sans-serif;font-size:13px;font-weight:700;color:var(--ink-soft);line-height:1.4;flex:1 1 220px;}
+  .parent-bar .note b{color:var(--ink);}
+  .btn-small{
+    min-height:52px;padding:10px 20px;border-radius:999px;font-size:17px;font-weight:800;
+    background:var(--pink-bg);color:var(--pink-deep);border:3px solid var(--pink-soft);
+    display:inline-flex;align-items:center;gap:8px;
+  }
+  .btn-small:active{transform:scale(.96);}
+  .debug-line{
+    margin-top:10px;text-align:center;font-family:ui-monospace,Menlo,monospace;
+    font-size:12px;color:var(--ink-soft);
+  }
+
+  @media (max-width:560px){
+    /* Di HP sempit, 4 bunga jadi 2+2 dan 5 bunga jadi 3+2 supaya tetap besar */
+    .flowers.count-4 .flower-btn{flex:0 1 44%;max-width:158px;min-height:168px;}
+    .flowers.count-4 .flower-btn svg{max-height:148px;}
+    .flowers.count-5 .flower-btn{flex:0 1 30%;max-width:118px;min-height:148px;padding-top:12px;}
+    .flowers.count-5 .flower-btn svg{max-height:124px;}
+    .flowers.count-5 .honey-reveal{width:62px;height:62px;}
+  }
+  @media (max-width:420px){
+    .flower-btn{min-height:164px;}
+    .flower-btn svg{max-height:148px;}
+    .honey-reveal{width:76px;height:76px;}
+    .bubble{font-size:17px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
+  }
+
+/* ===== Tombol kembali (sama seperti game DeerBee lain) ===== */
+.btn-back-icon{display:block;width:120px;margin:6px auto 20px;position:relative;z-index:1;transition:.2s;}
+.btn-back-icon img{width:100%;display:block;filter:drop-shadow(0 4px 6px rgba(0,0,0,.15));}
+.btn-back-icon:hover{transform:translateY(-3px);}
+.btn-back-icon:active{transform:scale(.95);}
+/* ===== Tombol Musik (sama seperti halaman lain) ===== */
+#musicToggle{position:fixed;bottom:20px;right:20px;width:50px;height:50px;border-radius:50%;border:none;background:white;box-shadow:0 4px 12px rgba(0,0,0,.2);font-size:22px;cursor:pointer;z-index:100;transition:.25s;animation:musicBounce 1.4s ease-in-out infinite;}
+@keyframes musicBounce{0%,100%{transform:scale(1);}50%{transform:scale(1.15);}}
+#musicToggle:hover{transform:scale(1.1);animation:none;}
+</style>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
+  });
+}
+</script>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <img src="../assets/minigame/lulu-cari-madu/lulu.webp" alt="Lulu si lebah kecil" />
+      <div>
+        <div class="t1">Lulu Cari Madu</div>
+        <div class="t2">DeerBee Kids Club • Usia 2–5 tahun</div>
+      </div>
+    </div>
+    <button class="icon-btn" id="soundBtn" type="button" aria-label="Suara nyala atau mati">🔊</button>
+  </div>
+
+  <div class="progress" aria-label="Bintang yang didapat">
+    <div class="stars" id="starsRow"></div>
+    <div class="round-label" id="roundLabel">Ketuk <b>Main</b> untuk mulai</div>
+  </div>
+
+  <!-- START SCREEN -->
+  <section class="screen active" id="screenStart">
+    <div class="card">
+      <img class="hero-lulu" src="../assets/minigame/lulu-cari-madu/lulu.webp" alt="Lulu si lebah kecil melambaikan tangan" />
+      <h1>Lulu Cari Madu</h1>
+      <p class="subtitle">Madu Lulu sembunyi di balik bunga. Makin lama bunganya makin banyak — bantu Lulu menemukannya, yuk!</p>
+      <div class="howto" aria-hidden="true">
+        <div class="step"><span class="ic">🌸</span><span>Ketuk bunga</span></div>
+        <div class="step"><span class="ic">🍯</span><span>Cari madu</span></div>
+        <div class="step"><span class="ic">⭐</span><span>Dapat bintang</span></div>
+      </div>
+      <button class="btn-big" id="startBtn" type="button"><span class="play-ic">▶</span> Main</button>
+    </div>
+  </section>
+
+  <!-- GAME SCREEN -->
+  <section class="screen" id="screenGame">
+    <div class="card" id="gameCard">
+      <div class="lulu-row">
+        <img id="luluFace" src="../assets/minigame/lulu-cari-madu/lulu.webp" alt="Lulu si lebah kecil" />
+        <div class="bubble" id="bubble">Di bunga mana madunya? 🍯</div>
+      </div>
+      <div class="meadow">
+        <div class="flowers" id="flowersRow"></div>
+        <div class="burst" id="burst"></div>
+      </div>
+      <div class="tap-hint" id="tapHint"><span class="hand">👆</span> <span id="tapHintText">Ketuk 1 bunga!</span></div>
+    </div>
+  </section>
+
+  <!-- FINISH SCREEN -->
+  <section class="screen" id="screenFinish">
+    <div class="card" id="finishCard">
+      <div class="confetti" id="confetti"></div>
+      <div class="finish-stars" id="finishStars" aria-label="Lima bintang terkumpul"></div>
+      <h1>Yeay, Hebat! 🎉</h1>
+      <p class="subtitle">Lulu menemukan semua madunya. Terima kasih sudah membantu Lulu!</p>
+      <div class="finish-pair">
+        <img class="lulu-fin" src="../assets/minigame/lulu-cari-madu/lulu.webp" alt="Lulu si lebah kecil senang" />
+        <img class="madu-fin" src="../assets/minigame/lulu-cari-madu/madu.webp" alt="Pot madu emas" />
+      </div>
+      <button class="btn-big btn-sun" id="againBtn" type="button">↻ &nbsp;Main Lagi</button>
+    </div>
+  </section>
+
+  <div class="parent-bar">
+    <div class="note"><b>Untuk orang tua</b> — game ini melatih fokus dan ketelitian anak usia 2–5 tahun. Kesulitan bertahap: ronde 1–2 ada 3 bunga, ronde 3–4 ada 4 bunga, ronde 5 ada 5 bunga.</div>
+    <button class="btn-small" id="resetBtn" type="button">↺ Ulang dari Awal</button>
+  </div>
+  <div class="debug-line" id="debugLine">ronde: – • bunga: – • madu di bunga: – • salah ketuk: 0</div>
+
+</div>
+
+
+<a class="btn-back-icon" href="../minigame.html">
+<img src="../assets/icons/btn-back.png" alt="Kembali">
+</a>
+
+<audio id="bgMusic" src="../assets/musik/bgm.mp3" loop></audio>
+<button id="musicToggle" onclick="toggleMusic()">🔇</button>
+
+<script>
+
+(function(){
+  "use strict";
+
+  var TOTAL_ROUNDS = 5;
+  var round = 0;            // 1..5 during play
+  var stars = 0;
+  var honeyIndex = -1;
+  var currentFlowerCount = 3;
+  var wrongTaps = 0;
+  var locked = false;
+  var soundOn = true;
+  var audioCtx = null;
+
+  // Kesulitan bertahap, tetap ramah anak 2-5 tahun:
+  // ronde 1-2 = 3 bunga, ronde 3-4 = 4 bunga, ronde 5 = 5 bunga
+  function flowerCountForRound(r){
+    if (r <= 2) return 3;
+    if (r <= 4) return 4;
+    return 5;
+  }
+
+  var screens = {
+    start: document.getElementById('screenStart'),
+    game: document.getElementById('screenGame'),
+    finish: document.getElementById('screenFinish')
+  };
+  var starsRow = document.getElementById('starsRow');
+  var roundLabel = document.getElementById('roundLabel');
+  var flowersRow = document.getElementById('flowersRow');
+  var bubble = document.getElementById('bubble');
+  var luluFace = document.getElementById('luluFace');
+  var burst = document.getElementById('burst');
+  var debugLine = document.getElementById('debugLine');
+  var tapHintText = document.getElementById('tapHintText');
+
+  var STAR_EMPTY = '<svg viewBox="0 0 48 48" aria-hidden="true"><path class="empty-star" d="M24 4l5.9 12.3 13.5 1.8-9.9 9.4 2.5 13.4L24 34.4l-12 6.5 2.5-13.4-9.9-9.4 13.5-1.8z" fill="#f3d3e0" stroke="#e8a9c2" stroke-width="2" stroke-linejoin="round"/><path class="fill-star" d="M24 4l5.9 12.3 13.5 1.8-9.9 9.4 2.5 13.4L24 34.4l-12 6.5 2.5-13.4-9.9-9.4 13.5-1.8z" fill="#ffc93c" stroke="#f5a623" stroke-width="2" stroke-linejoin="round"/></svg>';
+  var STAR_FULL = '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4l5.9 12.3 13.5 1.8-9.9 9.4 2.5 13.4L24 34.4l-12 6.5 2.5-13.4-9.9-9.4 13.5-1.8z" fill="#ffc93c" stroke="#f5a623" stroke-width="2" stroke-linejoin="round"/></svg>';
+
+  // Flower colour sets: petals, petal shade, centre
+  // Pink, oranye, ungu, biru, hijau toska — semua berbeda jelas untuk anak
+  var FLOWER_SETS = [
+    { petal:'#ff7aa3', shade:'#ff5a8a', centre:'#ffc93c', centreDot:'#f5a623' },
+    { petal:'#ffb84d', shade:'#ff9f1c', centre:'#fff3b0', centreDot:'#f5a623' },
+    { petal:'#c77dff', shade:'#a855f7', centre:'#ffc93c', centreDot:'#f5a623' },
+    { petal:'#64c8ff', shade:'#339af0', centre:'#ffc93c', centreDot:'#f5a623' },
+    { petal:'#3ddbb9', shade:'#12b886', centre:'#fff3b0', centreDot:'#f5a623' }
+  ];
+
+  function flowerSVG(set){
+    var petals = '';
+    for (var i = 0; i < 6; i++){
+      var a = i * 60;
+      petals += '<ellipse cx="60" cy="26" rx="17" ry="24" fill="' + (i % 2 ? set.shade : set.petal) + '" transform="rotate(' + a + ' 60 62)"/>';
+    }
+    return '<svg viewBox="0 0 120 168" role="img" aria-hidden="true">'
+      + '<path d="M60 96 C58 122 58 144 60 164" stroke="#2fa84f" stroke-width="8" fill="none" stroke-linecap="round"/>'
+      + '<path d="M60 132 C46 128 36 118 34 104 C50 106 58 116 60 132Z" fill="#4ecb71"/>'
+      + '<path d="M61 144 C75 140 85 130 87 116 C71 118 63 128 61 144Z" fill="#3cb85c"/>'
+      + petals
+      + '<circle cx="60" cy="62" r="19" fill="' + set.centre + '"/>'
+      + '<circle cx="54" cy="58" r="3.2" fill="' + set.centreDot + '"/>'
+      + '<circle cx="66" cy="58" r="3.2" fill="' + set.centreDot + '"/>'
+      + '<circle cx="60" cy="67" r="3.2" fill="' + set.centreDot + '"/>'
+      + '</svg>';
+  }
+
+  /* ---------- sound (WebAudio, no files) ---------- */
+  function ensureAudio(){
+    if (!soundOn) return null;
+    try{
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      return audioCtx;
+    }catch(e){ return null; }
+  }
+  function tone(freq, start, dur, type, vol){
+    var ctx = ensureAudio(); if (!ctx) return;
+    var t = ctx.currentTime + start;
+    var osc = ctx.createOscillator(), gain = ctx.createGain();
+    osc.type = type || 'sine'; osc.frequency.setValueAtTime(freq, t);
+    gain.gain.setValueAtTime(0.0001, t);
+    gain.gain.exponentialRampToValueAtTime(vol || 0.18, t + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(t); osc.stop(t + dur + 0.05);
+  }
+  function playTap(){ tone(520, 0, 0.12, 'sine', 0.10); }
+  function playWrong(){ tone(220, 0, 0.16, 'triangle', 0.14); tone(180, 0.12, 0.2, 'triangle', 0.12); }
+  function playCorrect(){
+    tone(523.25, 0, 0.16, 'sine', 0.18);
+    tone(659.25, 0.1, 0.16, 'sine', 0.18);
+    tone(783.99, 0.2, 0.28, 'sine', 0.2);
+  }
+  function playFanfare(){
+    var notes = [523.25, 659.25, 783.99, 1046.5, 783.99, 1046.5];
+    for (var i = 0; i < notes.length; i++) tone(notes[i], i * 0.13, 0.24, 'triangle', 0.16);
+  }
+
+  /* ---------- UI helpers ---------- */
+  function showScreen(name){
+    Object.keys(screens).forEach(function(k){ screens[k].classList.toggle('active', k === name); });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function renderStars(){
+    starsRow.innerHTML = '';
+    for (var i = 0; i < TOTAL_ROUNDS; i++){
+      var d = document.createElement('div');
+      d.className = 'star' + (i < stars ? ' earned' : '');
+      d.innerHTML = STAR_EMPTY;
+      starsRow.appendChild(d);
+    }
+  }
+  function renderFinishStars(){
+    var el = document.getElementById('finishStars');
+    el.innerHTML = '';
+    for (var i = 0; i < TOTAL_ROUNDS; i++){
+      var w = document.createElement('span'); w.innerHTML = STAR_FULL; el.appendChild(w.firstChild);
+    }
+  }
+  function setBubble(text){
+    bubble.textContent = text;
+    bubble.classList.remove('pop'); void bubble.offsetWidth; bubble.classList.add('pop');
+  }
+  function updateDebug(){
+    debugLine.textContent = 'ronde: ' + (round || '–') + ' / ' + TOTAL_ROUNDS
+      + ' • bunga: ' + (round ? currentFlowerCount : '–')
+      + ' • madu di bunga: ' + (honeyIndex >= 0 ? (honeyIndex + 1) : '–')
+      + ' • bintang: ' + stars
+      + ' • salah ketuk: ' + wrongTaps;
+  }
+  function starBurst(){
+    burst.innerHTML = '';
+    var glyphs = ['★','★','✦','★','✦','★'];
+    for (var i = 0; i < 10; i++){
+      var s = document.createElement('i');
+      s.textContent = glyphs[i % glyphs.length];
+      var ang = (Math.PI * 2 * i) / 10 + Math.random() * 0.4;
+      var dist = 90 + Math.random() * 90;
+      s.style.setProperty('--dx', Math.cos(ang) * dist + 'px');
+      s.style.setProperty('--dy', Math.sin(ang) * dist - 30 + 'px');
+      s.style.setProperty('--rot', (Math.random() * 160 - 80) + 'deg');
+      s.style.fontSize = (20 + Math.random() * 16) + 'px';
+      burst.appendChild(s);
+    }
+    setTimeout(function(){ burst.innerHTML = ''; }, 900);
+  }
+  function confettiRain(){
+    var box = document.getElementById('confetti');
+    box.innerHTML = '';
+    var colors = ['#ff5a8a','#ffc93c','#4ecb71','#c77dff','#ff9f1c','#5ec8ff'];
+    for (var i = 0; i < 42; i++){
+      var c = document.createElement('i');
+      c.style.left = Math.random() * 100 + '%';
+      c.style.background = colors[i % colors.length];
+      c.style.animationDuration = (1.6 + Math.random() * 1.8) + 's';
+      c.style.animationDelay = (Math.random() * 0.9) + 's';
+      box.appendChild(c);
+    }
+    setTimeout(function(){ box.innerHTML = ''; }, 4800);
+  }
+
+  /* ---------- game flow ---------- */
+  function buildFlowers(count){
+    flowersRow.innerHTML = '';
+    flowersRow.className = 'flowers count-' + count;
+    for (var i = 0; i < count; i++){
+      (function(idx){
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'flower-btn';
+        b.setAttribute('aria-label', 'Bunga ' + (idx + 1));
+        b.innerHTML = '<img class="honey-reveal" src="../assets/minigame/lulu-cari-madu/madu.webp" alt="" />' + flowerSVG(FLOWER_SETS[idx]);
+        b.addEventListener('click', function(){ onFlowerTap(idx, b); });
+        flowersRow.appendChild(b);
+      })(i);
+    }
+  }
+
+  function startRound(){
+    locked = false;
+    wrongTaps = 0;
+    currentFlowerCount = flowerCountForRound(round);
+    honeyIndex = Math.floor(Math.random() * currentFlowerCount);
+    buildFlowers(currentFlowerCount);
+    setBubble('Di bunga mana madunya? 🍯');
+    if (tapHintText) tapHintText.textContent = 'Ketuk 1 dari ' + currentFlowerCount + ' bunga!';
+    if (round === 3){
+      roundLabel.innerHTML = 'Ronde <b>' + round + '</b> dari ' + TOTAL_ROUNDS + ' — sekarang <b>4 bunga</b>, lebih seru!';
+    } else if (round === 5){
+      roundLabel.innerHTML = 'Ronde terakhir <b>' + round + '</b> dari ' + TOTAL_ROUNDS + ' — sekarang <b>5 bunga</b>!';
+    } else {
+      roundLabel.innerHTML = 'Ronde <b>' + round + '</b> dari ' + TOTAL_ROUNDS + ' — ' + currentFlowerCount + ' bunga, cari madunya!';
+    }
+    luluFace.classList.remove('jump','sad');
+    updateDebug();
+  }
+
+  function onFlowerTap(idx, btn){
+    if (locked) return;
+    ensureAudio();
+    if (idx === honeyIndex){
+      locked = true;
+      playCorrect();
+      btn.classList.add('found');
+      stars++;
+      renderStars();
+      starBurst();
+      luluFace.classList.remove('sad'); luluFace.classList.add('jump');
+      setBubble('Yeay! Ketemu madunya! ⭐');
+      roundLabel.innerHTML = 'Hebat! Bintang ke-<b>' + stars + '</b> didapat 🎉';
+      var all = flowersRow.querySelectorAll('.flower-btn');
+      all.forEach(function(f){ f.disabled = true; });
+      updateDebug();
+      setTimeout(function(){
+        if (round >= TOTAL_ROUNDS){ finishGame(); }
+        else { round++; startRound(); }
+      }, 1900);
+    } else {
+      playWrong();
+      wrongTaps++;
+      btn.classList.remove('wiggle'); void btn.offsetWidth; btn.classList.add('wiggle');
+      btn.classList.add('dim');
+      luluFace.classList.remove('jump'); luluFace.classList.add('sad');
+      setBubble('Ups, bukan di situ. Coba bunga lain! 🌸');
+      setTimeout(function(){ luluFace.classList.remove('sad'); }, 500);
+      setTimeout(function(){ btn.classList.remove('dim'); }, 900);
+      updateDebug();
+    }
+  }
+
+  function startGame(){
+    ensureAudio(); playTap();
+    round = 1; stars = 0;
+    renderStars();
+    showScreen('game');
+    startRound();
+  }
+
+  function finishGame(){
+    renderFinishStars();
+    showScreen('finish');
+    roundLabel.innerHTML = 'Selesai! <b>5 bintang</b> terkumpul ⭐⭐⭐⭐⭐';
+    playFanfare();
+    confettiRain();
+    updateDebug();
+  }
+
+  function resetAll(){
+    round = 0; stars = 0; honeyIndex = -1; currentFlowerCount = 3; wrongTaps = 0; locked = false;
+    if (tapHintText) tapHintText.textContent = 'Ketuk 1 bunga!';
+    renderStars();
+    roundLabel.innerHTML = 'Ketuk <b>Main</b> untuk mulai';
+    showScreen('start');
+    updateDebug();
+  }
+
+  /* ---------- wiring ---------- */
+  document.getElementById('startBtn').addEventListener('click', startGame);
+  document.getElementById('againBtn').addEventListener('click', startGame);
+  document.getElementById('resetBtn').addEventListener('click', function(){ ensureAudio(); resetAll(); });
+  document.getElementById('soundBtn').addEventListener('click', function(){
+    soundOn = !soundOn;
+    this.textContent = soundOn ? '🔊' : '🔇';
+    this.setAttribute('aria-label', soundOn ? 'Suara nyala, ketuk untuk mematikan' : 'Suara mati, ketuk untuk menyalakan');
+    if (soundOn) playTap();
+  });
+
+  renderStars();
+  updateDebug();
+})();
+
+</script>
+
+<script>
+
+/* ===================== MUSIK LATAR (sama seperti game DeerBee lain) ===================== */
+const bgAudio = document.getElementById('bgMusic');
+const bgBtn = document.getElementById('musicToggle');
+let bgPlaying = false;
+function bgOnPlaySuccess(){
+  bgBtn.textContent = '🎵';
+  bgBtn.style.animation = 'none';
+  bgPlaying = true;
+}
+function bgStartMusic(){
+  if(!bgPlaying){ bgAudio.play().then(bgOnPlaySuccess).catch(()=>{}); }
+}
+function toggleMusic(){
+  if(bgPlaying){
+    bgAudio.pause();
+    bgBtn.textContent = '🔇';
+    bgBtn.style.animation = 'musicBounce 1.4s ease-in-out infinite';
+    bgPlaying = false;
+    localStorage.setItem('deerbee_music', 'off');
+  } else {
+    bgAudio.play().then(bgOnPlaySuccess).catch(()=>{});
+    localStorage.setItem('deerbee_music', 'on');
+  }
+}
+if(localStorage.getItem('deerbee_music') !== 'off'){ bgStartMusic(); }
+window.addEventListener('load', bgStartMusic);
+document.addEventListener('click', bgStartMusic, { once:true });
+
+</script>
+</body>
+</html>
