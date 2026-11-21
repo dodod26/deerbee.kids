@@ -187,6 +187,31 @@ font-style:normal;
 font-weight:700;
 }
 
+/* ===== Tombol Dengarkan (Cerita Bersuara) ===== */
+.btn-listen{
+display:block;
+margin:12px auto 2px;
+padding:10px 26px;
+border:none;
+border-radius:999px;
+background:linear-gradient(135deg,#ff8fc6,#ff69b4);
+color:white;
+font-size:16px;
+font-weight:bold;
+font-family:'Baloo 2',cursive;
+cursor:pointer;
+box-shadow:0 4px 14px rgba(255,105,180,.45);
+transition:.2s;
+}
+.btn-listen:active{ transform:scale(.95); }
+.btn-listen.playing{ background:linear-gradient(135deg,#ffd968,#f5a623); }
+
+.cover-note{
+color:#e0cfff;
+font-size:14px;
+margin-top:-8px;
+}
+
 /* Halaman akhir */
 .page-end .page-text{
 background:linear-gradient(180deg,rgba(42,8,84,.92),rgba(100,20,160,.95));
@@ -336,6 +361,7 @@ if ('serviceWorker' in navigator) {
 <h1>🐝 Lulu Si Lebah Kecil yang Suka Berbagi</h1>
 <p class="author">Cerita untuk DeerBee Kids Club</p>
 <button class="btn-start" onclick="startBook()">Baca Cerita ▶</button>
+<p class="cover-note">🔊 Setiap halaman bisa didengarkan suaranya</p>
 </div>
 
 <!-- BOOK AREA -->
@@ -351,47 +377,56 @@ if ('serviceWorker' in navigator) {
 
 <div class="page active" id="page-0">
 <div class="page-img"><img src="../assets/cerita/lulu/hal01.jpg" loading="eager"></div>
-<div class="page-text"><p>Lulu adalah lebah kecil yang tinggal di taman bunga.<br>Ia suka terbang dan tersenyum.</p></div>
+<div class="page-text"><p>Lulu adalah lebah kecil yang tinggal di taman bunga.<br>Ia suka terbang dan tersenyum.</p>
+<button class="btn-listen" id="listen-0" onclick="toggleListen(0)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next" id="page-1">
 <div class="page-img"><img src="../assets/cerita/lulu/hal02.jpg" loading="lazy"></div>
-<div class="page-text"><p>Lulu punya sebotol madu manis.<br><em>"Ini maduku!"</em> katanya senang.</p></div>
+<div class="page-text"><p>Lulu punya sebotol madu manis.<br><em>"Ini maduku!"</em> katanya senang.</p>
+<button class="btn-listen" id="listen-1" onclick="toggleListen(1)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next" id="page-2">
 <div class="page-img"><img src="../assets/cerita/lulu/hal03.jpg" loading="lazy"></div>
-<div class="page-text"><p>Suatu pagi, Lulu bertemu Kiki si kelinci putih.<br>Kiki terlihat lapar.</p></div>
+<div class="page-text"><p>Suatu pagi, Lulu bertemu Kiki si kelinci putih.<br>Kiki terlihat lapar.</p>
+<button class="btn-listen" id="listen-2" onclick="toggleListen(2)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next" id="page-3">
 <div class="page-img"><img src="../assets/cerita/lulu/hal04.jpg" loading="lazy"></div>
-<div class="page-text"><p>Lulu berpikir.<br><em>"Bolehkah aku berbagi?"</em><br>Hatinya berdebar.</p></div>
+<div class="page-text"><p>Lulu berpikir.<br><em>"Bolehkah aku berbagi?"</em><br>Hatinya berdebar.</p>
+<button class="btn-listen" id="listen-3" onclick="toggleListen(3)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next" id="page-4">
 <div class="page-img"><img src="../assets/cerita/lulu/hal05.jpg" loading="lazy"></div>
-<div class="page-text"><p>Lulu ingat kata Ibu:<br><em>"Berbagi membuat hati senang."</em><br>Lalu Lulu memberikan madunya. <em>"Ini untukmu, Kiki!"</em></p></div>
+<div class="page-text"><p>Lulu ingat kata Ibu:<br><em>"Berbagi membuat hati senang."</em><br>Lalu Lulu memberikan madunya. <em>"Ini untukmu, Kiki!"</em></p>
+<button class="btn-listen" id="listen-4" onclick="toggleListen(4)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next" id="page-5">
 <div class="page-img"><img src="../assets/cerita/lulu/hal06.jpg" loading="lazy"></div>
-<div class="page-text"><p>Kiki tersenyum lebar.<br><em>"Terima kasih, Lulu!"</em><br>Teman-teman datang: burung biru dan kupu-kupu warna-warni. Mereka makan bersama.</p></div>
+<div class="page-text"><p>Kiki tersenyum lebar.<br><em>"Terima kasih, Lulu!"</em><br>Teman-teman datang: burung biru dan kupu-kupu warna-warni. Mereka makan bersama.</p>
+<button class="btn-listen" id="listen-5" onclick="toggleListen(5)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next" id="page-6">
 <div class="page-img"><img src="../assets/cerita/lulu/hal07.jpg" loading="lazy"></div>
-<div class="page-text"><p>Semua tertawa di bawah pelangi.<br>Berbagi itu menyenangkan!</p></div>
+<div class="page-text"><p>Semua tertawa di bawah pelangi.<br>Berbagi itu menyenangkan!</p>
+<button class="btn-listen" id="listen-6" onclick="toggleListen(6)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next" id="page-7">
 <div class="page-img"><img src="../assets/cerita/lulu/hal08.jpg" loading="lazy"></div>
-<div class="page-text"><p>Sore tiba, Lulu melambaikan sayap.<br><em>"Sampai jumpa lagi, teman-teman!"</em></p></div>
+<div class="page-text"><p>Sore tiba, Lulu melambaikan sayap.<br><em>"Sampai jumpa lagi, teman-teman!"</em></p>
+<button class="btn-listen" id="listen-7" onclick="toggleListen(7)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next" id="page-8">
 <div class="page-img"><img src="../assets/cerita/lulu/hal09.jpg" loading="lazy"></div>
-<div class="page-text"><p>Lulu memeluk Kiki.<br>Hati mereka hangat karena berbagi.</p></div>
+<div class="page-text"><p>Lulu memeluk Kiki.<br>Hati mereka hangat karena berbagi.</p>
+<button class="btn-listen" id="listen-8" onclick="toggleListen(8)">🔊 Dengarkan</button></div>
 </div>
 
 <div class="page next page-end" id="page-9">
@@ -400,6 +435,7 @@ if ('serviceWorker' in navigator) {
 <span class="end-title">🌟 Tamat!</span>
 <p>Malam tiba, Lulu tidur nyenyak.<br>Ia bermimpi tentang taman yang penuh teman.</p>
 <span class="moral">✨ Berbagi membuat semuanya terasa lebih hangat.</span>
+<button class="btn-listen" id="listen-9" onclick="toggleListen(9)">🔊 Dengarkan</button>
 </div>
 </div>
 
@@ -426,6 +462,40 @@ if ('serviceWorker' in navigator) {
 const TOTAL = 10;
 let current = 0;
 
+// ===== CERITA BERSUARA =====
+const listenAudio = new Audio();
+let listenPage = -1;
+function stopListen(){
+  listenAudio.pause();
+  listenAudio.currentTime = 0;
+  if(listenPage >= 0){
+    const b = document.getElementById('listen-'+listenPage);
+    if(b){ b.textContent = '🔊 Dengarkan'; b.classList.remove('playing'); }
+  }
+  listenPage = -1;
+}
+function toggleListen(i){
+  if(listenPage === i && !listenAudio.paused){
+    listenAudio.pause();
+    const b = document.getElementById('listen-'+i);
+    if(b){ b.textContent = '🔊 Dengarkan'; b.classList.remove('playing'); }
+    return;
+  }
+  stopListen();
+  listenAudio.src = '../assets/cerita/lulu/audio/hal' + String(i+1).padStart(2,'0') + '.mp3';
+  listenAudio.play().catch(()=>{});
+  listenPage = i;
+  const b = document.getElementById('listen-'+i);
+  if(b){ b.textContent = '⏸ Berhenti'; b.classList.add('playing'); }
+}
+listenAudio.addEventListener('ended', ()=>{
+  if(listenPage >= 0){
+    const b = document.getElementById('listen-'+listenPage);
+    if(b){ b.textContent = '🔊 Dengarkan'; b.classList.remove('playing'); }
+    listenPage = -1;
+  }
+});
+
 // Build dots
 const dotsEl = document.getElementById('dots');
 for(let i=0;i<TOTAL;i++){
@@ -450,6 +520,7 @@ d.className = 'dot' + (i===current?' active': i<current?' done':'');
 }
 
 function goToPage(n){
+stopListen();
 const pages = document.querySelectorAll('.page');
 pages.forEach((p,i)=>{
 const isEnd = p.classList.contains('page-end');
@@ -473,6 +544,7 @@ if(current > 0) goToPage(current-1);
 }
 
 function showFinish(){
+stopListen();
 document.getElementById('finishOverlay').style.display = 'flex';
 Sound.finish();
 const nb = Badge.onCeritaDone();
@@ -491,6 +563,7 @@ document.getElementById('bookArea').style.display = 'flex';
 }
 
 function goBack(){
+stopListen();
 window.location.href = '../cerita.html';
 }
 
