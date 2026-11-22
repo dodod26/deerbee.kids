@@ -1,0 +1,775 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light" />
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NQYKMMJ8C1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-NQYKMMJ8C1');
+</script>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#ff69b4">
+<link rel="apple-touch-icon" href="/assets/icons/pwa/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="DeerBee">
+<title>Mengenal Huruf A-Z - DeerBee</title>
+<link rel="icon" type="image/png" href="../assets/logo/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+      * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+      html, body { margin: 0; padding: 0; }
+      body {
+        font-family: "Baloo 2", "Comic Sans MS", system-ui, sans-serif;
+        color: #4a3f55;
+        min-height: 100vh;
+        background:
+          radial-gradient(circle, rgba(255,255,255,.55) 3px, transparent 4px) 0 0 / 46px 46px,
+          radial-gradient(circle, rgba(255,255,255,.4) 2px, transparent 3px) 23px 23px / 46px 46px,
+          linear-gradient(135deg, #7ec8f2, #a8ddf0, #fff4c4, #ffd6e8, #c2f0d0);
+        background-attachment: fixed;
+        padding: 16px 14px 28px;
+      }
+      .wrap { max-width: 720px; margin: 0 auto; }
+
+      h1 {
+        text-align: center;
+        color: #ff69b4;
+        font-size: clamp(2rem, 7vw, 3rem);
+        font-weight: 800;
+        margin: 6px 0 2px;
+        text-shadow: 2px 3px 0 rgba(255,255,255,.75);
+        line-height: 1.1;
+      }
+      .subtitle {
+        text-align: center;
+        font-size: clamp(1rem, 3.6vw, 1.2rem);
+        font-weight: 600;
+        color: #6b5b7e;
+        margin: 0 0 14px;
+      }
+
+      .topbar {
+        display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+        margin-bottom: 14px;
+      }
+      .btn {
+        font-family: inherit; font-weight: 700; cursor: pointer;
+        border: 3px solid #fff; border-radius: 999px;
+        background: #fff; color: #4a3f55;
+        box-shadow: 0 3px 0 rgba(0,0,0,.12);
+        padding: 10px 18px; font-size: 1rem; min-height: 48px;
+        transition: transform .08s ease, box-shadow .08s ease;
+      }
+      .btn:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(0,0,0,.12); }
+      .btn.pink { background: #ff69b4; color: #fff; }
+      .btn.blue { background: #4db2ff; color: #fff; }
+      .btn:disabled { opacity: .45; cursor: default; }
+      .icon-btn {
+        background: none; border: none; display: inline-flex; flex-direction: column;
+        align-items: center; gap: 3px; cursor: pointer;
+        font-family: inherit; font-weight: 700; font-size: 13px; color: #4a3f55;
+        padding: 0; transition: transform .08s ease;
+      }
+      .icon-btn img {
+        width: 62px; height: auto; display: block;
+        filter: drop-shadow(0 3px 5px rgba(0,0,0,.15));
+      }
+      .icon-btn:hover { transform: translateY(-2px); }
+      .icon-btn:active { transform: scale(.92); }
+      .btn-back-icon {
+        display: block; width: 120px; margin: 6px auto 20px;
+        position: relative; z-index: 1; transition: .2s;
+      }
+      .btn-back-icon img {
+        width: 100%; display: block;
+        filter: drop-shadow(0 4px 6px rgba(0,0,0,.15));
+      }
+      .btn-back-icon:hover { transform: translateY(-2px); }
+      .btn-back-icon:active { transform: scale(.95); }
+      .topbar { align-items: flex-start; }
+
+      .card {
+        background: rgba(255,255,255,.88);
+        border-radius: 28px;
+        padding: 20px 16px 24px;
+        box-shadow: 0 6px 18px rgba(90,60,120,.15);
+      }
+      .hidden { display: none !important; }
+
+      /* ---------- Pilih mode ---------- */
+      .mode-grid { display: grid; gap: 14px; }
+      @media (min-width: 560px) { .mode-grid { grid-template-columns: 1fr 1fr; } }
+      .mode-btn {
+        font-family: inherit; cursor: pointer; text-align: center;
+        border: 4px solid #fff; border-radius: 26px; padding: 26px 14px;
+        box-shadow: 0 5px 0 rgba(0,0,0,.12);
+        transition: transform .08s ease, box-shadow .08s ease;
+        min-height: 150px;
+      }
+      .mode-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 rgba(0,0,0,.12); }
+      .mode-btn.learn { background: #ffd6e8; }
+      .mode-btn.quiz { background: #fff4c4; }
+      .mode-btn .big { font-size: 2.6rem; display: block; line-height: 1.1; }
+      .mode-btn .name { font-size: 1.5rem; font-weight: 800; color: #d63384; display: block; margin-top: 4px; }
+      .mode-btn.quiz .name { color: #d99400; }
+      .mode-btn .desc { font-size: 1rem; font-weight: 600; color: #6b5b7e; display: block; margin-top: 4px; }
+
+      /* ---------- Mode Belajar ---------- */
+      .display {
+        text-align: center; padding: 10px 6px 16px; min-height: 218px;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+      }
+      .display .letter {
+        font-size: clamp(5rem, 22vw, 7.5rem); font-weight: 800; line-height: 1;
+        color: #ff69b4;
+      }
+      .display .emoji { font-size: clamp(3rem, 13vw, 4.2rem); line-height: 1.15; }
+      .display .word { font-size: clamp(1.5rem, 6vw, 2.1rem); font-weight: 800; color: #4a3f55; }
+      .display .hint { font-size: 1.15rem; font-weight: 600; color: #8a7a9e; }
+      .display.pop { animation: pop .35s ease; }
+      @keyframes pop { 0% { transform: scale(.85); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+      .letter-grid {
+        display: grid; gap: 9px;
+        grid-template-columns: repeat(auto-fill, minmax(58px, 1fr));
+      }
+      .letter-btn {
+        font-family: inherit; font-weight: 800; font-size: 1.7rem; cursor: pointer;
+        border: 3px solid #fff; border-radius: 22px; min-height: 84px;
+        color: #4a3f55; box-shadow: 0 3px 0 rgba(0,0,0,.12);
+        transition: transform .08s ease, box-shadow .08s ease;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        line-height: 1.05; padding: 4px 2px;
+      }
+      .letter-btn .btn-letter { font-size: 1.7rem; line-height: 1; }
+      .letter-btn .btn-emoji { font-size: 1.35rem; line-height: 1.1; }
+      .tilt-l { transform: rotate(-2deg); }
+      .tilt-r { transform: rotate(2deg); }
+      .letter-btn:active { transform: translateY(2px) scale(.96); box-shadow: 0 1px 0 rgba(0,0,0,.12); }
+      .letter-btn.active { outline: 4px solid #ff69b4; outline-offset: 1px; }
+
+      /* ---------- Mode Kuis ---------- */
+      .stars-row {
+        text-align: center; font-size: 2.2rem; letter-spacing: 6px; line-height: 1.2;
+        min-height: 52px;
+      }
+      .round-label {
+        text-align: center; font-weight: 800; font-size: 1.2rem; color: #6b5b7e; margin: 2px 0 10px;
+      }
+      .listen-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 8px; }
+      .listen-btn {
+        font-family: inherit; font-weight: 800; cursor: pointer; font-size: 1.2rem;
+        border: 3px solid #fff; border-radius: 999px; padding: 12px 24px; min-height: 58px;
+        background: #4db2ff; color: #fff; box-shadow: 0 4px 0 rgba(0,0,0,.15);
+        transition: transform .08s ease, box-shadow .08s ease;
+      }
+      .listen-btn.replay { background: #ffa940; }
+      .listen-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 rgba(0,0,0,.15); }
+      .message {
+        text-align: center; font-size: 1.35rem; font-weight: 800; color: #d63384;
+        min-height: 42px; margin: 6px 0 10px;
+      }
+      .choices { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+      .choice-card {
+        font-family: inherit; font-weight: 800; cursor: pointer;
+        width: 104px; height: 124px; font-size: 4rem; line-height: 1;
+        border: 4px solid #fff; border-radius: 28px; color: #4a3f55;
+        box-shadow: 0 5px 0 rgba(0,0,0,.13);
+        transition: transform .08s ease, box-shadow .08s ease;
+        position: relative;
+      }
+      .choice-card .card-bee { position: absolute; top: 5px; right: 8px; font-size: 1.15rem; line-height: 1; }
+      .choice-card:active { transform: translateY(3px); box-shadow: 0 2px 0 rgba(0,0,0,.13); }
+      .choice-card.correct { background: #7ed957 !important; color: #fff; animation: pop .4s ease; }
+      .choice-card.shake { animation: shake .45s ease; }
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        20% { transform: translateX(-9px); } 40% { transform: translateX(9px); }
+        60% { transform: translateX(-6px); } 80% { transform: translateX(6px); }
+      }
+
+      /* ---------- Perayaan ---------- */
+      .celebrate { text-align: center; padding: 12px 6px 6px; }
+      .celebrate .big-stars { font-size: 2.9rem; letter-spacing: 5px; }
+      .celebrate h2 { color: #ff69b4; font-size: 2.1rem; margin: 8px 0 4px; font-weight: 800; }
+      .celebrate p { font-size: 1.2rem; font-weight: 600; color: #6b5b7e; margin: 0 0 18px; }
+      .celebrate .btn { font-size: 1.25rem; padding: 14px 30px; min-height: 60px; }
+
+      /* ---------- Info orang tua ---------- */
+      .parent-info {
+        margin-top: 16px; background: rgba(255,255,255,.65);
+        border-radius: 16px; padding: 10px 14px;
+        font-size: .86rem; font-weight: 600; color: #6b5b7e; line-height: 1.55;
+        word-break: break-word;
+      }
+      .parent-info b { color: #4a3f55; }
+
+      #confetti-canvas {
+        position: fixed; inset: 0; width: 100%; height: 100%;
+        pointer-events: none; z-index: 50;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .display.pop, .choice-card.correct, .choice-card.shake { animation: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <h1>🔤 Mengenal Huruf A–Z</h1>
+      <p class="subtitle">Ketuk hurufnya, dengar bunyinya! 🎶</p>
+
+      <div class="topbar">
+        <button class="btn" id="mute-btn" type="button" aria-label="Bisukan atau nyalakan suara">🔊 Suara: Nyala</button>
+        <button class="icon-btn" id="restart-btn" type="button"><img src="../assets/icons/btn-acak-lavender.png" alt="Ulang dari Awal"><span>Ulang dari Awal</span></button>
+        <button class="icon-btn" id="home-btn" type="button"><img src="../assets/icons/btn-gantimode-biru.png" alt="Pilih Mode"><span>Pilih Mode</span></button>
+      </div>
+
+      <!-- Pilih mode -->
+      <section class="card" id="screen-home">
+        <div class="mode-grid">
+          <button class="mode-btn learn" id="go-learn" type="button">
+            <span class="big">📖</span>
+            <span class="name">Mode Belajar</span>
+            <span class="desc">Ketuk huruf A–Z, lihat gambarnya, dengar bunyinya</span>
+          </button>
+          <button class="mode-btn quiz" id="go-quiz" type="button">
+            <span class="big">🎮</span>
+            <span class="name">Mode Kuis</span>
+            <span class="desc">Dengar bunyinya, tebak hurufnya, kumpulkan 5 bintang!</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Mode Belajar -->
+      <section class="card hidden" id="screen-learn">
+        <div class="display" id="learn-display">
+          <div class="hint">👆 Ketuk huruf di bawah ya!</div>
+        </div>
+        <div class="letter-grid" id="letter-grid"></div>
+      </section>
+
+      <!-- Mode Kuis -->
+      <section class="card hidden" id="screen-quiz">
+        <div class="stars-row" id="quiz-stars" aria-label="Bintang terkumpul">☆☆☆☆☆</div>
+        <p class="round-label" id="quiz-round">Ronde 1 dari 5</p>
+        <div class="listen-row">
+          <button class="icon-btn" id="listen-btn" type="button"><img src="../assets/icons/btn-play-pink.png" alt="Dengarkan"><span>Dengarkan</span></button>
+          <button class="icon-btn" id="replay-btn" type="button"><img src="../assets/icons/btn-reset-mint.png" alt="Dengar Lagi"><span>Dengar Lagi</span></button>
+        </div>
+        <p class="message" id="quiz-message">Dengar bunyinya, lalu ketuk huruf yang benar!</p>
+        <div class="choices" id="quiz-choices"></div>
+      </section>
+
+      <!-- Perayaan -->
+      <section class="card hidden" id="screen-done">
+        <div class="celebrate">
+          <div class="big-stars">⭐⭐⭐⭐⭐</div>
+          <h2>Hebat Sekali! 🎉</h2>
+          <p>Kamu mengumpulkan 5 bintang!<br />Kamu sudah pintar mengenal huruf!</p>
+          <button class="icon-btn" id="again-btn" type="button"><img src="../assets/icons/btn-play-pink.png" alt="Main Lagi"><span>Main Lagi</span></button>
+        </div>
+      </section>
+
+      <div class="parent-info" id="parent-info" aria-live="polite"></div>
+
+      <a class="btn-back-icon" href="../minigame.html">
+        <img src="../assets/icons/btn-back.png" alt="Kembali ke Mini Game">
+      </a>
+    </div>
+
+    <script>
+      "use strict";
+
+      /* ================= Data ================= */
+      var LETTERS = [
+        { l: "A", w: "Apel",    e: "🍎" },
+        { l: "B", w: "Bebek",   e: "🦆" },
+        { l: "C", w: "Cicak",   e: "🦎" },
+        { l: "D", w: "Domba",   e: "🐑" },
+        { l: "E", w: "Elang",   e: "🦅" },
+        { l: "F", w: "Foto",    e: "📷" },
+        { l: "G", w: "Gajah",   e: "🐘" },
+        { l: "H", w: "Harimau", e: "🐯" },
+        { l: "I", w: "Ikan",    e: "🐟" },
+        { l: "J", w: "Jeruk",   e: "🍊" },
+        { l: "K", w: "Kucing",  e: "🐱" },
+        { l: "L", w: "Lebah",   e: "🐝" },
+        { l: "M", w: "Monyet",  e: "🐵" },
+        { l: "N", w: "Nanas",   e: "🍍" },
+        { l: "O", w: "Ombak",   e: "🌊" },
+        { l: "P", w: "Panda",   e: "🐼" },
+        { l: "Q", w: "Quran",   e: "📖" },
+        { l: "R", w: "Rusa",    e: "🦌" },
+        { l: "S", w: "Sapi",    e: "🐄" },
+        { l: "T", w: "Tikus",   e: "🐭" },
+        { l: "U", w: "Ular",    e: "🐍" },
+        { l: "V", w: "Vas",     e: "🏺" },
+        { l: "W", w: "Wortel",  e: "🥕" },
+        { l: "X", w: "Xilofon", e: "🎵" },
+        { l: "Y", w: "Yoyo",    e: "🪀" },
+        { l: "Z", w: "Zebra",   e: "🦓" }
+      ];
+      var PASTELS = ["#ffd6e8", "#fff4c4", "#c2f0d0", "#a8ddf0", "#e3d7ff", "#ffe3c2"];
+      var PRAISES = ["Hebat! 🎉", "Pintar! 🌟", "Keren! 👏", "Betul Sekali! 🎈", "Luar Biasa! 🥳"];
+      var TOTAL_ROUNDS = 5;
+
+      function byLetter(l) {
+        for (var i = 0; i < LETTERS.length; i++) if (LETTERS[i].l === l) return LETTERS[i];
+        return null;
+      }
+      function shuffle(arr) {
+        var a = arr.slice();
+        for (var i = a.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = a[i]; a[i] = a[j]; a[j] = t;
+        }
+        return a;
+      }
+
+      /* ================= State ================= */
+      var state = {
+        mode: "home",            // home | learn | quiz | done
+        muted: false,
+        round: 0,                // 0-based ronde kuis saat ini
+        quizLetters: [],         // 5 huruf target kuis (tidak berulang)
+        target: null,            // huruf target ronde ini
+        wrong: 0,                // total salah ketuk di kuis
+        stars: 0,
+        lock: false,             // kunci kartu saat jeda pindah ronde
+        lastLearn: null,         // huruf terakhir di mode belajar
+        audioStatus: "belum diputar"
+      };
+
+      /* ================= Audio =================
+         File asli per huruf di assets/suara/<huruf>.mp3.
+         Audio di-preload di awal tiap ronde / saat huruf dipilih;
+         tombol speaker hanya memutar file yang sudah dimuat. */
+      var PRAISE_KEYS = ["hebat", "pintar", "keren", "betul", "luar-biasa"];
+            /* ================= Sound DeerBee (dari js/shared.js) =================
+         Sama seperti game-game sebelumnya: jawaban benar = 1 tepuk + ding,
+         selesai = "waaau" + 9 tepuk tangan. Disintesis WebAudio, tanpa file. */
+      var Sound = (function(){
+        var ctx = null;
+        function getCtx(){
+          if(!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+          if(ctx.state === 'suspended') ctx.resume();
+          return ctx;
+        }
+        function clap(when){
+          try{
+            var c = getCtx();
+            var buf = c.createBuffer(1, c.sampleRate*0.12, c.sampleRate);
+            var data = buf.getChannelData(0);
+            for(var i=0;i<data.length;i++)
+              data[i] = (Math.random()*2-1) * Math.exp(-i/(c.sampleRate*0.04));
+            var src = c.createBufferSource();
+            src.buffer = buf;
+            var filt = c.createBiquadFilter();
+            filt.type = 'bandpass';
+            filt.frequency.value = 1200;
+            filt.Q.value = 0.8;
+            var gain = c.createGain();
+            gain.gain.setValueAtTime(0.65, when);
+            gain.gain.exponentialRampToValueAtTime(0.001, when+0.12);
+            src.connect(filt); filt.connect(gain); gain.connect(c.destination);
+            src.start(when);
+          }catch(e){}
+        }
+        function wow(){
+          try{
+            var c = getCtx();
+            var osc = c.createOscillator();
+            var gain = c.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(280, c.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(720, c.currentTime+0.35);
+            osc.frequency.exponentialRampToValueAtTime(480, c.currentTime+0.65);
+            gain.gain.setValueAtTime(0.35, c.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime+0.75);
+            osc.connect(gain); gain.connect(c.destination);
+            osc.start(c.currentTime);
+            osc.stop(c.currentTime+0.75);
+          }catch(e){}
+        }
+        function ding(){
+          try{
+            var c = getCtx();
+            var osc = c.createOscillator();
+            var gain = c.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(600, c.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(900, c.currentTime+0.15);
+            gain.gain.setValueAtTime(0.28, c.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime+0.28);
+            osc.connect(gain); gain.connect(c.destination);
+            osc.start(c.currentTime);
+            osc.stop(c.currentTime+0.28);
+          }catch(e){}
+        }
+        function correct(){
+          clap(getCtx().currentTime);
+          ding();
+        }
+        function finish(){
+          wow();
+          var c = getCtx();
+          [0.1,0.25,0.4,0.55,0.7,0.85,1.0,1.15,1.3].forEach(function(t){
+            clap(c.currentTime + t);
+          });
+        }
+        return { correct: correct, finish: finish };
+      })();
+      var audioCache = {};
+      function getAudio(letter) {
+        var key = letter.toLowerCase();
+        if (!audioCache[key]) {
+          var a = new Audio();
+          a.preload = "auto";
+          a.src = "../assets/minigame/mengenal-huruf-a-z/suara/" + key + ".mp3";
+          audioCache[key] = a;
+        }
+        return audioCache[key];
+      }
+      function preloadLetter(letter) {
+        var a = getAudio(letter);
+        try { a.load(); } catch (e) { /* abaikan */ }
+        return a;
+      }
+      function setAudioStatus(s) {
+        state.audioStatus = s;
+        renderParentInfo();
+      }
+      function playLetter(letter, isRetry) {
+        if (state.muted) {
+          setAudioStatus("dibisukan 🔇 (huruf " + letter + " tidak diputar)");
+          return;
+        }
+        var a = preloadLetter(letter);
+        setAudioStatus("memutar huruf " + letter + "…");
+        var result;
+        try {
+          result = a.play();
+        } catch (e) {
+          result = Promise.reject(e);
+        }
+        if (result && typeof result.then === "function") {
+          result.then(function () {
+            setAudioStatus("terdengar ✅ huruf " + letter);
+          }).catch(function () {
+            if (!isRetry) {
+              // Gagal putar: muat ulang lalu coba sekali lagi otomatis.
+              setAudioStatus("gagal, mencoba lagi… huruf " + letter);
+              try { a.load(); } catch (e) { /* abaikan */ }
+              setTimeout(function () { playLetter(letter, true); }, 250);
+            } else {
+              setAudioStatus("gagal memutar ❌ huruf " + letter + " — ketuk tombol Dengarkan");
+            }
+          });
+        } else {
+          setAudioStatus("terdengar ✅ huruf " + letter);
+        }
+      }
+            function getPraiseAudio(key) {
+        var cacheKey = "pujian-" + key;
+        if (!audioCache[cacheKey]) {
+          var a = new Audio();
+          a.preload = "auto";
+          a.src = "../assets/minigame/mengenal-huruf-a-z/pujian/" + key + ".mp3";
+          audioCache[cacheKey] = a;
+        }
+        return audioCache[cacheKey];
+      }
+      function playPraise(idx) {
+        if (state.muted) return;
+        var key = PRAISE_KEYS[idx];
+        var a = getPraiseAudio(key);
+        try { a.currentTime = 0; } catch (e) { /* abaikan */ }
+        try {
+          var r = a.play();
+          if (r && typeof r.then === "function") { r.catch(function () { /* abaikan */ }); }
+        } catch (e) { /* abaikan */ }
+      }
+      function playApplause() {
+        if (state.muted) return;
+        Sound.finish();
+      }
+      function stopAllAudio() {
+        for (var k in audioCache) {
+          try { audioCache[k].pause(); } catch (e) { /* abaikan */ }
+        }
+      }
+
+      /* ================= Elemen ================= */
+      var screens = {
+        home: document.getElementById("screen-home"),
+        learn: document.getElementById("screen-learn"),
+        quiz: document.getElementById("screen-quiz"),
+        done: document.getElementById("screen-done")
+      };
+      var learnDisplay = document.getElementById("learn-display");
+      var letterGrid = document.getElementById("letter-grid");
+      var quizStars = document.getElementById("quiz-stars");
+      var quizRound = document.getElementById("quiz-round");
+      var quizMessage = document.getElementById("quiz-message");
+      var quizChoices = document.getElementById("quiz-choices");
+      var parentInfo = document.getElementById("parent-info");
+      var muteBtn = document.getElementById("mute-btn");
+
+      function showScreen(name) {
+        state.mode = name;
+        for (var k in screens) screens[k].classList.toggle("hidden", k !== name);
+        renderParentInfo();
+      }
+
+      function starString(n) {
+        var s = "";
+        for (var i = 0; i < TOTAL_ROUNDS; i++) s += i < n ? "⭐" : "☆";
+        return s;
+      }
+
+      function renderParentInfo() {
+        var modeName = { home: "Pilih Mode", learn: "Belajar", quiz: "Kuis", done: "Kuis (selesai)" }[state.mode];
+        var ronde = state.mode === "quiz" || state.mode === "done"
+          ? (Math.min(state.round + 1, TOTAL_ROUNDS) + "/" + TOTAL_ROUNDS) : "-";
+        var target = "-";
+        if (state.mode === "quiz" || state.mode === "done") target = state.target || "-";
+        if (state.mode === "learn") target = state.lastLearn || "-";
+        parentInfo.innerHTML =
+          "<b>Info orang tua:</b> Mode: " + modeName +
+          " • Ronde: " + ronde +
+          " • Huruf target: " + target +
+          " • Salah ketuk: " + state.wrong +
+          " • Bintang: " + state.stars + "/" + TOTAL_ROUNDS +
+          " • Status audio: " + state.audioStatus;
+      }
+
+      /* ================= Confetti ================= */
+      var confettiCanvas = document.getElementById("confetti-canvas");
+      var confettiCtx = confettiCanvas.getContext("2d");
+      var confettiPieces = [];
+      var confettiRunning = false;
+      var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      function sizeConfettiCanvas() {
+        confettiCanvas.width = window.innerWidth;
+        confettiCanvas.height = window.innerHeight;
+      }
+      window.addEventListener("resize", sizeConfettiCanvas);
+      sizeConfettiCanvas();
+
+      function launchConfetti(count) {
+        if (reduceMotion) return;
+        var colors = ["#ff69b4", "#ffd93d", "#6bcbff", "#7ed957", "#ffa940", "#b388ff"];
+        for (var i = 0; i < count; i++) {
+          confettiPieces.push({
+            x: Math.random() * confettiCanvas.width,
+            y: -20 - Math.random() * confettiCanvas.height * 0.35,
+            w: 7 + Math.random() * 7,
+            h: 10 + Math.random() * 8,
+            vy: 2 + Math.random() * 3.2,
+            vx: -1.4 + Math.random() * 2.8,
+            rot: Math.random() * Math.PI,
+            vr: -0.12 + Math.random() * 0.24,
+            color: colors[Math.floor(Math.random() * colors.length)]
+          });
+        }
+        if (!confettiRunning) {
+          confettiRunning = true;
+          requestAnimationFrame(confettiStep);
+        }
+      }
+      function confettiStep() {
+        confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+        confettiPieces = confettiPieces.filter(function (p) { return p.y < confettiCanvas.height + 30; });
+        for (var i = 0; i < confettiPieces.length; i++) {
+          var p = confettiPieces[i];
+          p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+          confettiCtx.save();
+          confettiCtx.translate(p.x, p.y);
+          confettiCtx.rotate(p.rot);
+          confettiCtx.fillStyle = p.color;
+          confettiCtx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+          confettiCtx.restore();
+        }
+        if (confettiPieces.length > 0) {
+          requestAnimationFrame(confettiStep);
+        } else {
+          confettiRunning = false;
+          confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+        }
+      }
+
+      /* ================= Mode Belajar ================= */
+      function buildLetterGrid() {
+        letterGrid.innerHTML = "";
+        LETTERS.forEach(function (item, idx) {
+          var b = document.createElement("button");
+          b.type = "button";
+          b.className = "letter-btn " + (idx % 2 === 0 ? "tilt-l" : "tilt-r");
+          b.innerHTML = '<span class="btn-letter">' + item.l + '</span><span class="btn-emoji">' + item.e + '</span>';
+          b.style.background = PASTELS[idx % PASTELS.length];
+          b.setAttribute("aria-label", "Huruf " + item.l + ", " + item.w);
+          b.addEventListener("click", function () { learnTap(item, b); });
+          letterGrid.appendChild(b);
+        });
+      }
+      function learnTap(item, btn) {
+        state.lastLearn = item.l;
+        var buttons = letterGrid.querySelectorAll(".letter-btn");
+        for (var i = 0; i < buttons.length; i++) buttons[i].classList.remove("active");
+        btn.classList.add("active");
+        learnDisplay.innerHTML =
+          '<div class="letter">' + item.l + "</div>" +
+          '<div class="emoji">' + item.e + "</div>" +
+          '<div class="word">' + item.l + " — " + item.w + "</div>";
+        learnDisplay.classList.remove("pop");
+        void learnDisplay.offsetWidth;
+        learnDisplay.classList.add("pop");
+        playLetter(item.l, false);
+        renderParentInfo();
+      }
+
+      /* ================= Mode Kuis ================= */
+      function startQuiz() {
+        state.quizLetters = shuffle(LETTERS.map(function (x) { return x.l; })).slice(0, TOTAL_ROUNDS);
+        state.round = 0;
+        state.wrong = 0;
+        state.stars = 0;
+        showScreen("quiz");
+        startRound();
+      }
+      function startRound() {
+        state.lock = false;
+        state.target = state.quizLetters[state.round];
+        quizStars.textContent = starString(state.stars);
+        quizRound.textContent = "Ronde " + (state.round + 1) + " dari " + TOTAL_ROUNDS;
+        quizMessage.textContent = "Dengar bunyinya, lalu ketuk huruf yang benar!";
+
+        // 3 pilihan: target + 2 huruf acak lain, diacak urutannya.
+        var others = shuffle(LETTERS.map(function (x) { return x.l; }).filter(function (l) {
+          return l !== state.target;
+        })).slice(0, 2);
+        var choices = shuffle([state.target].concat(others));
+
+        quizChoices.innerHTML = "";
+        choices.forEach(function (l, idx) {
+          var b = document.createElement("button");
+          b.type = "button";
+          b.className = "choice-card " + (idx % 2 === 0 ? "tilt-l" : "tilt-r");
+          b.innerHTML = '<span class="card-bee">\u{1F41D}</span>' + l;
+          b.style.background = PASTELS[(idx + state.round) % PASTELS.length];
+          b.setAttribute("aria-label", "Huruf " + l);
+          b.addEventListener("click", function () { choiceTap(l, b); });
+          quizChoices.appendChild(b);
+        });
+
+        // Preload suara ronde ini di awal ronde, lalu putar sekali.
+        preloadLetter(state.target);
+        renderParentInfo();
+        setTimeout(function () {
+          if (state.mode === "quiz" && state.target) playLetter(state.target, false);
+        }, 450);
+      }
+      function choiceTap(letter, btn) {
+        if (state.lock || state.mode !== "quiz") return;
+        if (letter === state.target) {
+          state.lock = true;
+          state.stars++;
+          btn.classList.add("correct");
+          quizStars.textContent = starString(state.stars);
+          var praiseIdx = Math.floor(Math.random() * PRAISES.length);
+          quizMessage.textContent = PRAISES[praiseIdx] + " Itu huruf " + state.target + "!";
+          playPraise(praiseIdx);
+          launchConfetti(45);
+          renderParentInfo();
+          setTimeout(function () {
+            state.round++;
+            if (state.round < TOTAL_ROUNDS) {
+              startRound();
+            } else {
+              showScreen("done");
+              playApplause();
+              launchConfetti(160);
+              renderParentInfo();
+            }
+          }, 1500);
+        } else {
+          state.wrong++;
+          btn.classList.remove("shake");
+          void btn.offsetWidth;
+          btn.classList.add("shake");
+          quizMessage.textContent = "Ups, belum tepat. Coba lagi ya! 💪";
+          renderParentInfo();
+        }
+      }
+
+      /* ================= Kontrol atas ================= */
+      muteBtn.addEventListener("click", function () {
+        state.muted = !state.muted;
+        muteBtn.textContent = state.muted ? "🔇 Suara: Bisu" : "🔊 Suara: Nyala";
+        if (state.muted) {
+          stopAllAudio();
+          setAudioStatus("dibisukan 🔇");
+        } else {
+          setAudioStatus("suara dinyalakan 🔊");
+        }
+      });
+      document.getElementById("restart-btn").addEventListener("click", function () {
+        stopAllAudio();
+        if (state.mode === "quiz" || state.mode === "done") {
+          startQuiz();
+        } else if (state.mode === "learn") {
+          state.lastLearn = null;
+          learnDisplay.innerHTML = '<div class="hint">👆 Ketuk huruf di bawah ya!</div>';
+          var buttons = letterGrid.querySelectorAll(".letter-btn");
+          for (var i = 0; i < buttons.length; i++) buttons[i].classList.remove("active");
+          setAudioStatus("diulang dari awal");
+          renderParentInfo();
+        } else {
+          setAudioStatus("diulang dari awal");
+        }
+      });
+      document.getElementById("home-btn").addEventListener("click", function () {
+        stopAllAudio();
+        state.target = null;
+        showScreen("home");
+      });
+      document.getElementById("go-learn").addEventListener("click", function () {
+        showScreen("learn");
+      });
+      document.getElementById("go-quiz").addEventListener("click", function () {
+        startQuiz();
+      });
+      document.getElementById("again-btn").addEventListener("click", function () {
+        startQuiz();
+      });
+      document.getElementById("listen-btn").addEventListener("click", function () {
+        if (state.target) playLetter(state.target, false);
+      });
+      document.getElementById("replay-btn").addEventListener("click", function () {
+        if (state.target) playLetter(state.target, false);
+      });
+
+      /* ================= Mulai ================= */
+      buildLetterGrid();
+      showScreen("home");
+      renderParentInfo();
+    </script>
+  <script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('/service-worker.js').catch(function () {});
+  });
+}
+</script>
+</body>
+</html>
