@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="id">
+  <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NQYKMMJ8C1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-NQYKMMJ8C1');
+</script>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#ff69b4">
+<link rel="apple-touch-icon" href="/assets/icons/pwa/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="DeerBee">
+<title>Tebak Suara Hewan - DeerBee</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="../assets/logo/favicon.png">
+<style>
+      :root{
+        --pink:#ff69b4;
+        --pink-dark:#e754a3;
+        --ink:#3d3d55;
+        --ink-soft:#6b6b85;
+        --card:#ffffff;
+        --gold:#ffb703;
+        --green:#39b54a;
+        --shadow:0 10px 24px rgba(61,61,85,.16);
+        --shadow-sm:0 4px 12px rgba(61,61,85,.14);
+      }
+      *{ box-sizing:border-box; }
+      html,body{ margin:0; padding:0; }
+      body{
+        font-family:"Baloo 2", ui-rounded, system-ui, sans-serif;
+        color:var(--ink);
+        min-height:100vh;
+        background:
+          radial-gradient(rgba(255,255,255,.55) 2.2px, transparent 2.6px) 0 0/46px 46px,
+          radial-gradient(rgba(255,255,255,.35) 1.6px, transparent 2px) 23px 23px/46px 46px,
+          linear-gradient(135deg,#7ec8f2,#a8ddf0,#fff4c4,#ffd6e8,#c2f0d0);
+        background-attachment:fixed;
+        -webkit-tap-highlight-color:transparent;
+      }
+      .wrap{
+        max-width:640px;
+        margin:0 auto;
+        padding:20px 16px 40px;
+      }
+      header{ text-align:center; margin-top:6px; }
+      h1{
+        margin:0;
+        font-size:clamp(2rem,8vw,3rem);
+        font-weight:800;
+        color:var(--pink);
+        text-shadow:0 2px 0 rgba(255,255,255,.8), 0 6px 18px rgba(255,105,180,.25);
+        letter-spacing:.5px;
+      }
+      .subtitle{
+        margin:4px 0 0;
+        font-size:clamp(1rem,4vw,1.2rem);
+        font-weight:600;
+        color:var(--ink-soft);
+      }
+      /* Bintang progres */
+      .stars{
+        display:flex; justify-content:center; gap:8px;
+        margin:16px 0 4px;
+        font-size:2rem; line-height:1;
+      }
+      .stars .slot{
+        filter:grayscale(1); opacity:.35;
+        transition:transform .35s ease, filter .35s ease, opacity .35s ease;
+      }
+      .stars .slot.on{
+        filter:none; opacity:1;
+        transform:scale(1.15);
+      }
+      .round-dots{
+        display:flex; justify-content:center; gap:7px; margin:8px 0 0;
+      }
+      .round-dots span{
+        width:12px; height:12px; border-radius:50%;
+        background:rgba(255,255,255,.75);
+        box-shadow:inset 0 0 0 2px rgba(61,61,85,.12);
+      }
+      .round-dots span.done{ background:var(--gold); }
+      .round-dots span.now{ background:var(--pink); transform:scale(1.25); }
+      /* Panel permainan */
+      .panel{
+        background:rgba(255,255,255,.65);
+        border-radius:28px;
+        box-shadow:var(--shadow);
+        padding:22px 18px 24px;
+        margin-top:18px;
+        text-align:center;
+        backdrop-filter:blur(2px);
+      }
+      .listen-btn{
+        display:inline-flex; align-items:center; justify-content:center; gap:10px;
+        font-family:inherit;
+        font-size:clamp(1.25rem,5.5vw,1.6rem);
+        font-weight:800;
+        color:#fff;
+        background:linear-gradient(180deg,#ff8ac2,var(--pink));
+        border:none;
+        border-radius:999px;
+        padding:18px 30px;
+        min-height:64px;
+        cursor:pointer;
+        box-shadow:0 8px 20px rgba(255,105,180,.4), inset 0 -4px 0 rgba(0,0,0,.08);
+        transition:transform .15s ease;
+        width:100%;
+        max-width:440px;
+      }
+      .listen-btn:active{ transform:scale(.96); }
+      .listen-btn.pulse{ animation:pulse 1.4s ease-in-out infinite; }
+      @keyframes pulse{
+        0%,100%{ transform:scale(1); }
+        50%{ transform:scale(1.045); }
+      }
+      .listen-btn .spk{ font-size:1.5em; line-height:1; }
+      .listen-btn.playing .spk{ animation:wobble .5s ease-in-out infinite; display:inline-block; }
+      @keyframes wobble{
+        0%,100%{ transform:rotate(-8deg) scale(1); }
+        50%{ transform:rotate(8deg) scale(1.15); }
+      }
+      .hint{
+        margin:12px 0 0;
+        font-size:1.05rem; font-weight:700; color:var(--ink-soft);
+        min-height:1.5em;
+      }
+      .praise{
+        margin:6px 0 0;
+        font-size:clamp(1.6rem,7vw,2.2rem);
+        font-weight:800;
+        color:var(--green);
+        min-height:1.3em;
+      }
+      .praise.pop{ animation:pop .45s ease; }
+      @keyframes pop{
+        0%{ transform:scale(.4); opacity:0; }
+        60%{ transform:scale(1.15); opacity:1; }
+        100%{ transform:scale(1); opacity:1; }
+      }
+      /* Kartu hewan */
+      .cards{
+        display:grid;
+        grid-template-columns:repeat(3,1fr);
+        gap:12px;
+        margin-top:18px;
+      }
+      @media (max-width:420px){
+        .cards{ gap:9px; }
+      }
+      .card{
+        font-family:inherit;
+        background:var(--card);
+        border:4px solid transparent;
+        border-radius:24px;
+        box-shadow:var(--shadow-sm);
+        padding:16px 6px 12px;
+        cursor:pointer;
+        min-height:132px;
+        display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
+        transition:transform .2s ease, border-color .2s ease;
+      }
+      .card:active{ transform:scale(.95); }
+      .card .emoji{ font-size:clamp(3rem,14vw,4.2rem); line-height:1.1; }
+      .card .name{ font-size:clamp(1rem,4.5vw,1.3rem); font-weight:800; color:var(--ink); }
+      .card .sound{ font-size:.85rem; font-weight:600; color:var(--ink-soft); }
+      .card.correct{
+        border-color:var(--gold);
+        animation:grow .6s ease forwards;
+        background:#fffbe8;
+      }
+      @keyframes grow{
+        0%{ transform:scale(1); }
+        45%{ transform:scale(1.18) rotate(-2deg); }
+        100%{ transform:scale(1.1); }
+      }
+      .card.wrong{ animation:shake .45s ease; }
+      @keyframes shake{
+        0%,100%{ transform:translateX(0); }
+        20%{ transform:translateX(-9px); }
+        40%{ transform:translateX(9px); }
+        60%{ transform:translateX(-6px); }
+        80%{ transform:translateX(6px); }
+      }
+      .card.dim{ opacity:.45; pointer-events:none; }
+      .replay-row{ margin-top:18px; }
+      .replay-btn{
+        font-family:inherit;
+        font-size:1.1rem; font-weight:800;
+        color:var(--ink);
+        background:#fff;
+        border:none; border-radius:999px;
+        padding:12px 24px; min-height:52px;
+        cursor:pointer;
+        box-shadow:var(--shadow-sm);
+      }
+      .replay-btn:active{ transform:scale(.95); }
+      /* Layar perayaan */
+      .celebration{ display:none; text-align:center; padding:10px 0 4px; }
+      .celebration.show{ display:block; }
+      .celebration .big-emoji{ font-size:4.5rem; line-height:1; }
+      .celebration h2{
+        margin:8px 0 2px;
+        font-size:clamp(1.9rem,8vw,2.6rem);
+        font-weight:800; color:var(--pink);
+      }
+      .celebration p{ margin:0 0 6px; font-size:1.15rem; font-weight:600; color:var(--ink-soft); }
+      .celebration .final-stars{ font-size:2.6rem; letter-spacing:6px; margin:10px 0 18px; }
+      .celebration .final-stars span{ display:inline-block; animation:starIn .5s ease both; }
+      .celebration .final-stars span:nth-child(2){ animation-delay:.12s; }
+      .celebration .final-stars span:nth-child(3){ animation-delay:.24s; }
+      .celebration .final-stars span:nth-child(4){ animation-delay:.36s; }
+      .celebration .final-stars span:nth-child(5){ animation-delay:.48s; }
+      @keyframes starIn{
+        0%{ transform:scale(0) rotate(-40deg); opacity:0; }
+        70%{ transform:scale(1.3) rotate(8deg); opacity:1; }
+        100%{ transform:scale(1) rotate(0); }
+      }
+      .play-again-btn{
+        font-family:inherit;
+        font-size:1.35rem; font-weight:800; color:#fff;
+        background:linear-gradient(180deg,#5ecf6e,var(--green));
+        border:none; border-radius:999px;
+        padding:16px 38px; min-height:60px;
+        cursor:pointer;
+        box-shadow:0 8px 20px rgba(57,181,74,.35), inset 0 -4px 0 rgba(0,0,0,.08);
+      }
+      .play-again-btn:active{ transform:scale(.96); }
+      /* Kontrol orang tua */
+      .parent-bar{
+        display:flex; justify-content:center; gap:10px; flex-wrap:wrap;
+        margin-top:20px;
+      }
+      .parent-bar button{
+        font-family:inherit;
+        font-size:.95rem; font-weight:700;
+        color:var(--ink-soft);
+        background:rgba(255,255,255,.85);
+        border:none; border-radius:999px;
+        padding:10px 18px; min-height:44px;
+        cursor:pointer;
+        box-shadow:var(--shadow-sm);
+      }
+      .parent-bar button:active{ transform:scale(.95); }
+      .debug{
+        margin:16px auto 0;
+        text-align:center;
+        font-size:.78rem; font-weight:600;
+        color:rgba(61,61,85,.55);
+      }
+      .credit{
+        margin:6px auto 0;
+        text-align:center;
+        font-size:.72rem;
+        color:rgba(61,61,85,.45);
+      }
+      /* Confetti */
+      .confetti-piece{
+        position:fixed;
+        top:-4vh;
+        z-index:60;
+        pointer-events:none;
+        border-radius:3px;
+        animation:fall linear forwards;
+      }
+      @keyframes fall{
+        to{ transform:translateY(110vh) rotate(720deg); opacity:.9; }
+      }
+      @media (prefers-reduced-motion: reduce){
+        .listen-btn.pulse, .listen-btn.playing .spk{ animation:none; }
+        .confetti-piece{ display:none; }
+      }
+    </style>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
+  });
+}
+</script>
+</head>
+  <body>
+    <div class="wrap">
+      <a href="../minigame.html" style="display:inline-block;margin-bottom:6px;padding:10px 18px;border-radius:999px;background:#fff;color:#e754a3;font-weight:800;text-decoration:none;box-shadow:0 4px 12px rgba(61,61,85,.14);">⬅ Kembali ke Mini Game</a>
+      <header>
+        <h1>🔊 Tebak Suara Hewan 🐾</h1>
+        <p class="subtitle">Dengarkan suaranya, lalu ketuk hewan yang benar!</p>
+        <div class="stars" id="stars" aria-label="Bintang yang didapat">
+          <span class="slot">⭐</span><span class="slot">⭐</span><span class="slot">⭐</span><span class="slot">⭐</span><span class="slot">⭐</span>
+        </div>
+        <div class="round-dots" id="roundDots" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </header>
+
+      <section class="panel" id="gamePanel">
+        <button class="listen-btn pulse" id="listenBtn" type="button">
+          <span class="spk">🔊</span><span>Dengarkan Suaranya</span>
+        </button>
+        <p class="hint" id="hint">Ketuk tombol besar di atas untuk mendengar suara hewan 👆</p>
+        <p class="praise" id="praise" aria-live="polite"></p>
+
+        <div class="cards" id="cards"></div>
+
+        <div class="replay-row">
+          <button class="replay-btn" id="replayBtn" type="button">🔁 Dengar Lagi</button>
+        </div>
+      </section>
+
+      <section class="panel celebration" id="celebration">
+        <div class="big-emoji">🎉</div>
+        <h2>Luar Biasa!</h2>
+        <p>Kamu berhasil menebak semua suara hewan!</p>
+        <div class="final-stars"><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span></div>
+        <button class="play-again-btn" id="playAgainBtn" type="button">▶️ Main Lagi</button>
+      </section>
+
+      <div class="parent-bar">
+        <button id="muteBtn" type="button">🔊 Suara: Nyala</button>
+        <button id="restartBtn" type="button">↺ Ulang dari Awal</button>
+      </div>
+
+      <p class="debug" id="debug">Untuk orang tua — Ronde: –/5 • Jawaban: – • Salah ketuk: 0 • Bintang: 0</p>
+      <p class="credit">Suara hewan asli dari rekaman Wikimedia Commons (lisensi CC).</p>
+    </div>
+
+    <audio id="player" preload="auto" style="display:none"></audio>
+
+    <script>
+      (function(){
+        "use strict";
+        var ANIMALS = [
+          { id:"kucing", name:"Kucing", emoji:"🐱", soundLabel:"meong",  file:"../assets/minigame/tebak-suara-hewan/kucing.mp3" },
+          { id:"anjing", name:"Anjing", emoji:"🐶", soundLabel:"guk guk", file:"../assets/minigame/tebak-suara-hewan/anjing.mp3" },
+          { id:"sapi",   name:"Sapi",   emoji:"🐄", soundLabel:"moo",     file:"../assets/minigame/tebak-suara-hewan/sapi.mp3" },
+          { id:"ayam",   name:"Ayam",   emoji:"🐔", soundLabel:"kukuruyuk", file:"../assets/minigame/tebak-suara-hewan/ayam.mp3" },
+          { id:"bebek",  name:"Bebek",  emoji:"🦆", soundLabel:"kwek kwek", file:"../assets/minigame/tebak-suara-hewan/bebek.mp3" },
+          { id:"singa",  name:"Singa",  emoji:"🦁", soundLabel:"auman",   file:"../assets/minigame/tebak-suara-hewan/singa.mp3" },
+          { id:"gajah",  name:"Gajah",  emoji:"🐘", soundLabel:"terompet", file:"../assets/minigame/tebak-suara-hewan/gajah.mp3" }
+        ];
+        var PRAISES = ["Hebat! 🎉","Betul! ⭐","Pintar! 🌟","Keren! 🎊","Bagus sekali! 🏆"];
+        var TOTAL_ROUNDS = 5;
+
+        var listenBtn = document.getElementById("listenBtn");
+        var replayBtn = document.getElementById("replayBtn");
+        var cardsEl   = document.getElementById("cards");
+        var hintEl    = document.getElementById("hint");
+        var praiseEl  = document.getElementById("praise");
+        var starsEl   = document.getElementById("stars");
+        var dotsEl    = document.getElementById("roundDots");
+        var debugEl   = document.getElementById("debug");
+        var muteBtn   = document.getElementById("muteBtn");
+        var restartBtn= document.getElementById("restartBtn");
+        var gamePanel = document.getElementById("gamePanel");
+        var celebEl   = document.getElementById("celebration");
+        var playAgainBtn = document.getElementById("playAgainBtn");
+
+        var audio = document.getElementById("player");
+        var audioStatus = "siap";
+
+        var order = [];       // 5 hewan jawaban, tanpa pengulangan
+        var round = 0;        // 0-based
+        var stars = 0;
+        var wrongTaps = 0;
+        var current = null;   // hewan jawaban ronde ini
+        var locked = false;   // true saat jeda setelah jawaban benar
+        var muted = false;
+        var audioCtx = null;
+
+        function shuffle(arr){
+          var a = arr.slice();
+          for (var i = a.length - 1; i > 0; i--){
+            var j = Math.floor(Math.random() * (i + 1));
+            var t = a[i]; a[i] = a[j]; a[j] = t;
+          }
+          return a;
+        }
+
+        function updateDebug(){
+          var ans = current ? current.name : "–";
+          var r = Math.min(round + 1, TOTAL_ROUNDS);
+          debugEl.textContent = "Untuk orang tua — Ronde: " + (celebEl.classList.contains("show") ? TOTAL_ROUNDS : r) +
+            "/5 • Jawaban: " + ans + " • Salah ketuk: " + wrongTaps + " • Bintang: " + stars +
+            " • Audio: " + audioStatus;
+        }
+
+        function updateProgress(){
+          var slots = starsEl.children;
+          for (var i = 0; i < slots.length; i++){
+            slots[i].classList.toggle("on", i < stars);
+          }
+          var dots = dotsEl.children;
+          for (var j = 0; j < dots.length; j++){
+            dots[j].className = j < round ? "done" : (j === round ? "now" : "");
+          }
+        }
+
+        function attemptPlay(isRetry){
+          audio.muted = muted;
+          audio.volume = 1;
+          var p;
+          try { p = audio.play(); } catch(e){ p = null; }
+          if (p && p.then){
+            p.then(function(){
+              audioStatus = "berbunyi ✓";
+              updateDebug();
+            }).catch(function(err){
+              listenBtn.classList.remove("playing");
+              if (!isRetry && audio.readyState < 3){
+                // File belum selesai dimuat: tunggu siap, lalu putar otomatis sekali.
+                audioStatus = "memuat…";
+                updateDebug();
+                var onReady = function(){
+                  audio.removeEventListener("canplay", onReady);
+                  attemptPlay(true);
+                };
+                audio.addEventListener("canplay", onReady);
+                try { audio.load(); } catch(e){}
+              } else {
+                audioStatus = "gagal (" + (err && err.name ? err.name : "error") + ")";
+                hintEl.textContent = "Suaranya belum keluar — ketuk tombolnya sekali lagi ya 👆";
+                updateDebug();
+              }
+            });
+          }
+        }
+
+        function playCurrentSound(){
+          if (!current) return;
+          // JANGAN pause() lalu ganti src di ketukan yang sama: di sebagian
+          // browser/webview itu membatalkan play() (AbortError) sehingga
+          // suara tidak keluar sama sekali. Cukup pastikan src sesuai,
+          // lalu putar; pemuatan file sudah dilakukan sejak ronde dimulai.
+          if (audio.getAttribute("src") !== current.file){
+            audio.src = current.file;
+            try { audio.load(); } catch(e){}
+          }
+          try { audio.currentTime = 0; } catch(e){ /* abaikan: belum siap seek */ }
+          listenBtn.classList.remove("pulse");
+          listenBtn.classList.add("playing");
+          hintEl.textContent = "Hewan apa yang bersuara seperti itu? 🤔";
+          attemptPlay(false);
+        }
+        audio.addEventListener("canplay", function(){
+          if (audioStatus === "memuat…"){ audioStatus = "siap"; updateDebug(); }
+        });
+        audio.addEventListener("ended", function(){ listenBtn.classList.remove("playing"); });
+        audio.addEventListener("error", function(){
+          listenBtn.classList.remove("playing");
+          audioStatus = "file gagal dimuat";
+          hintEl.textContent = "Suaranya gagal dimuat — periksa koneksi lalu ketuk lagi 👆";
+          updateDebug();
+        });
+
+        function chime(){
+          if (muted) return;
+          try {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === "suspended") audioCtx.resume();
+            var notes = [523.25, 659.25, 783.99];
+            var t = audioCtx.currentTime;
+            notes.forEach(function(freq, i){
+              var osc = audioCtx.createOscillator();
+              var gain = audioCtx.createGain();
+              osc.type = "sine";
+              osc.frequency.value = freq;
+              gain.gain.setValueAtTime(0.0001, t + i * 0.09);
+              gain.gain.exponentialRampToValueAtTime(0.18, t + i * 0.09 + 0.02);
+              gain.gain.exponentialRampToValueAtTime(0.0001, t + i * 0.09 + 0.35);
+              osc.connect(gain); gain.connect(audioCtx.destination);
+              osc.start(t + i * 0.09); osc.stop(t + i * 0.09 + 0.4);
+            });
+          } catch(e){ /* suara pujian tambahan saja, abaikan bila gagal */ }
+        }
+
+        function confetti(count){
+          if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+          var colors = ["#ff69b4","#ffb703","#39b54a","#7ec8f2","#ff8ac2","#ffd6e8"];
+          for (var i = 0; i < count; i++){
+            var piece = document.createElement("div");
+            piece.className = "confetti-piece";
+            var size = 7 + Math.random() * 8;
+            piece.style.width = size + "px";
+            piece.style.height = size * (0.5 + Math.random()) + "px";
+            piece.style.left = (Math.random() * 100) + "vw";
+            piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+            piece.style.animationDuration = (1.6 + Math.random() * 1.8) + "s";
+            piece.style.animationDelay = (Math.random() * 0.35) + "s";
+            if (Math.random() > 0.5) piece.style.borderRadius = "50%";
+            document.body.appendChild(piece);
+            (function(el){ setTimeout(function(){ el.remove(); }, 4200); })(piece);
+          }
+        }
+
+        function startRound(){
+          locked = false;
+          current = order[round];
+          praiseEl.textContent = "";
+          praiseEl.classList.remove("pop");
+          hintEl.textContent = "Ketuk tombol besar di atas untuk mendengar suara hewan 👆";
+          listenBtn.classList.add("pulse");
+          listenBtn.classList.remove("playing");
+          try { audio.pause(); } catch(e){}
+          // Muat file suara ronde ini sekarang juga, supaya saat tombol
+          // diketuk audionya sudah siap putar (tidak menunggu unduhan).
+          audioStatus = "memuat…";
+          audio.src = current.file;
+          try { audio.load(); } catch(e){}
+
+          // 2 pengecoh acak dari hewan lain
+          var others = shuffle(ANIMALS.filter(function(a){ return a.id !== current.id; }));
+          var choices = shuffle([current, others[0], others[1]]);
+
+          cardsEl.innerHTML = "";
+          choices.forEach(function(a){
+            var btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "card";
+            btn.setAttribute("aria-label", a.name);
+            btn.innerHTML = '<span class="emoji">' + a.emoji + '</span>' +
+                            '<span class="name">' + a.name + '</span>' +
+                            '<span class="sound">"' + a.soundLabel + '"</span>';
+            btn.addEventListener("click", function(){ onPick(a, btn); });
+            cardsEl.appendChild(btn);
+          });
+          updateProgress();
+          updateDebug();
+        }
+
+        function onPick(animal, btn){
+          if (locked || !current) return;
+          if (animal.id === current.id){
+            locked = true;
+            stars++;
+            btn.classList.add("correct");
+            var cards = cardsEl.children;
+            for (var i = 0; i < cards.length; i++){
+              if (cards[i] !== btn) cards[i].classList.add("dim");
+            }
+            praiseEl.textContent = PRAISES[Math.floor(Math.random() * PRAISES.length)];
+            praiseEl.classList.remove("pop");
+            void praiseEl.offsetWidth;
+            praiseEl.classList.add("pop");
+            hintEl.textContent = "Itu suara " + current.name + "! " + current.emoji;
+            confetti(26);
+            chime();
+            updateProgress();
+            updateDebug();
+            setTimeout(function(){
+              round++;
+              if (round >= TOTAL_ROUNDS){ showCelebration(); }
+              else { startRound(); }
+            }, 1700);
+          } else {
+            wrongTaps++;
+            btn.classList.remove("wrong");
+            void btn.offsetWidth;
+            btn.classList.add("wrong");
+            hintEl.textContent = "Hampir! Coba dengar lagi, lalu ketuk yang lain 😊";
+            updateDebug();
+          }
+        }
+
+        function showCelebration(){
+          try { audio.pause(); } catch(e){}
+          gamePanel.style.display = "none";
+          celebEl.classList.add("show");
+          var dots = dotsEl.children;
+          for (var j = 0; j < dots.length; j++) dots[j].className = "done";
+          confetti(90);
+          chime();
+          setTimeout(chime, 350);
+          updateDebug();
+        }
+
+        function startGame(){
+          order = shuffle(ANIMALS).slice(0, TOTAL_ROUNDS);
+          round = 0;
+          stars = 0;
+          wrongTaps = 0;
+          celebEl.classList.remove("show");
+          gamePanel.style.display = "";
+          startRound();
+        }
+
+        listenBtn.addEventListener("click", playCurrentSound);
+        replayBtn.addEventListener("click", playCurrentSound);
+        playAgainBtn.addEventListener("click", startGame);
+        restartBtn.addEventListener("click", startGame);
+        muteBtn.addEventListener("click", function(){
+          muted = !muted;
+          audio.muted = muted;
+          muteBtn.textContent = muted ? "🔇 Suara: Mati" : "🔊 Suara: Nyala";
+        });
+
+        startGame();
+      })();
+    </script>
+  </body>
+</html>
