@@ -1,6 +1,6 @@
 // Ganti angka ini setiap kali kamu update isi web (css/js/html penting),
 // supaya versi lama di HP anak-anak ke-refresh otomatis.
-const CACHE_VERSION = 'deerbee-v2';
+const CACHE_VERSION = 'deerbee-v3';
 
 const CORE_ASSETS = [
   '/index.html',
