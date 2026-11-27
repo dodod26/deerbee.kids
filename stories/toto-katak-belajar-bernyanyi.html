@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NQYKMMJ8C1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-NQYKMMJ8C1');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#ff69b4">
+<link rel="apple-touch-icon" href="/assets/icons/pwa/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="DeerBee">
+<title>Toto Si Katak Kecil yang Belajar Bernyanyi - DeerBee</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
+<script src="../js/shared.js"></script>
+<style>
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+body{
+font-family:'Baloo 2','Arial',sans-serif;
+background:#1a0a2e;
+min-height:100vh;
+display:flex;
+flex-direction:column;
+align-items:center;
+overflow:hidden;
+user-select:none;
+}
+
+/* ===== COVER JUDUL ===== */
+#coverScreen{
+position:fixed;
+top:0;left:0;right:0;bottom:0;
+background:linear-gradient(160deg,#1a0a2e,#2d1654);
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+z-index:999;
+gap:20px;
+padding:30px;
+}
+
+#coverScreen img{
+width:220px;
+max-width:70vw;
+border-radius:20px;
+box-shadow:0 20px 60px rgba(0,0,0,.6);
+animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+0%,100%{transform:translateY(0);}
+50%{transform:translateY(-12px);}
+}
+
+#coverScreen h1{
+color:white;
+font-size:28px;
+text-align:center;
+line-height:1.3;
+}
+
+#coverScreen .author{
+color:#caa6ff;
+font-size:15px;
+}
+
+#coverScreen .btn-start{
+padding:15px 40px;
+border:none;
+border-radius:20px;
+background:linear-gradient(135deg,#ff8fc6,#ff69b4);
+color:white;
+font-size:18px;
+font-weight:bold;
+font-family:'Baloo 2',cursive;
+cursor:pointer;
+box-shadow:0 6px 20px rgba(255,105,180,.5);
+animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+0%,100%{transform:scale(1);}
+50%{transform:scale(1.05);}
+}
+
+/* ===== BOOK AREA ===== */
+#bookArea{
+width:100%;
+max-width:500px;
+height:100vh;
+display:flex;
+flex-direction:column;
+overflow:hidden;
+}
+
+/* Top bar */
+.top-bar{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:10px 16px;
+background:rgba(0,0,0,.4);
+backdrop-filter:blur(8px);
+flex-shrink:0;
+}
+
+.top-bar .title-small{
+color:white;
+font-size:14px;
+font-weight:700;
+flex:1;
+text-align:center;
+}
+
+.top-bar .btn-back-book{
+background:none;
+border:none;
+color:#caa6ff;
+font-size:22px;
+cursor:pointer;
+padding:4px 8px;
+}
+
+.page-indicator{
+color:#caa6ff;
+font-size:13px;
+font-weight:600;
+}
+
+/* ===== PAGE CONTAINER ===== */
+#pageContainer{
+flex:1;
+position:relative;
+overflow:hidden;
+}
+
+.page{
+position:absolute;
+top:0;left:0;right:0;bottom:0;
+display:flex;
+flex-direction:column;
+transition:transform .4s cubic-bezier(.4,0,.2,1), opacity .4s;
+}
+
+.page.active{ transform:translateX(0); opacity:1; z-index:2; }
+.page.prev{ transform:translateX(-100%); opacity:0; z-index:1; }
+.page.next{ transform:translateX(100%); opacity:0; z-index:1; }
+
+.page-img{
+flex:1;
+overflow:hidden;
+position:relative;
+}
+
+.page-img img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
+}
+
+/* Text overlay */
+.page-text{
+background:rgba(15,5,35,.88);
+padding:18px 20px 14px;
+flex-shrink:0;
+}
+
+.page-text p{
+color:white;
+font-size:18px;
+line-height:1.7;
+text-align:center;
+}
+
+.page-text p em{
+color:#ffe066;
+font-style:normal;
+font-weight:700;
+}
+
+/* ===== Tombol Dengarkan (Cerita Bersuara) ===== */
+.btn-listen{
+display:block;
+margin:12px auto 2px;
+padding:10px 26px;
+border:none;
+border-radius:999px;
+background:linear-gradient(135deg,#ff8fc6,#ff69b4);
+color:white;
+font-size:16px;
+font-weight:bold;
+font-family:'Baloo 2',cursive;
+cursor:pointer;
+box-shadow:0 4px 14px rgba(255,105,180,.45);
+transition:.2s;
+}
+.btn-listen:active{ transform:scale(.95); }
+.btn-listen.playing{ background:linear-gradient(135deg,#ffd968,#f5a623); }
+
+.cover-note{
+color:#e0cfff;
+font-size:14px;
+margin-top:-8px;
+}
+
+/* Halaman akhir */
+.page-end .page-text{
+background:linear-gradient(180deg,rgba(42,8,84,.92),rgba(100,20,160,.95));
+padding:30px 24px;
+}
+
+.page-end .page-text .end-title{
+font-size:24px;
+font-weight:700;
+color:#ffe066;
+margin-bottom:10px;
+display:block;
+text-shadow:0 2px 8px rgba(0,0,0,.5);
+}
+
+.page-end .page-text p{
+color:#ffffff !important;
+text-shadow:0 1px 4px rgba(0,0,0,.6);
+}
+
+.page-end .page-text .moral{
+font-size:16px;
+color:#ffffff !important;
+font-weight:600;
+line-height:1.6;
+margin-bottom:20px;
+display:block;
+text-shadow:0 1px 4px rgba(0,0,0,.6);
+}
+
+/* ===== BOTTOM NAV ===== */
+.bottom-nav{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:10px 20px 16px;
+background:rgba(0,0,0,.5);
+flex-shrink:0;
+gap:12px;
+}
+
+.btn-nav{
+width:56px;
+height:56px;
+border:none;
+border-radius:50%;
+background:rgba(255,255,255,.12);
+color:white;
+font-size:22px;
+cursor:pointer;
+transition:.2s;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.btn-nav:active{ transform:scale(0.92); }
+.btn-nav:disabled{ opacity:.25; pointer-events:none; }
+
+/* Progress dots */
+.dots{
+display:flex;
+gap:6px;
+flex-wrap:wrap;
+justify-content:center;
+flex:1;
+}
+
+.dot{
+width:8px;
+height:8px;
+border-radius:50%;
+background:rgba(255,255,255,.25);
+transition:.3s;
+}
+
+.dot.active{
+background:#ff69b4;
+transform:scale(1.3);
+}
+
+.dot.done{
+background:#caa6ff;
+}
+
+/* ===== SELESAI OVERLAY ===== */
+#finishOverlay{
+position:fixed;
+top:0;left:0;right:0;bottom:0;
+background:rgba(26,10,46,.92);
+display:none;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+z-index:99;
+padding:30px;
+gap:16px;
+}
+
+#finishOverlay .fin-icon{ font-size:60px; }
+#finishOverlay h2{ color:#ffe066; font-size:24px; text-align:center; }
+#finishOverlay p{ color:#e0cfff; font-size:16px; text-align:center; line-height:1.6; }
+
+.btn-finish{
+padding:14px 32px;
+border:none;
+border-radius:18px;
+background:linear-gradient(135deg,#ff8fc6,#ff69b4);
+color:white;
+font-size:17px;
+font-weight:bold;
+font-family:'Baloo 2',cursive;
+cursor:pointer;
+margin-top:8px;
+}
+
+.btn-finish-outline{
+padding:12px 28px;
+border:2px solid #caa6ff;
+border-radius:18px;
+background:none;
+color:#caa6ff;
+font-size:15px;
+font-weight:bold;
+font-family:'Baloo 2',cursive;
+cursor:pointer;
+}
+
+@keyframes musicBounce{
+0%,100%{transform:scale(1);}
+50%{transform:scale(1.12);}
+}
+</style>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
+  });
+}
+</script>
+</head>
+<body>
+
+<!-- COVER -->
+<div id="coverScreen">
+<img src="../assets/cerita/toto-katak-belajar-bernyanyi/hal01.jpg" alt="Cover">
+<h1>🐸 Toto Si Katak Kecil yang Belajar Bernyanyi</h1>
+<p class="author">Cerita untuk DeerBee Kids Club</p>
+<button class="btn-start" onclick="startBook()">Baca Cerita ▶</button>
+<p class="cover-note">🔊 Setiap halaman bisa didengarkan suaranya</p>
+</div>
+
+<!-- BOOK AREA -->
+<div id="bookArea" style="display:none;">
+
+<div class="top-bar">
+<button class="btn-back-book" onclick="goBack()">←</button>
+<span class="title-small">🐸 Toto Si Katak Kecil yang Belajar Bernyanyi</span>
+<span class="page-indicator" id="pageIndicator">1/10</span>
+</div>
+
+<div id="pageContainer">
+
+<div class="page active" id="page-0">
+<div class="page-img"><img src="../assets/cerita/toto-katak-belajar-bernyanyi/hal01.jpg" loading="eager"></div>
+<div class="page-text"><p>Toto adalah katak kecil yang tinggal di kolam.<br>Kulitnya hijau, perutnya krem, dan ia memakai dasi kupu-kupu kuning.</p>
+<button class="btn-listen" id="listen-0" onclick="toggleListen(0)">🔊 Dengarkan</button></div>
+</div>
+
+<div class="page next" id="page-1">
+<div class="page-img"><img src="../assets/cerita/toto-katak-belajar-bernyanyi/hal02.jpg" loading="lazy"></div>
+<div class="page-text"><p>Setiap malam, teman-teman bernyanyi di kolam.<br><em>"Kroak, kroak!"</em><br>Lala si capung menari-nari di udara.</p>
+<button class="btn-listen" id="listen-1" onclick="toggleListen(1)">🔊 Dengarkan</button></div>
+</div>
+
+<div class="page next" id="page-2">
+<div class="page-img"><img src="../assets/cerita/toto-katak-belajar-bernyanyi/hal03.jpg" loading="lazy"></div>
+<div class="page-text"><p>Toto hanya diam di atas daun teratai.<br>Ia ingin ikut bernyanyi, tapi suaranya kecil sekali.<br><em>"Kroak..."</em> hampir tidak terdengar.</p>
+<button class="btn-listen" id="listen-2" onclick="toggleListen(2)">🔊 Dengarkan</button></div>
+</div>
+
+<div class="page next" id="page-3">
+<div class="page-img"><img src="../assets/cerita/toto-katak-belajar-bernyanyi/hal04.jpg" loading="lazy"></div>
+<div class="page-text"><p><em>"Suara aku jelek,"</em> kata Toto sedih.<br>Ia pun bersembunyi di balik daun teratai yang besar.</p>
+<button class="btn-listen" id="listen-3" onclick="toggleListen(3)">🔊 Dengarkan</button></div>
+</div>
+
+<div class="page next" id="page-4">
+<div class="page-img"><img src="../assets/cerita/toto-katak-belajar-bernyanyi/hal05.jpg" loading="lazy"></div>
+<div class="page-text"><p>Ibu Katak melompat mendekat.<br><em>"Kenapa bersembunyi, Toto?"</em><br>Toto menunduk. <em>"Suara aku kecil. Semua akan tertawa."</em></p>
+<button class="btn-listen" id="listen-4" onclick="toggleListen(4)">🔊 Dengarkan</button></div>
+</div>
+
+<div class="page next" id="page-5">
+<div class="page-img"><img src="../assets/cerita/toto-katak-belajar-bernyanyi/hal06.jpg" loading="lazy"></div>
+<div class="page-text"><p>Ibu tersenyum lembut.<br><em>"Setiap katak punya suara sendiri. Suara kecilmu tetap istimewa. Coba lagi, pelan-pelan."</em></p>
+<button class="btn-listen" id="listen-5" onclick="toggleListen(5)">🔊 Dengarkan</button></div>
+</div>
+
+<div class="page next" id="page-6">
+<div class="page-img"><img src="../assets/cerita/toto-katak-belajar-bernyanyi/hal07.jpg" loading="lazy"></div>
+<div class="page-text"><p>Toto menarik napas dalam-dalam.<br><em>"Kroak... kroak!"</em><br>Suaranya masih kecil, tapi lebih berani.</p>
+<button class="btn-listen" id="listen-6" onclick="toggleListen(6)">🔊 Dengarkan</button></div>
+</div>
+
+<div class="page next" id="page-7">
+<div class="page-img"><img src="../assets/cerita/toto-katak-belajar-bernyanyi/hal08.jpg" loading="lazy"></div>
+<div class="page-text"><p>Lala si capung terbang mendekat.<br><em>"Eh, suaramu lucu! Ayo, bernyanyi bersama kami!"</em></p>
+<button class="btn-listen" id="listen-7" onclick="toggleListen(7)">🔊 Dengarkan</button></div>
+</div>
+
+<div class="page next" id="page-8">
+<div class="page-img"><img src="../assets/cerita/toto-katak-belajar-bernyanyi/hal09.jpg" loading="lazy"></div>
+<div class="page-text"><p>Malam itu, Toto bernyanyi bersama teman-temannya.<br><em>"Kroak, kroak, kroak!"</em><br>Kolam menjadi ramai dan ceria.</p>
+<button class="btn-listen" id="listen-8" onclick="toggleListen(8)">🔊 Dengarkan</button></div>
+</div>
+
+<div class="page next page-end" id="page-9">
+<div class="page-img"><img src="../assets/cerita/toto-katak-belajar-bernyanyi/hal10.jpg" loading="lazy"></div>
+<div class="page-text">
+<span class="end-title">🌟 Tamat!</span>
+<p>Sejak malam itu, Toto tidak malu lagi.<br>Ia bernyanyi setiap malam dengan gembira.</p>
+<span class="moral">✨ Setiap suara itu istimewa. Berani mencoba membuat kita percaya diri.</span>
+<button class="btn-listen" id="listen-9" onclick="toggleListen(9)">🔊 Dengarkan</button>
+</div>
+</div>
+
+</div><!-- end pageContainer -->
+
+<div class="bottom-nav">
+<button class="btn-nav" id="btnPrev" onclick="prevPage()" disabled>◀</button>
+<div class="dots" id="dots"></div>
+<button class="btn-nav" id="btnNext" onclick="nextPage()">▶</button>
+</div>
+
+</div><!-- end bookArea -->
+
+<!-- SELESAI OVERLAY -->
+<div id="finishOverlay">
+<div class="fin-icon">🎉</div>
+<h2>Cerita selesai!</h2>
+<p>Kamu sudah membaca<br><strong>Toto Si Katak Kecil yang Belajar Bernyanyi</strong> sampai habis!<br>Pintar sekali! 🌟</p>
+<button class="btn-finish" onclick="closeFinish()">Baca Ulang 🔄</button>
+<button class="btn-finish-outline" onclick="goBack()">⬅ Kembali</button>
+</div>
+
+<script>
+const TOTAL = 10;
+let current = 0;
+
+// ===== CERITA BERSUARA =====
+const listenAudio = new Audio();
+let listenPage = -1;
+function stopListen(){
+  listenAudio.pause();
+  listenAudio.currentTime = 0;
+  if(listenPage >= 0){
+    const b = document.getElementById('listen-'+listenPage);
+    if(b){ b.textContent = '🔊 Dengarkan'; b.classList.remove('playing'); }
+  }
+  listenPage = -1;
+}
+function toggleListen(i){
+  if(listenPage === i && !listenAudio.paused){
+    listenAudio.pause();
+    const b = document.getElementById('listen-'+i);
+    if(b){ b.textContent = '🔊 Dengarkan'; b.classList.remove('playing'); }
+    return;
+  }
+  stopListen();
+  listenAudio.src = '../assets/cerita/toto-katak-belajar-bernyanyi/audio/hal' + String(i+1).padStart(2,'0') + '.mp3';
+  listenAudio.play().catch(()=>{});
+  listenPage = i;
+  const b = document.getElementById('listen-'+i);
+  if(b){ b.textContent = '⏸ Berhenti'; b.classList.add('playing'); }
+}
+listenAudio.addEventListener('ended', ()=>{
+  if(listenPage >= 0){
+    const b = document.getElementById('listen-'+listenPage);
+    if(b){ b.textContent = '🔊 Dengarkan'; b.classList.remove('playing'); }
+    listenPage = -1;
+  }
+});
+
+// Build dots
+const dotsEl = document.getElementById('dots');
+for(let i=0;i<TOTAL;i++){
+const d = document.createElement('div');
+d.className = 'dot' + (i===0?' active':'');
+d.id = 'dot-'+i;
+dotsEl.appendChild(d);
+}
+
+function updateUI(){
+document.getElementById('pageIndicator').textContent = (current+1)+'/'+TOTAL;
+document.getElementById('btnPrev').disabled = current === 0;
+const btnNext = document.getElementById('btnNext');
+btnNext.disabled = false;
+btnNext.textContent = current === TOTAL-1 ? '✨' : '▶';
+btnNext.title = current === TOTAL-1 ? 'Selesai' : 'Halaman berikutnya';
+// dots
+for(let i=0;i<TOTAL;i++){
+const d = document.getElementById('dot-'+i);
+d.className = 'dot' + (i===current?' active': i<current?' done':'');
+}
+}
+
+function goToPage(n){
+stopListen();
+const pages = document.querySelectorAll('.page');
+pages.forEach((p,i)=>{
+const isEnd = p.classList.contains('page-end');
+const pos = i===n?'active': i<n?'prev':'next';
+p.className = 'page ' + pos + (isEnd?' page-end':'');
+});
+current = n;
+updateUI();
+}
+
+function nextPage(){
+if(current < TOTAL-1){
+goToPage(current+1);
+} else {
+showFinish();
+}
+}
+
+function prevPage(){
+if(current > 0) goToPage(current-1);
+}
+
+function showFinish(){
+stopListen();
+document.getElementById('finishOverlay').style.display = 'flex';
+Sound.finish();
+const nb = Badge.onCeritaDone();
+if(nb) setTimeout(()=>showBadgeToast(nb), 1000);
+}
+
+function closeFinish(){
+document.getElementById('finishOverlay').style.display = 'none';
+goToPage(0);
+}
+
+function startBook(){
+document.getElementById('coverScreen').style.display = 'none';
+document.getElementById('bookArea').style.display = 'flex';
+// Musik dimatikan otomatis dari halaman sebelumnya
+}
+
+function goBack(){
+stopListen();
+window.location.href = '../cerita.html';
+}
+
+// ===== SWIPE =====
+let touchStartX = 0;
+let touchStartY = 0;
+
+document.getElementById('pageContainer').addEventListener('touchstart', e=>{
+touchStartX = e.touches[0].clientX;
+touchStartY = e.touches[0].clientY;
+}, {passive:true});
+
+document.getElementById('pageContainer').addEventListener('touchend', e=>{
+const dx = e.changedTouches[0].clientX - touchStartX;
+const dy = e.changedTouches[0].clientY - touchStartY;
+if(Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40){
+if(dx < 0) nextPage();
+else prevPage();
+}
+}, {passive:true});
+
+// ===== KEYBOARD =====
+document.addEventListener('keydown', e=>{
+if(e.key==='ArrowRight') nextPage();
+if(e.key==='ArrowLeft') prevPage();
+});
+
+// ===== MUSIK =====
+
+</script>
+</body>
+</html>
